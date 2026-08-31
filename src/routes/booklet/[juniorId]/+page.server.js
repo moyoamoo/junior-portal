@@ -15,16 +15,17 @@ export async function load({ params }) {
         return { user: null, activities: [] }
     }
 
-    console.log(user)
-
     //get activities based on users current stripe
     const { data: activities, err } = await supabase
         .from('Activities')
-        .select('activityId:activity_id, stripe, activity, activityType, link')
+        .select('activityId:activity_id, stripe, activity, activityType:activity_type, link')
         .eq('stripe', user.currentStripe)
 
+        console.log(activities, "erer")
+
+        console.log(activities)
     if (err) {
-        console.log(err)
+        console.error(err)
         return { activities: [] }
     }
 

@@ -2,10 +2,12 @@
     import TableHeader from "./TableHeader.svelte";
     import TableBody from "./TableBody.svelte";
 
-    let { activities } = $props();
+    let { activities, juniorId} = $props();
+
+
 </script>
 
 <table>
     <TableHeader/>
-    <TableBody {activities}/>
+    <TableBody {activities} {juniorId}/>
 </table>

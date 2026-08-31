@@ -8,7 +8,7 @@
 </script>
 
     <Header juniorInfo={data.user}/>
-    <Table activities={data.activities}/>
+    <Table activities={data.activities} juniorId ={data.user.juniorId}/>
 
 
  

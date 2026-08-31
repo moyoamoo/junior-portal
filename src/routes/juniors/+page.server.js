@@ -15,7 +15,6 @@ export async function load() {
             return { users: [] }
         }
 
-        console.log(users)
         return { users }
     } catch (error) {
         console.log(error)
