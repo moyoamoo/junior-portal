@@ -21,12 +21,11 @@ export async function load({ params }) {
         .select('activityId:activity_id, stripe, activity, activityType:activity_type, link')
         .eq('stripe', user.currentStripe)
 
-    console.log(activities)
+   
     if (activitiesError) {
         console.error(activitiesError)
         return { activities: [] }
     }
-
 
     //get junior completed tasks
     const { data: completedTasks, error: completedError } = await supabase
@@ -49,10 +48,11 @@ export async function load({ params }) {
         return {
             ...activity,
             completed: isCompleted,
-            dateCompleted: isCompleted ? completedMap.get(activity.activityId) : null
+            dateCompleted: isCompleted ? completedMap.get(activity.activityId) : ""
         };
     });
 
     console.log(updatedActivities)
+
     return { user, activities: updatedActivities }
 }

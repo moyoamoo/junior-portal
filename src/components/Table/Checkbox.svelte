@@ -36,7 +36,7 @@
 
 <td class="completed">
     <label class="container">
-        <input type="checkbox" bind:checked={isChecked} onchange={handleChange} />
+        <input type="checkbox" bind:checked={isChecked} disabled={isChecked} onchange={handleChange} />
         <div class="checkmark"></div>
     </label>
 </td>

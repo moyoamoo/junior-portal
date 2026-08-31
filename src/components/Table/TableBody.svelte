@@ -1,5 +1,6 @@
 <script>
     import Checkbox from "./Checkbox.svelte";
+    import Date from "./Date.svelte"
 
     let { activities, juniorId } = $props();
 
@@ -11,7 +12,7 @@
         <tr>
             <th scope="row">{activity.activity}</th>
             <td>{activity.activityType}</td>
-            <td></td>
+            <Date {activity}/>
             <Checkbox {activity} {juniorId}/>
         </tr>
     {/each}
