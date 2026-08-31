@@ -2,11 +2,19 @@
     import { supabase } from "$lib/supabaseClient";
 
     let { activity, juniorId } = $props();
-    let isChecked = $state(false);
+
+    let isChecked = $state(activity ? activity.completed : false);
+
+    $effect(() => {
+        if (activity) {
+            isChecked = activity.completed ?? false;
+        }
+    });
 
     async function handleChange() {
-        const isCurrentlyCompleted = isChecked;
-        const newValue = !isCurrentlyCompleted;
+        console.log(activity.completed)
+        let newValue = isChecked
+        let oldValue = !newValue;
 
         isChecked = newValue;
 
@@ -20,20 +28,7 @@
             //change state back incase of error
             if (error) {
                 console.error("Failed to mark as complete:".error);
-                isChecked = isCurrentlyCompleted;
-            }
-        } else {
-            //delete from completed tasks table in database
-            const { err } = await supabase
-                .from("CompletedTasks")
-                .delete()
-                .eq("junior_id", juniorId)
-                .eq("activity_id", activity.activityId);
-
-            //change state back incase of error
-            if (err) {
-                console.error("Failed to mark as complete:".error);
-                isChecked = isCurrentlyCompleted;
+                isChecked = oldValue;
             }
         }
     }
@@ -41,7 +36,7 @@
 
 <td class="completed">
     <label class="container">
-        <input type="checkbox" checked={isChecked} onchange={handleChange} />
+        <input type="checkbox" bind:checked={isChecked} onchange={handleChange} />
         <div class="checkmark"></div>
     </label>
 </td>

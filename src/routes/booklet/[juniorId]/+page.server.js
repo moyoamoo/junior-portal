@@ -4,31 +4,55 @@ import { supabase } from "$lib/supabaseClient";
 export async function load({ params }) {
 
     //get junior from junior id
-    const { data: user, error } = await supabase
+    const { data: user, error: userError } = await supabase
         .from('Junior')
         .select('juniorId:junior_id, firstName:first_name, lastName:last_name, currentStripe:current_stripe')
         .eq('junior_id', params.juniorId)
         .single()
 
-    if (error) {
-        console.error(error)
+    if (userError) {
+        console.error(userError)
         return { user: null, activities: [] }
     }
 
     //get activities based on users current stripe
-    const { data: activities, err } = await supabase
+    const { data: activities, error: activitiesError } = await supabase
         .from('Activities')
         .select('activityId:activity_id, stripe, activity, activityType:activity_type, link')
         .eq('stripe', user.currentStripe)
 
-        console.log(activities, "erer")
-
-        console.log(activities)
-    if (err) {
-        console.error(err)
+    console.log(activities)
+    if (activitiesError) {
+        console.error(activitiesError)
         return { activities: [] }
     }
 
-    //return junior and booklet 
-    return { user, activities: activities ?? [] }
+
+    //get junior completed tasks
+    const { data: completedTasks, error: completedError } = await supabase
+        .from('CompletedTasks')
+        .select('activityId:activity_id, dateCompleted:date_completed')
+        .eq('junior_id', params.juniorId)
+
+    if (completedError) {
+        console.error(completedError)
+    }
+
+    //lookup map: activityId -> dateCompleted
+    const completedMap = new Map(
+        (completedTasks || []).map(task => [task.activityId, task.dateCompleted])
+    );
+
+    //change actitivies to have completed tasks and date
+    const updatedActivities = (activities || []).map(activity => {
+        const isCompleted = completedMap.has(activity.activityId);
+        return {
+            ...activity,
+            completed: isCompleted,
+            dateCompleted: isCompleted ? completedMap.get(activity.activityId) : null
+        };
+    });
+
+    console.log(updatedActivities)
+    return { user, activities: updatedActivities }
 }

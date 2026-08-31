@@ -3,19 +3,7 @@
 
     let { activities, juniorId } = $props();
 
-    let localActivites = $state([]);
 
-    $effect(() => {
-        localActivites = [...activities];
-    });
-
-    function handleToggle(activityId, newValue) {
-        localActivites.forEach((activity) => {
-            if (activity.activityId === activityId) {
-                activity.completed = newValue;
-            }
-        });
-    }
 </script>
 
 <tbody>
@@ -24,7 +12,7 @@
             <th scope="row">{activity.activity}</th>
             <td>{activity.activityType}</td>
             <td></td>
-            <Checkbox {activity} {juniorId} onToggle={handleToggle}/>
+            <Checkbox {activity} {juniorId}/>
         </tr>
     {/each}
 </tbody>
