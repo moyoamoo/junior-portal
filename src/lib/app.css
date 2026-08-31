@@ -1,0 +1,318 @@
+html {
+    font-family: "Comfortaa", sans-serif;
+
+
+}
+
+
+
+header {
+    text-align: center;
+}
+
+.stripe {
+    color: #C77E0A;
+}
+
+table {
+    table-layout: fixed;
+
+    width: 90%;
+    margin: 10px auto;
+    border-collapse: collapse;
+    background-color: #f7ede2;
+    text-align: center;
+}
+
+
+
+thead {
+    background-color: #C77E0A;
+    color: #fff;
+}
+
+tbody {
+    background-color: #F3EDD6;
+
+}
+
+
+th,
+td {
+    padding: 0.6em;
+
+}
+
+tr:hover:not(:first-child) {
+    color: #C77E0A;
+
+}
+
+.activity:hover {
+    color: #C77E0A;
+}
+
+.completed {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+
+}
+
+/* From Uiverse.io by Praashoo7 */
+/* Hide the default checkbox */
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.container {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    font-size: 20px;
+    user-select: none;
+    margin: auto;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 2.3em;
+    width: 2.3em;
+    background-color: #ccc;
+    border-radius: 50%;
+    transition: .4s;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked~.checkmark {
+    box-shadow: none;
+    background-color: #C77E0A;
+    transform: rotateX(360deg);
+}
+
+.container input:checked~.checkmark:hover {
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked~.checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+    left: 0.96em;
+    top: 0.7em;
+    width: 0.25em;
+    height: 0.5em;
+    border: solid white;
+    border-width: 0 0.15em 0.15em 0;
+    box-shadow: 0.1em 0.1em 0em 0 rgba(0, 0, 0, 0.3);
+    transform: rotate(45deg);
+}
+
+.burst-piece {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 9px;
+    height: 9px;
+    border-radius: 2px;
+    animation: confetti-burst 1.8s linear infinite;
+}
+
+/* one keyframe block for every piece, because the destination is
+   data on the element rather than part of the animation. linear
+   timing, with the slowdown written into the distances as
+   1 - (1 - t)², for the same reason the falling version uses it */
+@keyframes confetti-burst {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg) scale(.3);
+        opacity: 0;
+    }
+
+    10% {
+        transform:
+            translate(calc(-50% + var(--tx) * .19), calc(-50% + var(--ty) * .19)) rotate(54deg) scale(1);
+        opacity: 1;
+    }
+
+    25% {
+        transform:
+            translate(calc(-50% + var(--tx) * .44), calc(-50% + var(--ty) * .44)) rotate(135deg) scale(1);
+    }
+
+    50% {
+        transform:
+            translate(calc(-50% + var(--tx) * .75), calc(-50% + var(--ty) * .75)) rotate(270deg) scale(1);
+    }
+
+    75% {
+        transform:
+            translate(calc(-50% + var(--tx) * .94), calc(-50% + var(--ty) * .94)) rotate(405deg) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform:
+            translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) rotate(540deg) scale(1);
+        opacity: 0;
+    }
+}
+
+/* twelve points, thirty degrees apart, on a 90px circle */
+.burst-piece:nth-child(1) {
+    --tx: 90px;
+    --ty: 0px;
+    background: #ff6b6b;
+}
+
+.burst-piece:nth-child(2) {
+    --tx: 78px;
+    --ty: 45px;
+    background: #b8ff57;
+}
+
+.burst-piece:nth-child(3) {
+    --tx: 45px;
+    --ty: 78px;
+    background: #38bdf8;
+}
+
+.burst-piece:nth-child(4) {
+    --tx: 0px;
+    --ty: 90px;
+    background: #c084fc;
+}
+
+.burst-piece:nth-child(5) {
+    --tx: -45px;
+    --ty: 78px;
+    background: #ffd444;
+}
+
+.burst-piece:nth-child(6) {
+    --tx: -78px;
+    --ty: 45px;
+    background: #f472b6;
+}
+
+.burst-piece:nth-child(7) {
+    --tx: -90px;
+    --ty: 0px;
+    background: #57d9a3;
+}
+
+.burst-piece:nth-child(8) {
+    --tx: -78px;
+    --ty: -45px;
+    background: #ff9040;
+}
+
+.burst-piece:nth-child(9) {
+    --tx: -45px;
+    --ty: -78px;
+    background: #b8ff57;
+}
+
+.burst-piece:nth-child(10) {
+    --tx: 0px;
+    --ty: -90px;
+    background: #38bdf8;
+}
+
+.burst-piece:nth-child(11) {
+    --tx: 45px;
+    --ty: -78px;
+    background: #ff6b6b;
+}
+
+.burst-piece:nth-child(12) {
+    --tx: 78px;
+    --ty: -45px;
+    background: #c084fc;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .burst-piece {
+        display: none;
+    }
+}
+
+/* ============================
+   RESPONSIVE BREAKPOINTS
+   ============================ */
+
+/* Mobile: up to 576px */
+@media screen and (max-width: 576px) {
+    table {
+        width: 100%;
+        font-size: 0.8em;
+    }
+
+    th,
+    td {
+        padding: 0.4em;
+    }
+
+    .checkmark {
+        height: 1.8em;
+        width: 1.8em;
+    }
+
+    .container .checkmark:after {
+        left: 0.72em;
+        top: 0.5em;
+        width: 0.2em;
+        height: 0.4em;
+    }
+}
+
+/* Tablet: 577px - 768px */
+@media screen and (min-width: 577px) and (max-width: 768px) {
+    table {
+        width: 95%;
+        font-size: 0.9em;
+    }
+
+    th,
+    td {
+        padding: 0.5em;
+    }
+}
+
+/* Small screen / laptop: 769px - 1024px */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    table {
+        width: 92%;
+    }
+}
+
+/* Wide screen: 1025px and up */
+@media screen and (min-width: 1025px) {
+    table {
+        width: 80%;
+        max-width: 1200px;
+    }
+
+    th,
+    td {
+        padding: 0.8em;
+    }
+}
