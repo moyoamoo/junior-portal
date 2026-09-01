@@ -1,3 +1,15 @@
+:root {
+    --primary: #000000;
+    --secondary: #ffffff;
+    --tertiary: #424244;
+    --code-ninjas-blue-main: #338fbf;
+    --code-ninjas-blue-accent: #3490bf;
+    --shadow: 8px 8px 0px var(--primary);
+
+
+}
+
+
 html {
     font-family: "Comfortaa", sans-serif;
 
@@ -5,6 +17,115 @@ html {
 }
 
 
+body {
+    background-color: var(--code-ninjas-blue-main);
+}
+
+.login-top{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+}
+
+
+.codey-waving-login {
+    width: 40%;
+    margin: 0 auto;
+    display: block;
+    line-height: 0;
+    margin-bottom: -1rem;
+    transform: translateX(-13px);
+   
+}
+/*login text h2 */
+.login-heading {
+    text-align: center;
+    color: var(--secondary);
+
+}
+
+.main-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid var(--primary);
+    padding: 40px 30px;
+    background-color: var(--secondary);
+    box-shadow: var(--shadow);
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+
+}
+
+
+.login-header {
+    color: var(--primary);
+    font-size: 2.5rem;
+    text-align: center;
+
+}
+
+.input-group {
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.login-label {
+    display: block;
+    margin-bottom: .5rem;
+    font-weight: bold;
+    color: var(--primary);
+
+}
+
+.login-input {
+    width: 90%;
+    padding: 1rem;
+    background-color: var(--secondary);
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s;
+    border: 2px solid var(--primary);
+
+}
+
+.login:focus {
+    box-shadow: 4px 4px 0px var(--primary)
+}
+
+.login-button {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--code-ninjas-blue-accent);
+    color: var(--secondary);
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: .4rem;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    border: 2px solid var(--primary);
+}
+
+.login-button:hover {
+    box-shadow: 4px 4px 0px var(--primary);
+    transform: translate(-2px, -2px);
+    background-color: var(--code-ninjas-blue-accent);
+}
+
+.login-input:focus {
+    box-shadow: 4px 4px 0px var(--primary)
+}
 
 header {
     text-align: center;
