@@ -1,5 +1,6 @@
 <script>
     import codey from "$lib/assets/codey_waving.png";
+    import logo from '$lib/assets/codeninjas.png'
 
     let { form } = $props();
     let email = $state("");
@@ -13,8 +14,8 @@
             <div class="login-top">
                 <img
                     alt="Codey Waving"
-                    src={codey}
-                    class="codey-waving-login"
+                    src={logo}
+                    class="login-top-img"
                 />
                 <h2 class="login-header">Welcome!</h2>
             </div>
@@ -47,4 +48,6 @@
             <button type="submit" class="login-button">Sign In</button>
         </form>
     </div>
+
+    <img class="form-img-bottom" src={codey} alt="Codey Waving">
 </section>

@@ -5,6 +5,7 @@
     --code-ninjas-blue-main: #338fbf;
     --code-ninjas-blue-accent: #3490bf;
     --shadow: 8px 8px 0px var(--primary);
+    --bold-blue: #0a5989;
 
 
 }
@@ -29,14 +30,12 @@ body {
 }
 
 
-.codey-waving-login {
-    width: 40%;
+.login-top-img {
+    width: 100%;
     margin: 0 auto;
     display: block;
     line-height: 0;
-    margin-bottom: -1rem;
-    transform: translateX(-13px);
-   
+
 }
 /*login text h2 */
 .login-heading {
@@ -49,6 +48,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     padding: 20px;
 }
 
@@ -99,14 +99,10 @@ body {
 
 }
 
-.login:focus {
-    box-shadow: 4px 4px 0px var(--primary)
-}
-
 .login-button {
     width: 100%;
     padding: 1rem;
-    background-color: var(--code-ninjas-blue-accent);
+    background-color: var(--bold-blue);
     color: var(--secondary);
     font-size: 1rem;
     font-weight: bold;
@@ -123,10 +119,13 @@ body {
     background-color: var(--code-ninjas-blue-accent);
 }
 
-.login-input:focus {
+.login-input:focus, .login-input:hover{
     box-shadow: 4px 4px 0px var(--primary)
 }
 
+.form-img-bottom{
+    width: 20%;
+}
 header {
     text-align: center;
 }
