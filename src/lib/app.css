@@ -141,6 +141,59 @@ body {
 
 .form-img-bottom {
     width: 20%;
+
+}
+
+
+/* ============================
+    Search Sort Juniors CSS 
+   ============================ */
+
+.search-sort-section {
+    border: 1px solid var(--primary);
+    background-color: var(--secondary);
+    box-shadow: var(--shadow);
+    border-radius: 12px;
+    width: 80%;
+    min-height: 10vh;
+    margin: 0 auto;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 5rem;
+
+}
+
+/* Label and Input Container */
+.junior-search-container {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.junior-searchbar {
+    width: 90%;
+    padding: 1rem;
+    background-color: var(--secondary);
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s;
+    border: 2px solid var(--primary);
+}
+
+.junior-sort-container button {
+    width: 20%;
+    padding: 1rem;
+    background-color: var(--bold-blue);
+    color: var(--secondary);
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: .4rem;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    border: 2px solid var(--primary);
 }
 
 /* ============================
@@ -221,16 +274,14 @@ thead {
     padding: 1rem;
 }
 
-thead:nth-last-child{
+thead:nth-last-child {
     text-align: center;
 }
 
 
-
-
 th {
     padding: 0.6em;
-   
+
 }
 
 
@@ -256,7 +307,7 @@ tr:nth-child(even) {
 }
 
 /* ============================
-    Checkboix CSS 
+    Checkbox CSS 
    ============================ */
 .container input {
     position: absolute;
