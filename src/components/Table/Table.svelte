@@ -2,20 +2,12 @@
     import TableHeader from "./TableHeader.svelte";
     import TableBody from "./TableBody.svelte";
 
-    let { activities, juniorId, stripeThemes, defaultTheme} = $props();
+    let { activities, juniorId, theme} = $props();
  
-    let currentStripe = $derived(activities[0].stripe.toLowerCase() || "bumblebee");
-    let theme = $derived(stripeThemes[currentStripe] || defaultTheme);
-
-    // Build CSS variable string
-    let themeStyle = $derived(
-        Object.entries(theme)
-            .map(([key, value]) => `${key}: ${value}`)
-            .join('; ')
-    );
+    
 </script>
 
-<table style={themeStyle}>
+<table>
     <TableHeader />
-    <TableBody {activities} {juniorId} />
+    <TableBody {activities} {juniorId} {theme}/>
 </table>

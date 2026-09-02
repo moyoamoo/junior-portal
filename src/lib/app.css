@@ -7,6 +7,8 @@
     --code-ninjas-blue-accent: #3490bf;
     --shadow: 8px 8px 0px var(--primary);
     --bold-blue: #0a5989;
+
+    --page-bg: var(--code-ninjas-blue-main);
     
     --stripe-primary: #C77E0A;
     --stripe-secondary: #f7ede2;
@@ -17,13 +19,12 @@
     --stripe-body-bg: #F3EDD6;
     --stripe-border: var(--primary);
     --stripe-shadow: var(--shadow);
+    --stripe-checkmark-bg: #C77E0A;
 }
 
 
 html {
     font-family: "Comfortaa", sans-serif;
-
-
 }
 
 
@@ -197,7 +198,7 @@ header {
 }
 
 .stripe {
-    color: var(--stripe-text);
+    color: var(--stripe-primary);
 }
 
 table {
@@ -223,6 +224,7 @@ tbody {
     background-color: var(--stripe-body-bg);
 }
 
+
 th,
 td {
     padding: 0.6em;
@@ -232,6 +234,10 @@ tr:hover:not(:first-child) {
     color: var(--stripe-hover);
 }
 
+tr:nth-child(even){
+    background-color: var(--quaternary);
+
+}
 .activity:hover {
     color: var(--stripe-hover);
 }
@@ -243,8 +249,9 @@ tr:hover:not(:first-child) {
     align-items: center;
     outline: none;
 }
-/* From Uiverse.io by Praashoo7 */
-/* Hide the default checkbox */
+/* ============================
+    Checkboix CSS 
+   ============================ */
 .container input {
     position: absolute;
     opacity: 0;
@@ -277,7 +284,7 @@ tr:hover:not(:first-child) {
 /* When the checkbox is checked, add a background */
 .container input:checked~.checkmark {
     box-shadow: none;
-    background-color: #C77E0A;
+    background-color: var(--stripe-checkmark-bg) !important;
     transform: rotateX(360deg);
 }
 

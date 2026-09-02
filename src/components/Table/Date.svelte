@@ -1,7 +1,7 @@
 <script>
     import TableHeader from "./TableHeader.svelte";
     import TableBody from "./TableBody.svelte";
-    import { formatDate } from "../../../utils";
+    import { formatDate } from '$lib/utils'
 
     let { activity } = $props();
     let date = $state("");

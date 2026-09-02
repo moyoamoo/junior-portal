@@ -1,9 +1,11 @@
 <script>
     import { supabase } from "$lib/supabaseClient";
 
-    let { activity, juniorId } = $props();
+    let { activity, juniorId, theme } =
+        $props();
 
     let isChecked = $state(activity ? activity.completed : false);
+    let checkboxColour = $derived(theme['--stripe-primary'] || '#C77E0A');
 
     $effect(() => {
         if (activity) {
@@ -12,8 +14,8 @@
     });
 
     async function handleChange() {
-        console.log(activity.completed)
-        let newValue = isChecked
+        console.log(activity.completed);
+        let newValue = isChecked;
         let oldValue = !newValue;
 
         isChecked = newValue;
@@ -27,16 +29,22 @@
 
             //change state back incase of error
             if (error) {
-                console.error("Failed to mark as complete:".error);
+                console.error("Failed to mark as complete:", error);
                 isChecked = oldValue;
             }
         }
     }
+
 </script>
 
 <td class="completed">
-    <label class="container">
-        <input type="checkbox" bind:checked={isChecked} disabled={isChecked} onchange={handleChange} />
+    <label class="container" style={`--stripe-checkmark-bg: ${checkboxColour}`}>
+        <input
+            type="checkbox"
+            bind:checked={isChecked}
+            disabled={isChecked}
+            onchange={handleChange}
+        />
         <div class="checkmark"></div>
     </label>
 </td>

@@ -1,4 +1,5 @@
 import { supabase } from "$lib/supabaseClient";
+import { getTheme } from '$lib/themes'
 
 //get booklet contents
 export async function load({ params }) {
@@ -10,10 +11,17 @@ export async function load({ params }) {
         .eq('junior_id', params.juniorId)
         .single()
 
+    console.log('User data:', user);
+    console.log('User error:', userError);
+
+    //return empty object if error
     if (userError) {
         console.error(userError)
-        return { user: null, activities: [] }
+        return { user: null, activities: [], theme: null }
     }
+
+    //get theme based on the junior's current stripe
+    const theme = getTheme(user.currentStripe);
 
     //get activities based on users current stripe
     const { data: activities, error: activitiesError } = await supabase
@@ -21,10 +29,10 @@ export async function load({ params }) {
         .select('activityId:activity_id, stripe, activity, activityType:activity_type, link')
         .eq('stripe', user.currentStripe)
 
-   
+    //return empty object if error
     if (activitiesError) {
         console.error(activitiesError)
-        return { activities: [] }
+        return { user, activities: [], theme }
     }
 
     //get junior completed tasks
@@ -54,5 +62,5 @@ export async function load({ params }) {
 
     console.log(updatedActivities)
 
-    return { user, activities: updatedActivities }
+    return { user, activities: updatedActivities, theme }
 }
