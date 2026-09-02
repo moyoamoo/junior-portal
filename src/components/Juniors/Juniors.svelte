@@ -2,11 +2,11 @@
     let { users } = $props();
 </script>
 
-<section>
-    <ul>
+<section class="main-junior-section">
+    <ul class="junior-link-group"> 
         {#each users as user (user.juniorId)}
-            <a href="/booklet/{user.juniorId}">
-                <li>{user.firstName} {user.lastName}</li>
+            <a href="/booklet/{user.juniorId}"  class="junior-link">
+                <li >{user.firstName} {user.lastName}</li>
             </a>
         {/each}
     </ul>
