@@ -1,6 +1,6 @@
 <script>
     import Table from "../../../components/Table/Table.svelte"
-    import Header from "../../../components/Header.svelte";
+    import Header from "../../../components/Welcome.svelte";
 
     let {data} = $props()
 

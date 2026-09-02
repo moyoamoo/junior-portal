@@ -6,7 +6,7 @@
     <ul class="junior-link-group"> 
         {#each users as user (user.juniorId)}
             <a href="/booklet/{user.juniorId}"  class="junior-link">
-                <li >{user.firstName} {user.lastName}</li>
+                <li >{user.firstName} {user.lastName} - {user.currentStripe} Stripe</li>
             </a>
         {/each}
     </ul>

@@ -1,11 +1,4 @@
-<script>
-  let { juniorInfo, activities, theme } = $props();
-  
-</script>
-
-<header >
-  <h1>Welcome, {juniorInfo.firstName}</h1>
-  <h2 class="stripe">
-    {juniorInfo.currentStripe} Stripe
-  </h2>
+<header>
+    <a href="">Logout</a>
+    <a href="">Admin</a>
 </header>

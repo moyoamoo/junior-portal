@@ -9,7 +9,7 @@
     --bold-blue: #0a5989;
 
     --page-bg: var(--code-ninjas-blue-main);
-    
+
     --stripe-primary: #C77E0A;
     --stripe-secondary: #f7ede2;
     --stripe-text: #C77E0A;
@@ -193,12 +193,12 @@ body {
 /* ============================
     Booklet CSS
    ============================ */
-header {
+.welcome-section {
     text-align: center;
 }
 
 .stripe {
-    color: var(--stripe-primary);
+    color: var(--stripe-text);
 }
 
 table {
@@ -218,26 +218,31 @@ table {
 thead {
     background-color: var(--stripe-header-bg);
     color: var(--stripe-header-text);
+    padding: 1rem;
 }
 
-tbody {
-    background-color: var(--stripe-body-bg);
+thead:nth-last-child{
+    text-align: center;
 }
 
 
-th,
-td {
+
+
+th {
     padding: 0.6em;
+   
 }
 
-tr:hover:not(:first-child) {
+
+tbody tr:hover {
     color: var(--stripe-hover);
 }
 
-tr:nth-child(even){
+tr:nth-child(even) {
     background-color: var(--quaternary);
 
 }
+
 .activity:hover {
     color: var(--stripe-hover);
 }
@@ -249,6 +254,7 @@ tr:nth-child(even){
     align-items: center;
     outline: none;
 }
+
 /* ============================
     Checkboix CSS 
    ============================ */
