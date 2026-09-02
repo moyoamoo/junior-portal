@@ -7,12 +7,16 @@
     --code-ninjas-blue-accent: #3490bf;
     --shadow: 8px 8px 0px var(--primary);
     --bold-blue: #0a5989;
-    --bumblebee-stripe-primary: #ffc000;
-    --chipmunk-stripe-primary: #6fc179;
-    --clownfish-stripe-primary: #11a6ea;
-    --skunk-stripe-primary: #ffcdce;
-    --wildcat-stripe-primary: #6a0064;
-    --zebra-stripe-primary: #ee0000;
+    
+    --stripe-primary: #C77E0A;
+    --stripe-secondary: #f7ede2;
+    --stripe-text: #C77E0A;
+    --stripe-hover: #C77E0A;
+    --stripe-header-bg: #C77E0A;
+    --stripe-header-text: #ffffff;
+    --stripe-body-bg: #F3EDD6;
+    --stripe-border: var(--primary);
+    --stripe-shadow: var(--shadow);
 }
 
 
@@ -193,7 +197,7 @@ header {
 }
 
 .stripe {
-    color: #C77E0A;
+    color: var(--stripe-text);
 }
 
 table {
@@ -203,39 +207,33 @@ table {
     border-collapse: separate;
     border-spacing: 0;
     overflow: hidden;
-    background-color: #f7ede2;
+    background-color: var(--stripe-secondary);
     text-align: center;
-    border: 1px solid var(--primary);
+    border: 1px solid var(--stripe-border);
     border-radius: 12px;
-    box-shadow: var(--shadow);
+    box-shadow: var(--stripe-shadow);
 }
 
-
-
 thead {
-    background-color: #C77E0A;
-    color: #fff;
+    background-color: var(--stripe-header-bg);
+    color: var(--stripe-header-text);
 }
 
 tbody {
-    background-color: #F3EDD6;
-
+    background-color: var(--stripe-body-bg);
 }
-
 
 th,
 td {
     padding: 0.6em;
-
 }
 
 tr:hover:not(:first-child) {
-    color: #C77E0A;
-
+    color: var(--stripe-hover);
 }
 
 .activity:hover {
-    color: #C77E0A;
+    color: var(--stripe-hover);
 }
 
 .completed {
@@ -244,9 +242,7 @@ tr:hover:not(:first-child) {
     justify-content: center;
     align-items: center;
     outline: none;
-
 }
-
 /* From Uiverse.io by Praashoo7 */
 /* Hide the default checkbox */
 .container input {
