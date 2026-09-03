@@ -44,22 +44,44 @@ export async function load({ params }) {
         console.error(completedError)
     }
 
+    //get junior comments for these activities
+    const activityIds = (activities || []).map(activity => activity.activityId);
+
+    const { data: comments, error: commentsError } = await supabase
+        .from('TaskComments')
+        .select('activityId:activity_id, comment')
+        .eq('junior_id', params.juniorId)
+        .in('activity_id', activityIds)
+
+    console.log('comments:', comments)
+    console.log('commentsError:', commentsError)
+
+    if (commentsError) {
+        console.error(commentsError)
+    }
+
     //lookup map: activityId -> dateCompleted
     const completedMap = new Map(
         (completedTasks || []).map(task => [task.activityId, task.dateCompleted])
     );
 
-    //change actitivies to have completed tasks and date
+    //lookup map: activityId -> comment
+    const commentsMap = new Map(
+        (comments || []).map(c => [c.activityId, c.comment])
+    );
+
+    //change actitivies to have completed tasks, date, and comment
     const updatedActivities = (activities || []).map(activity => {
         const isCompleted = completedMap.has(activity.activityId);
         return {
             ...activity,
             completed: isCompleted,
-            dateCompleted: isCompleted ? completedMap.get(activity.activityId) : ""
+            dateCompleted: isCompleted ? completedMap.get(activity.activityId) : "",
+            comment: commentsMap.has(activity.activityId) ? commentsMap.get(activity.activityId) : null
         };
     });
 
-
+    console.log(updatedActivities)
 
     return { user, activities: updatedActivities, theme }
 }

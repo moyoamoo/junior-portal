@@ -1,5 +1,5 @@
 <script>
-    let headings = ["Activity", "Activity Type", "Date", "Completed"]
+    let headings = ["Activity", "Activity Type", "Date", "Completed", "Comments"]
 </script>
 
 

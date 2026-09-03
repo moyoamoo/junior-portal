@@ -2,6 +2,7 @@
     import { supabase } from "$lib/supabaseClient";
     import Checkbox from "./Checkbox.svelte";
     import Date from "./Date.svelte";
+    import Comments from "./Comments.svelte";
     import { updateActivity } from "$lib/utils";
 
     let { activities = $bindable(), juniorId, theme } = $props();
@@ -70,6 +71,7 @@
                 {theme}
                 onComplete={() => handleComplete(activity.activityId)}
             />
+            <Comments comment={activity.comment}/>
         </tr>
     {/each}
 </tbody>
