@@ -225,48 +225,40 @@ input[type="text"]:hover {
 /* ============================
    Junior Page CSS
    ============================ */
-.main-junior-section {
-    border: 1px solid var(--primary);
-    background-color: var(--secondary);
-    box-shadow: var(--shadow);
-    border-radius: 12px;
+.junior-container {
+    display: grid;
     width: 80%;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: 2rem;
     margin: 0 auto;
-    overflow: hidden;
-    /* This ensures rounded corners clip the content */
-}
-
-.junior-link-group {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-
 }
 
 .junior-link {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
     text-decoration: none;
-    padding: 0;
-    margin: 0;
-    color: inherit;
-}
-
-.junior-link li {
-    display: block;
-    padding: 1rem;
-    margin: 0;
-}
-
-.junior-link:nth-child(odd) li {
-    background-color: var(--quaternary);
-}
-
-.junior-link:nth-child(even) li {
     background-color: var(--secondary);
+    border-radius: 12px;
+    border: 2px solid var(--primary);
+    padding: 1rem;
+    color: var(--primary);
+    box-shadow: 4px 4px 0px var(--primary);
+    transform: translate(-2px, -2px);
+    text-align: center;
+    height: 12rem;
+    box-sizing: border-box;
+    overflow: hidden; /* Prevents content from spilling out */
+    gap: 0.5rem; /* Adds space between image and text */
 }
 
-.junior-link:hover li {
-    color: var(--bold-blue);
+.junior-img {
+    width: 60%; /* Reduced from 80% to fit better */
+    max-height: 60%; /* Prevents image from taking too much space */
+    object-fit: contain; /* Maintains aspect ratio */
+    margin-bottom: 0.5rem;
 }
 
 /* ============================
