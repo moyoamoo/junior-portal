@@ -3,7 +3,7 @@
 </script>
 
 <thead>
-    <tr>
+
         <TableHeadings />
-    </tr>
+
 </thead>

@@ -2,17 +2,33 @@
     import { supabase } from "$lib/supabaseClient";
     import Checkbox from "./Checkbox.svelte";
     import Date from "./Date.svelte";
-    import Comments from "./Comments.svelte";
-    import { updateActivity } from "$lib/utils";
+    import CommentBtn from "./CommentBtn.svelte";
+    import CommentModal from "./CommentModal.svelte";
+    import { updateActivity, headings } from "$lib/utils";
+   
 
     let { activities = $bindable(), juniorId, theme } = $props();
 
     let tableActivities = $state(activities);
 
+    // modal state
+    let showModal = $state(false);
+    let selectedActivity = $state(null);
+
     //sync local state changes with activites from parent
     $effect(() => {
         tableActivities = activities;
     });
+
+    function openCommentModal(activity) {
+        selectedActivity = activity;
+        showModal = true;
+    }
+
+    function closeCommentModal() {
+        showModal = false;
+        selectedActivity = null;
+    }
 
     async function handleComplete(activityId) {
         const activity = tableActivities.find(
@@ -40,8 +56,7 @@
             })
             .select("dateCompleted:date_completed")
             .single();
-        
-        
+
         if (error) {
             console.error("Failed to mark as complete:", error);
 
@@ -60,18 +75,42 @@
     }
 </script>
 
-<tbody>
-    {#each tableActivities as activity (activity.activityId)}
+<table>
+    <thead>
         <tr>
-            <th scope="row">{activity.activity}</th>
-            <td>{activity.activityType}</td>
-            <Date {activity} />
-            <Checkbox
-                {activity}
-                {theme}
-                onComplete={() => handleComplete(activity.activityId)}
-            />
-            <Comments comment={activity.comment}/>
+            {#each headings as heading}
+                <th scope="col">{heading}</th>
+            {/each}
         </tr>
-    {/each}
-</tbody>
+    </thead>
+    <tbody>
+        {#each tableActivities as activity (activity.activityId)}
+            <tr>
+                <th scope="row">{activity.activity}</th>
+
+                <td>{activity.activityType}</td>
+
+                <Date {activity} />
+
+                <Checkbox
+                    {activity}
+                    {theme}
+                    onComplete={() => handleComplete(activity.activityId)}
+                />
+
+                <CommentBtn
+                    comment={activity.comment}
+                    onclick={() => openCommentModal(activity)}
+                />
+            </tr>
+        {/each}
+    </tbody>
+</table>
+
+<CommentModal bind:showModal>
+    {#if selectedActivity?.comment}
+        <p>{selectedActivity.comment}</p>
+    {:else}
+        <p>Add a comment</p>
+    {/if}
+</CommentModal>

@@ -1,14 +1,17 @@
 <script>
-    import Table from "../../../components/Table/Table.svelte"
-    import Header from "../../../components/Welcome.svelte";
+    import Welcome from "../../../components/Welcome.svelte";
+    import TableBody from "../../../components/Table/TableBody.svelte";
 
-    let {data} = $props()
-
-       
+    let { data } = $props();
 </script>
 
-    <Header juniorInfo={data.user} activities={data.activities} theme={data.theme} />
-    <Table activities={data.activities} juniorId ={data.user.juniorId} theme={data.theme}/>
-
-
- 
+<Welcome
+    activities={data.activities}
+    juniorInfo={data.user}
+    theme={data.theme}
+/>
+<TableBody
+    activities={data.activities}
+    juniorId={data.user.juniorId}
+    theme={data.theme}
+/>
