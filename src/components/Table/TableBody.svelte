@@ -5,11 +5,11 @@
     import CommentBtn from "./CommentBtn.svelte";
     import CommentModal from "./CommentModal.svelte";
     import { updateActivity, headings } from "$lib/utils";
-   
 
     let { activities = $bindable(), juniorId, theme } = $props();
 
     let tableActivities = $state(activities);
+    let commentText = $state("");
 
     // modal state
     let showModal = $state(false);
@@ -22,6 +22,7 @@
 
     function openCommentModal(activity) {
         selectedActivity = activity;
+        commentText = activity.comment ?? "";
         showModal = true;
     }
 
@@ -108,9 +109,7 @@
 </table>
 
 <CommentModal bind:showModal>
-    {#if selectedActivity?.comment}
-        <p>{selectedActivity.comment}</p>
-    {:else}
-        <p>Add a comment</p>
-    {/if}
+    <textarea bind:value={commentText} placeholder="Write a comment...">
+    </textarea>
+    <button>Save</button>
 </CommentModal>
