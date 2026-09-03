@@ -250,14 +250,19 @@ input[type="text"]:hover {
     text-align: center;
     height: 12rem;
     box-sizing: border-box;
-    overflow: hidden; /* Prevents content from spilling out */
-    gap: 0.5rem; /* Adds space between image and text */
+    overflow: hidden;
+    /* Prevents content from spilling out */
+    gap: 0.5rem;
+    /* Adds space between image and text */
 }
 
 .junior-img {
-    width: 60%; /* Reduced from 80% to fit better */
-    max-height: 60%; /* Prevents image from taking too much space */
-    object-fit: contain; /* Maintains aspect ratio */
+    width: 60%;
+    /* Reduced from 80% to fit better */
+    max-height: 60%;
+    /* Prevents image from taking too much space */
+    object-fit: contain;
+    /* Maintains aspect ratio */
     margin-bottom: 0.5rem;
 }
 
@@ -389,6 +394,160 @@ tr:nth-child(even) {
     border-width: 0 0.15em 0.15em 0;
     box-shadow: 0.1em 0.1em 0em 0 rgba(0, 0, 0, 0.3);
     transform: rotate(45deg);
+}
+
+/* ============================
+        Confetti Burst CSS
+       ============================ */
+.confetti-stage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    z-index: 0
+}
+
+/* Confetti pieces */
+.burst-piece {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 9px;
+    height: 9px;
+    border-radius: 2px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.3);
+    animation: confetti-burst 1.8s linear forwards;
+}
+
+@keyframes confetti-burst {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg) scale(.3);
+        opacity: 0;
+    }
+
+    10% {
+        transform:
+            translate(calc(-50% + var(--tx) * .19), calc(-50% + var(--ty) * .19)) rotate(54deg) scale(1);
+        opacity: 1;
+    }
+
+    25% {
+        transform:
+            translate(calc(-50% + var(--tx) * .44), calc(-50% + var(--ty) * .44)) rotate(135deg) scale(1);
+    }
+
+    50% {
+        transform:
+            translate(calc(-50% + var(--tx) * .75), calc(-50% + var(--ty) * .75)) rotate(270deg) scale(1);
+    }
+
+    75% {
+        transform:
+            translate(calc(-50% + var(--tx) * .94), calc(-50% + var(--ty) * .94)) rotate(405deg) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform:
+            translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) rotate(540deg) scale(1);
+        opacity: 0;
+    }
+}
+
+/* Twelve points, thirty degrees apart, on a 90px circle */
+.burst-piece:nth-child(1) {
+    --tx: 90px;
+    --ty: 0px;
+    background: #ff6b6b;
+    animation-delay: 0s;
+}
+
+.burst-piece:nth-child(2) {
+    --tx: 78px;
+    --ty: 45px;
+    background: #b8ff57;
+    animation-delay: 0.05s;
+}
+
+.burst-piece:nth-child(3) {
+    --tx: 45px;
+    --ty: 78px;
+    background: #38bdf8;
+    animation-delay: 0.1s;
+}
+
+.burst-piece:nth-child(4) {
+    --tx: 0px;
+    --ty: 90px;
+    background: #c084fc;
+    animation-delay: 0.15s;
+}
+
+.burst-piece:nth-child(5) {
+    --tx: -45px;
+    --ty: 78px;
+    background: #ffd444;
+    animation-delay: 0.2s;
+}
+
+.burst-piece:nth-child(6) {
+    --tx: -78px;
+    --ty: 45px;
+    background: #f472b6;
+    animation-delay: 0.25s;
+}
+
+.burst-piece:nth-child(7) {
+    --tx: -90px;
+    --ty: 0px;
+    background: #57d9a3;
+    animation-delay: 0.3s;
+}
+
+.burst-piece:nth-child(8) {
+    --tx: -78px;
+    --ty: -45px;
+    background: #ff9040;
+    animation-delay: 0.35s;
+}
+
+.burst-piece:nth-child(9) {
+    --tx: -45px;
+    --ty: -78px;
+    background: #b8ff57;
+    animation-delay: 0.4s;
+}
+
+.burst-piece:nth-child(10) {
+    --tx: 0px;
+    --ty: -90px;
+    background: #38bdf8;
+    animation-delay: 0.45s;
+}
+
+.burst-piece:nth-child(11) {
+    --tx: 45px;
+    --ty: -78px;
+    background: #ff6b6b;
+    animation-delay: 0.5s;
+}
+
+.burst-piece:nth-child(12) {
+    --tx: 78px;
+    --ty: -45px;
+    background: #c084fc;
+    animation-delay: 0.55s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .burst-piece {
+        display: none;
+    }
 }
 
 /* ============================
