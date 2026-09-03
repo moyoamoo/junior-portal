@@ -1,6 +1,6 @@
 <script>
     import bee from "$lib/assets/bumblebee.png";
-    import wildcat from "$lib/assets/cat.png";
+    import wildcat from "$lib/assets/wildcat.png";
     import chipmunk from "$lib/assets/chipmunk.png";
     import tiger from "$lib/assets/tiger.png";
     import skunk from "$lib/assets/skunk.png";

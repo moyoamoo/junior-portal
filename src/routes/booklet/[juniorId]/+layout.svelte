@@ -1,7 +1,7 @@
 <script>
-    import {page} from '$app/state'
+    import { page } from "$app/state";
 
-    let { children,} = $props();
+    let { children } = $props();
 
     let theme = $derived(page.data.theme || {});
 
@@ -11,16 +11,8 @@
             .map(([key, value]) => `${key}: ${value}`)
             .join("; "),
     );
-
-    let pageColour = $derived(theme['--stripe-primary'] || '#C77E0A');
-    let pageBg = $derived(`${pageColour}1E`);
-
-    $effect(()=>{
-        document.body.style.backgroundColor = pageBg;
-    })
-
 </script>
 
-<div style={themeStyle}>
+<main class="booklet-main" style={themeStyle}>
     {@render children()}
-</div>
+</main>

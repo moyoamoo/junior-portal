@@ -4,6 +4,7 @@
     --tertiary: #424244;
     --quaternary: #F1F1F1;
     --code-ninjas-blue-main: #338fbf;
+    --code-ninjas-blue-dark: #0a1b24;
     --code-ninjas-blue-accent: #3490bf;
     --shadow: 8px 8px 0px var(--primary);
     --bold-blue: #0a5989;
@@ -20,8 +21,16 @@
     --stripe-border: var(--primary);
     --stripe-shadow: var(--shadow);
     --stripe-checkmark-bg: #C77E0A;
+    ---stripe-tertiary: #fcf8f3;
 }
 
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+}
 
 html {
     font-family: "Comfortaa", sans-serif;
@@ -30,6 +39,7 @@ html {
 
 body {
     background-color: var(--code-ninjas-blue-main);
+    margin: 0;
 
 
 }
@@ -269,132 +279,14 @@ input[type="text"]:hover {
 /* ============================
     Booklet CSS
    ============================ */
-.welcome-section {
-    text-align: center;
-}
-
-.stripe {
-    color: var(--stripe-text);
-}
-
-table {
-    table-layout: fixed;
-    width: 80%;
-    margin: 10px auto;
-    border-collapse: separate;
-    border-spacing: 0;
-    overflow: hidden;
+.booklet-main {
+    min-height: 100dvh;
     background-color: var(--stripe-secondary);
-    text-align: center;
-    border: 1px solid var(--stripe-border);
-    border-radius: 12px;
-    box-shadow: var(--stripe-shadow);
-}
-
-thead {
-    background-color: var(--stripe-header-bg);
-    color: var(--stripe-header-text);
-    padding: 1rem;
-}
-
-thead:nth-last-child {
-    text-align: center;
-}
-
-
-th {
-    padding: 0.6em;
+    overflow: auto;
 
 }
 
 
-tbody tr:hover {
-    color: var(--stripe-hover);
-}
-
-tr:nth-child(even) {
-    background-color: var(--quaternary);
-
-}
-
-.activity:hover {
-    color: var(--stripe-hover);
-}
-
-.completed {
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    outline: none;
-}
-
-/* ============================
-    Checkbox CSS 
-   ============================ */
-.container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-}
-
-.container {
-    display: block;
-    position: relative;
-    cursor: pointer;
-    font-size: 20px;
-    user-select: none;
-    margin: auto;
-}
-
-/* Create a custom checkbox */
-.checkmark {
-    position: relative;
-    top: 0;
-    left: 0;
-    height: 2.3em;
-    width: 2.3em;
-    background-color: #ccc;
-    border-radius: 50%;
-    transition: .4s;
-}
-
-/* When the checkbox is checked, add a background */
-.container input:checked~.checkmark {
-    box-shadow: none;
-    background-color: var(--stripe-checkmark-bg) !important;
-    transform: rotateX(360deg);
-}
-
-.container input:checked~.checkmark:hover {
-    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
-}
-
-/* Create the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-}
-
-/* Show the checkmark when checked */
-.container input:checked~.checkmark:after {
-    display: block;
-}
-
-/* Style the checkmark/indicator */
-.container .checkmark:after {
-    left: 0.96em;
-    top: 0.7em;
-    width: 0.25em;
-    height: 0.5em;
-    border: solid white;
-    border-width: 0 0.15em 0.15em 0;
-    box-shadow: 0.1em 0.1em 0em 0 rgba(0, 0, 0, 0.3);
-    transform: rotate(45deg);
-}
 
 /* ============================
         Confetti Burst CSS

@@ -5,7 +5,9 @@
     let { data } = $props();
 </script>
 
-<Welcome
+
+
+    <Welcome
     activities={data.activities}
     juniorInfo={data.user}
     theme={data.theme}
@@ -15,3 +17,5 @@
     juniorId={data.user.juniorId}
     theme={data.theme}
 />
+
+
