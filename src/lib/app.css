@@ -30,7 +30,25 @@ html {
 
 body {
     background-color: var(--code-ninjas-blue-main);
+
+
 }
+
+/* ============================
+    General CSS
+   ============================ */
+
+button:hover {
+    box-shadow: 4px 4px 0px var(--primary);
+    transform: translate(-2px, -2px);
+    background-color: var(--code-ninjas-blue-accent);
+}
+
+input[type="text"]:focus,
+input[type="text"]:hover {
+    box-shadow: 4px 4px 0px var(--primary)
+}
+
 
 /* ============================
     Login CSS
@@ -129,15 +147,9 @@ body {
 }
 
 .login-button:hover {
-    box-shadow: 4px 4px 0px var(--primary);
-    transform: translate(-2px, -2px);
     background-color: var(--code-ninjas-blue-accent);
 }
 
-.login-input:focus,
-.login-input:hover {
-    box-shadow: 4px 4px 0px var(--primary)
-}
 
 .form-img-bottom {
     width: 20%;
@@ -172,6 +184,11 @@ body {
     padding: 1rem;
 }
 
+/*Label*/
+.junior-search-label {
+    margin-bottom: 0.5rem;
+}
+
 .junior-searchbar {
     width: 90%;
     padding: 1rem;
@@ -182,9 +199,18 @@ body {
     border: 2px solid var(--primary);
 }
 
+.junior-sort-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: baseline;
+
+}
+
 .junior-sort-container button {
-    width: 20%;
-    padding: 1rem;
+    width: 30%;
+    padding: .5rem;
+    min-height: 40px;
     background-color: var(--bold-blue);
     color: var(--secondary);
     font-size: 1rem;

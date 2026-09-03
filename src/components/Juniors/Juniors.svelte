@@ -4,7 +4,7 @@
 
 <section class="search-sort-section">
     <div class="junior-search-container">
-        <label for="searchbar">Search Juniors</label>
+        <label class="junior-search-label" for="searchbar">Search Juniors</label>
         <input type="text" placeholder="Search Juniors" id="searchbar" name="searchbar" class="junior-searchbar"/>
     </div>
     <div class="junior-sort-container">
