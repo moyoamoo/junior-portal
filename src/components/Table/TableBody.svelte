@@ -142,7 +142,7 @@
     }
 
     thead {
-        background-color: var(--stripe-header-bg);
+        background-color: var(--stripe-primary);
         color: var(--stripe-header-text);
     }
 
