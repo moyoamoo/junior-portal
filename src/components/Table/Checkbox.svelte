@@ -1,72 +1,19 @@
 <script>
-    import { supabase } from "$lib/supabaseClient";
 
-    let { activity, juniorId, theme } = $props();
+    let { activity, theme, onComplete } = $props();
 
-    let isChecked = $state(activity ? activity.completed : false);
     let checkboxColour = $derived(theme["--stripe-primary"] || "#C77E0A");
-    let showConfetti = $state(false);
 
-    $effect(() => {
-        if (activity) {
-            isChecked = activity.completed ?? false;
-        }
-    });
-
-    async function handleChange() {
-        console.log(activity.completed);
-        let newValue = isChecked;
-        let oldValue = !newValue;
-
-        isChecked = newValue;
-
-        if (newValue) {
-            showConfetti = true;
-            //add to completed tasks table in database
-            const { error } = await supabase.from("CompletedTasks").insert({
-                junior_id: juniorId,
-                activity_id: activity.activityId,
-            });
-
-            //change state back incase of error
-            if (error) {
-                console.error("Failed to mark as complete:", error);
-                isChecked = oldValue;
-                showConfetti = false;
-            }
-
-            setTimeout(() => {
-                showConfetti = false;
-            }, 1800);
-        }
-    }
 </script>
 
 <td class="completed">
     <label class="container" style={`--stripe-checkmark-bg: ${checkboxColour}`}>
         <input
             type="checkbox"
-            bind:checked={isChecked}
-            disabled={isChecked}
-            onchange={handleChange}
+            disabled={activity.completed}
+            checked={activity.completed}
+            onclick={onComplete}
         />
         <div class="checkmark"></div>
-
-        {#if showConfetti}
-            <div class="confetti-stage" aria-hidden="true">
-                <div class="burst-piece"></div>
-                <div class="burst-piece"></div>
-                <div class="burst-piece"></div>
-                <div class="burst-piece"></div>
-                <div class="burst-piece"></div>
-                <div class="burst-piece"></div>
-                <div class="burst-piece"></div>
-                <div class="burst-piece"></div>
-                <div class="burst-piece"></div>
-                <div class="burst-piece"></div>
-                <div class="burst-piece"></div>
-                <div class="burst-piece"></div>
-            </div>
-        {/if}
     </label>
 </td>

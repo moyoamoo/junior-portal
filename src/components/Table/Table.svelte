@@ -9,5 +9,5 @@
 
 <table>
     <TableHeader />
-    <TableBody {activities} {juniorId} {theme}/>
+    <TableBody bind:activities {juniorId} {theme}/>
 </table>

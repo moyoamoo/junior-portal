@@ -11,8 +11,7 @@ export async function load({ params }) {
         .eq('junior_id', params.juniorId)
         .single()
 
-    console.log('User data:', user);
-    console.log('User error:', userError);
+
 
     //return empty object if error
     if (userError) {
@@ -60,7 +59,7 @@ export async function load({ params }) {
         };
     });
 
-    console.log(updatedActivities)
+
 
     return { user, activities: updatedActivities, theme }
 }

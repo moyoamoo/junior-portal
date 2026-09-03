@@ -1,19 +1,17 @@
 <script>
     import TableHeader from "./TableHeader.svelte";
     import TableBody from "./TableBody.svelte";
-    import { formatDate } from '$lib/utils'
+    import { formatDate } from "$lib/utils";
 
     let { activity } = $props();
-    let date = $state("");
 
-    $effect(() => {
-        if (activity.dateCompleted != "") {
-            date = formatDate(activity.dateCompleted)
-        }
-        console.log(date);
-    });
+    let date = $derived(
+        activity.dateCompleted ? formatDate(activity.dateCompleted) : "",
+    );
 </script>
 
 <td>
-    <time datetime="">{date}</time>
+    {#if date}
+        <time datetime={activity.dateCompleted}>{date}</time>
+    {/if}
 </td>
