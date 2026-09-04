@@ -1,13 +1,14 @@
 :root {
     --primary: #000000;
     --secondary: #ffffff;
-    --tertiary: #424244;
-    --quaternary: #F1F1F1;
+    --tertiary: #C7E4F1;
+    --quaternary: #D3D3D3;
     --code-ninjas-blue-main: #338fbf;
     --code-ninjas-blue-dark: #0a1b24;
     --code-ninjas-blue-accent: #3490bf;
     --shadow: 8px 8px 0px var(--primary);
     --bold-blue: #0a5989;
+    --highlight-blue: #8CC9E8;
 
     --page-bg: var(--code-ninjas-blue-main);
 
@@ -167,114 +168,6 @@ input[type="text"]:hover {
 }
 
 
-/* ============================
-    Search Sort Juniors CSS 
-   ============================ */
-
-.search-sort-section {
-    border: 1px solid var(--primary);
-    background-color: var(--secondary);
-    box-shadow: var(--shadow);
-    border-radius: 12px;
-    width: 80%;
-    min-height: 10vh;
-    margin: 0 auto;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    margin-bottom: 5rem;
-
-}
-
-/* Label and Input Container */
-.junior-search-container {
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
-}
-
-/*Label*/
-.junior-search-label {
-    margin-bottom: 0.5rem;
-}
-
-.junior-searchbar {
-    width: 90%;
-    padding: 1rem;
-    background-color: var(--secondary);
-    font-size: 1rem;
-    outline: none;
-    transition: all 0.3s;
-    border: 2px solid var(--primary);
-}
-
-.junior-sort-container {
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: baseline;
-
-}
-
-.junior-sort-container button {
-    width: 30%;
-    padding: .5rem;
-    min-height: 40px;
-    background-color: var(--bold-blue);
-    color: var(--secondary);
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: .4rem;
-    transition: all 0.3s;
-    text-transform: uppercase;
-    border: 2px solid var(--primary);
-}
-
-/* ============================
-   Junior Page CSS
-   ============================ */
-.junior-container {
-    display: grid;
-    width: 80%;
-    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-    gap: 2rem;
-    margin: 0 auto;
-}
-
-.junior-link {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    text-decoration: none;
-    background-color: var(--secondary);
-    border-radius: 12px;
-    border: 2px solid var(--primary);
-    padding: 1rem;
-    color: var(--primary);
-    box-shadow: 4px 4px 0px var(--primary);
-    transform: translate(-2px, -2px);
-    text-align: center;
-    height: 12rem;
-    box-sizing: border-box;
-    overflow: hidden;
-    /* Prevents content from spilling out */
-    gap: 0.5rem;
-    /* Adds space between image and text */
-}
-
-.junior-img {
-    width: 60%;
-    /* Reduced from 80% to fit better */
-    max-height: 60%;
-    /* Prevents image from taking too much space */
-    object-fit: contain;
-    /* Maintains aspect ratio */
-    margin-bottom: 0.5rem;
-}
 
 /* ============================
     Booklet CSS
