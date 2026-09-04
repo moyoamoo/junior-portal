@@ -2,16 +2,26 @@
     import JuniorImage from "./JuniorImage.svelte";
     let { users } = $props();
     let search = $state("");
+    let sortStripe = $state("");
 
     //filter users by what is in text input
     let foundJuniors = $derived(
         users.filter((junior) => {
             let juniorName = junior.firstName + " " + junior.lastName;
 
-            return juniorName
-                .toLowerCase()
-                .replaceAll(" ", "")
-                .includes(search.replaceAll(" ", ""));
+            if (sortStripe != "") {
+                if (junior.currentStripe.toLowerCase() == sortStripe) {
+                    return juniorName
+                        .toLowerCase()
+                        .replaceAll(" ", "")
+                        .includes(search.replaceAll(" ", ""));
+                }
+            } else {
+                return juniorName
+                    .toLowerCase()
+                    .replaceAll(" ", "")
+                    .includes(search.replaceAll(" ", ""));
+            }
         }),
     );
 
@@ -43,7 +53,21 @@
         />
     </div>
     <div class="junior-sort-container">
-        <button onclick={sortByStripe}>Sort by Stripe</button>
+        <label for="sort-by-stripe">Sort by Stripe</label>
+        <select
+            name="sort-by-stripe"
+            id="sort-by-stripe"
+            bind:value={sortStripe}
+        >
+            <option value="">Choose a Stripe</option>
+            <option value="bumblebee">Bumblebee</option>
+            <option value="chipmunk">Chipmunk</option>
+            <option value="wildcat">Wildcat</option>
+            <option value="clownfish">Clownfish</option>
+            <option value="skunk">Skunk</option>
+            <option value="zebra">Zebra</option>
+            <option value="tiger">Tiger</option>
+        </select>
     </div>
 </section>
 
