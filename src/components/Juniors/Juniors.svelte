@@ -2,41 +2,27 @@
     import JuniorImage from "./JuniorImage.svelte";
     let { users } = $props();
     let search = $state("");
-    let sortStripe = $state("");
+    let selectedStripe = $state("");
 
     //filter users by what is in text input
     let foundJuniors = $derived(
         users.filter((junior) => {
             let juniorName = junior.firstName + " " + junior.lastName;
+            let stripeMatch = false;
+            let nameMatch = juniorName
+                .toLowerCase()
+                .replaceAll(" ", "")
+                .includes(search.replaceAll(" ", ""));
 
-            if (sortStripe != "") {
-                if (junior.currentStripe.toLowerCase() == sortStripe) {
-                    return juniorName
-                        .toLowerCase()
-                        .replaceAll(" ", "")
-                        .includes(search.replaceAll(" ", ""));
-                }
-            } else {
-                return juniorName
-                    .toLowerCase()
-                    .replaceAll(" ", "")
-                    .includes(search.replaceAll(" ", ""));
+            if (selectedStripe === "") {
+                stripeMatch = true;
+            } else if (junior.currentStripe.toLowerCase() === selectedStripe) {
+                stripeMatch = true;
             }
+
+            return nameMatch && stripeMatch;
         }),
     );
-
-    const sortByStripe = () => {
-        let newUsers = [...users];
-        newUsers.sort((a, b) => {
-            if (a.currentStripe > b.currentStripe) {
-                return 1;
-            } else if (a.currentStripe < b.currentStripe) {
-                return -1;
-            }
-        });
-
-        users = newUsers;
-    };
 </script>
 
 <section class="search-sort-section">
@@ -57,7 +43,7 @@
         <select
             name="sort-by-stripe"
             id="sort-by-stripe"
-            bind:value={sortStripe}
+            bind:value={selectedStripe}
         >
             <option value="">Choose a Stripe</option>
             <option value="bumblebee">Bumblebee</option>
