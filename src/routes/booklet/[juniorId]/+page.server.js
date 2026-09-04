@@ -11,8 +11,6 @@ export async function load({ params }) {
         .eq('junior_id', params.juniorId)
         .single()
 
-
-
     //return empty object if error
     if (userError) {
         console.error(userError)

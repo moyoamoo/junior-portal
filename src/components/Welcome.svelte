@@ -1,5 +1,5 @@
 <script>
-  import codeyWaving from "$lib/assets/codey_waving.png";
+  import codeyWaving from "$lib/assets/codey_laptop.png";
 
   import bee from "$lib/assets/bumblebee.png";
   import wildcat from "$lib/assets/wildcat.png";
