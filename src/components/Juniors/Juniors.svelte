@@ -7,7 +7,11 @@
     let foundJuniors = $derived(
         users.filter((junior) => {
             let juniorName = junior.firstName + " " + junior.lastName;
-            return juniorName.toLowerCase().includes(search);
+
+            return juniorName
+                .toLowerCase()
+                .replaceAll(" ", "")
+                .includes(search.replaceAll(" ", ""));
         }),
     );
 
@@ -35,7 +39,7 @@
             id="searchbar"
             name="searchbar"
             class="junior-searchbar"
-            bind:value={() => search, (s) => (search = s.toLowerCase().trim())}
+            bind:value={() => search, (s) => (search = s.toLowerCase())}
         />
     </div>
     <div class="junior-sort-container">
