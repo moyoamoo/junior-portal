@@ -1,21 +1,17 @@
 <script>
     import JuniorImage from "./JuniorImage.svelte";
     let { users } = $props();
+    let search = $state("");
 
-    function sortAlphabetically() {
-        let newUsers = [...users];
-        newUsers.sort((a, b) => {
-            if (a.firstName > b.firstName) {
-                return 1;
-            } else if (a.firstName < b.firstName) {
-                return -1;
-            }
-        });
+    //filter users by what is in text input
+    let foundJuniors = $derived(
+        users.filter((junior) => {
+            let juniorName = junior.firstName + " " + junior.lastName;
+            return juniorName.toLowerCase().includes(search);
+        }),
+    );
 
-        users = newUsers;
-    }
-
-    function sortByStripe(e) {
+    const sortByStripe = () => {
         let newUsers = [...users];
         newUsers.sort((a, b) => {
             if (a.currentStripe > b.currentStripe) {
@@ -25,8 +21,8 @@
             }
         });
 
-             users = newUsers;
-    }
+        users = newUsers;
+    };
 </script>
 
 <section class="search-sort-section">
@@ -39,20 +35,26 @@
             id="searchbar"
             name="searchbar"
             class="junior-searchbar"
+            bind:value={() => search, (s) => (search = s.toLowerCase().trim())}
         />
     </div>
     <div class="junior-sort-container">
-        <button onclick={sortAlphabetically}>Sort A-Z</button>
         <button onclick={sortByStripe}>Sort by Stripe</button>
     </div>
 </section>
 
 <section class="junior-container">
-    {#each users as user (user.juniorId)}
-        <a href="/booklet/{user.juniorId}" class="junior-link">
-            <JuniorImage currentStripe={user.currentStripe} />
-            {user.firstName}
-            {user.lastName}
-        </a>
-    {/each}
+    {#if foundJuniors.length == 0}
+        <div>
+            <p>No Juniors found</p>
+        </div>
+    {:else}
+        {#each foundJuniors as user (user.juniorId)}
+            <a href="/booklet/{user.juniorId}" class="junior-link">
+                <JuniorImage currentStripe={user.currentStripe} />
+                {user.firstName}
+                {user.lastName}
+            </a>
+        {/each}
+    {/if}
 </section>
