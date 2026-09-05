@@ -5,7 +5,6 @@
     import CommentBtn from "./CommentBtn.svelte";
     import CommentModal from "./CommentModal.svelte";
     import { updateActivity, headings } from "$lib/utils";
-   
 
     let { activities = $bindable(), juniorId, theme } = $props();
 
@@ -31,7 +30,6 @@
         showModal = false;
         selectedActivity = null;
     }
-
 
     async function handleComplete(activityId) {
         const activity = tableActivities.find(
@@ -75,8 +73,6 @@
             completed: true,
             dateCompleted: data.dateCompleted,
         });
-
-
     }
 </script>
 
@@ -95,6 +91,10 @@
                     <th scope="row">{activity.activity}</th>
 
                     <td>{activity.activityType}</td>
+                    <CommentBtn
+                        comment={activity.comment}
+                        onclick={() => openCommentModal(activity)}
+                    />
 
                     <Date {activity} />
 
@@ -103,11 +103,6 @@
                         {theme}
                         onComplete={() => handleComplete(activity.activityId)}
                     />
-
-                    <CommentBtn
-                        comment={activity.comment}
-                        onclick={() => openCommentModal(activity)}
-                    />
                 </tr>
             {/each}
         </tbody>
@@ -115,9 +110,13 @@
 </section>
 
 <CommentModal bind:showModal>
-    <textarea bind:value={commentText} placeholder="Write a comment...">
+    <textarea
+        class="modal-textarea"
+        bind:value={commentText}
+        placeholder="Write a comment..."
+    >
     </textarea>
-    <button>Save</button>
+    <button class="modal-btn">Save</button>
 </CommentModal>
 
 <style>
@@ -144,6 +143,7 @@
     thead {
         background-color: var(--stripe-primary);
         color: var(--stripe-header-text);
+        font-size: 1rem;
     }
 
     th {
@@ -156,6 +156,38 @@
 
     tbody tr:nth-child(even) {
         background-color: var(--stripe-tertiary);
+    }
+
+    .modal-textarea {
+        height: 70%;
+        width: 10rem;
+        border: 2px solid var(--primary);
+        margin-bottom: 1rem;
+        padding: 1rem;
+    }
+
+    .modal-textarea:hover,
+    .modal-textarea:focus {
+        box-shadow: 4px 4px 0px var(--primary);
+    }
+
+    /* .modal-textarea:focus-visible{
+        outline: 2px solid var(--stripe-primary);
+    }
+    */
+    .modal-btn {
+        width: 10rem;
+        border: 2px solid var(--primary);
+        height: 3rem;
+        background-color: var(--stripe-primary);
+        color: var(--secondary);
+        font-weight: bold;
+        font-family: "Comfortaa", sans-serif;
+    }
+
+    .modal-btn:hover,
+    .modal-btn:focus {
+        box-shadow: 4px 4px 0px var(--primary);
     }
 
     /* =================================

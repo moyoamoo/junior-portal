@@ -53,8 +53,6 @@
                 },
             });
         }, 100);
-
-        // Tell the parent to actually complete the activity
         onComplete();
     }
 </script>
@@ -137,7 +135,7 @@
         height: 0.5em;
         border: solid white;
         border-width: 0 0.15em 0.15em 0;
-        box-shadow: 0.1em 0.1em 0em 0 rgba(0, 0, 0, 0.3);
+       /*box-shadow: 0.1em 0.1em 0em 0 rgba(0, 0, 0, 0.3);*/
         transform: rotate(45deg);
     }
 </style>

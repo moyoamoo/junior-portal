@@ -4,8 +4,33 @@
 
 <td
     >{#if comment}
-        <button {onclick}>View</button>
+        <button class="comments-btn-add" aria-label="View Comment" {onclick}
+            ><i class="fa-solid fa-eye" style="color: #ffffff;"></i></button
+        >
     {:else}
-        <button {onclick}>Add</button>
+        <button class="comments-btn-view" aria-label="Add Comment" {onclick}
+            ><i class="fa-solid fa-plus" style="color: #ffffff;"></i></button
+        >
     {/if}
 </td>
+
+<style>
+    .comments-btn-view,
+    .comments-btn-add {
+        background-color: var(--stripe-primary);
+        border-radius: 50%;
+        height: 2.3em;
+        width: 2.3em;
+        top: 0;
+        left: 0;
+        border: none;
+        font-size: 20px;
+        margin: 0.4rem;
+        
+    }
+
+    .comments-btn-view:hover,
+    .comments-btn-add:hover {
+        background-color: var(--stripe-quaternary);
+    }
+</style>

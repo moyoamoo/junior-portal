@@ -40,6 +40,7 @@
   .welcome-img-stripe {
     width: 20%;
     border-radius: 12px;
+    border: 2px solid var(--primary);
   }
   .welcome-section {
     position: relative;

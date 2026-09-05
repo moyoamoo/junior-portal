@@ -6,4 +6,4 @@ export const actions = {
         await supabase.auth.signOut();
         throw redirect(303, '/');
     }
-}  await supabase.auth.sign
+}  

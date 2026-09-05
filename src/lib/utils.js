@@ -15,9 +15,10 @@ export function updateActivity(activities, activityId, changes) {
 export const headings = [
     "Activity",
     "Activity Type",
-    "Date",
+     "Comments",
+    "Date", 
     "Completed",
-    "Comments",
+ 
 ];
 
 

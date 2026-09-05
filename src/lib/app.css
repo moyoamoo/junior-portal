@@ -48,13 +48,13 @@ body {
 /* ============================
     General CSS
    ============================ */
-
+/*
 button:hover {
     box-shadow: 4px 4px 0px var(--primary);
     transform: translate(-2px, -2px);
     background-color: var(--code-ninjas-blue-accent);
 }
-
+*/
 input[type="text"]:focus,
 input[type="text"]:hover {
     box-shadow: 4px 4px 0px var(--primary)
