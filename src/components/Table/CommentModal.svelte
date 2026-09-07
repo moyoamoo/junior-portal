@@ -6,6 +6,8 @@
 	$effect(() => {
 		if (showModal) {
 			dialog.showModal();
+		} else if (dialog?.open){
+			dialog.close();
 		}
 	});
 </script>
@@ -20,6 +22,7 @@
 	}}
 >
 	{@render children?.()}
+
 	<button
 		onclick={() => dialog.close()}
 		aria-label="Close"

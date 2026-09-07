@@ -20,18 +20,21 @@
         tableActivities = activities;
     });
 
-    function openCommentModal(activity) {
+    //open modal
+    const openCommentModal = (activity) => {
         selectedActivity = activity;
         commentText = activity.comment ?? "";
         showModal = true;
-    }
+    };
 
-    function closeCommentModal() {
+    //close modal
+    const closeCommentModal = () => {
         showModal = false;
         selectedActivity = null;
-    }
+    };
 
-    async function handleComplete(activityId) {
+    //add completed activity to database
+    const handleComplete = async (activityId) => {
         const activity = tableActivities.find(
             (activity) => activity.activityId === activityId,
         );
@@ -58,6 +61,7 @@
             .select("dateCompleted:date_completed")
             .single();
 
+        //if error revert back
         if (error) {
             console.error("Failed to mark as complete:", error);
 
@@ -69,11 +73,44 @@
             return;
         }
 
+        //update state
         tableActivities = updateActivity(tableActivities, activityId, {
             completed: true,
             dateCompleted: data.dateCompleted,
         });
-    }
+    };
+
+    const addComment = async (commentText) => {
+        const { data, error } = await supabase
+            .from("TaskComments")
+            .insert({
+                junior_id: juniorId,
+                activity_id: selectedActivity.activityId,
+                comment: commentText,
+            })
+        //if error revert back
+        if (error) {
+            console.error("Failed to mark as complete:", error);
+            return;
+        }
+
+        console.log("Comment added:", data);
+
+        //update state
+        tableActivities = updateActivity(
+            tableActivities,
+            selectedActivity.activityId,
+            {
+                comment: commentText,
+            },
+        );
+
+        //close modal after added comment
+        closeCommentModal();
+    };
+
+
+    
 </script>
 
 <section class="table-container">
@@ -116,7 +153,16 @@
         placeholder="Write a comment..."
     >
     </textarea>
-    <button class="modal-btn">Save</button>
+    {#if selectedActivity?.comment == null || selectedActivity?.comment === ""}
+        <button
+            class="modal-btn"
+            onclick={() => {
+                addComment(commentText);
+            }}>Add</button
+        >
+    {:else}
+        <button class="modal-btn">Save</button>
+    {/if}
 </CommentModal>
 
 <style>
@@ -151,7 +197,7 @@
     }
 
     tbody tr:hover {
-        color: var(--stripe-hover);
+        color: var(--stripe-text-hover);
     }
 
     tbody tr:nth-child(even) {

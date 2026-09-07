@@ -8,18 +8,23 @@
   import skunk from "$lib/assets/skunk.png";
   import clownfish from "$lib/assets/clownfish.png";
   import zebra from "$lib/assets/zebra.png";
+  import codeyMicrobit from "$lib/assets/codey_mircobit.png";
+  import codeyBlockCode from "$lib/assets/codey_blockcode.png";
+  import codeyTablet from "$lib/assets/codey_tablet.png";
+  import codeyGaming from "$lib/assets/codey_gaming.png";
+  import codeyCogs from "$lib/assets/codey_cogs.png";
 
   let { juniorInfo, activities, theme } = $props();
 
   //stripe images
   const stripes = {
-    Bumblebee: { alt: "bumblebee", image: bee },
-    Wildcat: { alt: "wildcat", image: wildcat },
-    Chipmunk: { alt: "chipmunk", image: chipmunk },
+    Bumblebee: { alt: "bumblebee", image: bee, codey: codeyBlockCode },
+    Wildcat: { alt: "wildcat", image: wildcat, codey: codeyTablet },
+    Chipmunk: { alt: "chipmunk", image: chipmunk, codey: codeyMicrobit },
     Tiger: { alt: "tiger", image: tiger },
-    Skunk: { alt: "skunk", image: skunk },
-    Clownfish: { alt: "clownfish", image: clownfish },
-    Zebra: { alt: "zebra", image: zebra },
+    Skunk: { alt: "skunk", image: skunk, codey: codeyCogs },
+    Clownfish: { alt: "clownfish", image: clownfish, codey: codeyWaving },
+    Zebra: { alt: "zebra", image: zebra, codey: codeyGaming },
   };
 
   let stripe = $derived(stripes[juniorInfo.currentStripe] ?? null);
@@ -33,7 +38,7 @@
       {juniorInfo.currentStripe} Stripe
     </h2>
   </div>
-  <img src={codeyWaving} alt={stripe.alt} class="welcome-img-codey" />
+  <img src={stripe.codey} alt={stripe.alt} class="welcome-img-codey" />
 </section>
 
 <style>
@@ -68,14 +73,12 @@
     width: 65%;
     position: relative;
     z-index: 2;
-  
   }
 
   .welcome-section-text h1,
   .welcome-section-text h2 {
     margin: 0;
     line-height: 1.1;
-      
   }
 
   .welcome-section-text h1 {
@@ -156,6 +159,10 @@
       width: 23%;
       right: 6%;
     }
+
+    .welcome-img-stripe {
+      width: 4rem;
+    }
   }
 
   /* ---------------------------------
@@ -185,6 +192,15 @@
       width: 21%;
       right: 7%;
     }
+
+     .welcome-img-stripe {
+      width: 5rem;
+      
+    }
+
+    .welcome-img-stripe {
+      width: 8rem;
+    }
   }
 
   /* ---------------------------------
@@ -213,6 +229,10 @@
     .welcome-img-codey {
       width: 20%;
       right: 8%;
+    }
+
+    .welcome-img-stripe {
+      width: 12rem;
     }
   }
 
@@ -244,6 +264,10 @@
       width: 19%;
       max-width: 190px;
       right: 8%;
+    }
+
+    .welcome-img-stripe {
+      width: 12rem;
     }
   }
 </style>
