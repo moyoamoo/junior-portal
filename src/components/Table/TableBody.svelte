@@ -80,14 +80,13 @@
         });
     };
 
+    //add comment to database from modal
     const addComment = async (commentText) => {
-        const { data, error } = await supabase
-            .from("TaskComments")
-            .insert({
-                junior_id: juniorId,
-                activity_id: selectedActivity.activityId,
-                comment: commentText,
-            })
+        const { data, error } = await supabase.from("TaskComments").insert({
+            junior_id: juniorId,
+            activity_id: selectedActivity.activityId,
+            comment: commentText,
+        });
         //if error revert back
         if (error) {
             console.error("Failed to mark as complete:", error);
@@ -109,8 +108,38 @@
         closeCommentModal();
     };
 
+    //edit existing comment in database from modal
+    const editComment = async (commentText) => {
+        const { data, error } = await supabase
+            .from("TaskComments")
+            .update({
+                comment: commentText,
+            })
+            .eq("activity_id", selectedActivity.activityId)
+            .eq("junior_id", juniorId)
+            .select()
+            .single();
 
-    
+        //if error revert back
+        if (error) {
+            console.error("Failed to edit comment:", error);
+            return;
+        }
+
+        console.log("Comment updated:", data);
+
+        //update state
+        tableActivities = updateActivity(
+            tableActivities,
+            selectedActivity.activityId,
+            {
+                comment: commentText,
+            },
+        );
+
+        //close modal after added comment
+        closeCommentModal();
+    };
 </script>
 
 <section class="table-container">
@@ -161,7 +190,12 @@
             }}>Add</button
         >
     {:else}
-        <button class="modal-btn">Save</button>
+        <button
+            class="modal-btn"
+            onclick={() => {
+                editComment(commentText);
+            }}>Save</button
+        >
     {/if}
 </CommentModal>
 
