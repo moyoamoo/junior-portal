@@ -2,10 +2,10 @@ import { supabase } from "$lib/supabaseClient";
 import { getTheme } from '$lib/themes'
 
 //get booklet contents
-export async function load({ params }) {
+export async function load({ params, locals}) {
 
     //get junior from junior id
-    const { data: user, error: userError } = await supabase
+    const { data: user, error: userError } = await locals.supabase
         .from('Junior')
         .select('juniorId:junior_id, firstName:first_name, lastName:last_name, currentStripe:current_stripe')
         .eq('junior_id', params.juniorId)
@@ -21,7 +21,7 @@ export async function load({ params }) {
     const theme = getTheme(user.currentStripe);
 
     //get activities based on users current stripe
-    const { data: activities, error: activitiesError } = await supabase
+    const { data: activities, error: activitiesError } = await locals.supabase
         .from('Activities')
         .select('activityId:activity_id, stripe, activity, activityType:activity_type, link')
         .eq('stripe', user.currentStripe)
@@ -33,7 +33,7 @@ export async function load({ params }) {
     }
 
     //get junior completed tasks
-    const { data: completedTasks, error: completedError } = await supabase
+    const { data: completedTasks, error: completedError } = await locals.supabase
         .from('CompletedTasks')
         .select('activityId:activity_id, dateCompleted:date_completed')
         .eq('junior_id', params.juniorId)
@@ -45,7 +45,7 @@ export async function load({ params }) {
     //get junior comments for these activities
     const activityIds = (activities || []).map(activity => activity.activityId);
 
-    const { data: comments, error: commentsError } = await supabase
+    const { data: comments, error: commentsError } = await locals.supabase
         .from('TaskComments')
         .select('activityId:activity_id, comment')
         .eq('junior_id', params.juniorId)

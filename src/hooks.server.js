@@ -33,16 +33,17 @@ export const handle = async ({ event, resolve }) => {
 
 
     //protect routes
-    const session = await event.locals.getUser();
+    const user = await event.locals.getUser();
     const path = event.url.pathname;
 
-    if (path.startsWith('/booklet') && !session) {
+    if (path.startsWith('/booklet') && !user) {
         throw redirect(303, '/');
     }
 
-    if (path.startsWith('/juniors') && !session) {
+    if (path.startsWith('/juniors') && !user) {
         throw redirect(303, '/');
     }
+
 
     return resolve(event);
 };

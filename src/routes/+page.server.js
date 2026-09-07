@@ -10,7 +10,7 @@ export const actions = {
 
         if (!email || !password) {
             return fail(400, {
-                message: 'Please fill in all fields',
+                message: 'Please enter a username and password',
                 email
             });
         }

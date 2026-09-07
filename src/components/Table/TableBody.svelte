@@ -23,7 +23,6 @@
 
     //open modal
     const openCommentModal = (activity) => {
-        console.log("OPENING COMMENT MODAL FOR:", activity);
         selectedActivity = activity;
         commentText = activity.comment ?? "";
         showModal = true;
@@ -90,14 +89,6 @@
             return;
         }
 
-        console.log("ADDING COMMENT:");
-        console.log("juniorId:", juniorId);
-        console.log("selectedActivity:", selectedActivity);
-        console.log(
-            "selectedActivity.activityId:",
-            selectedActivity?.activityId,
-        );
-
         const { data, error } = await supabase
             .from("TaskComments")
             .insert({
@@ -134,35 +125,19 @@
         const trimmedComment = commentText.trim();
 
         if (trimmedComment === "") {
-            console.log("DELETE IDs:", {
-                junior_id: juniorId,
-                activity_id: selectedActivity?.activityId,
-            });
+
 
             const { data, error } = await supabase
                 .from("TaskComments")
                 .delete()
                 .eq("activity_id", selectedActivity.activityId)
                 .eq("junior_id", juniorId)
-                
-            console.log("DELETE IDs:", {
-                junior_id: juniorId,
-            });
-
-            console.log("DELETE data:", data);
-            console.log("DELETE error:", error);
-
+                .select()
+        
             if (error) {
                 console.error("Failed to delete comment:", error);
                 return;
             }
-
-            if (!data || data.length === 0) {
-                console.error("DELETE matched 0 rows!");
-                return;
-            }
-
-            console.log("Comment deleted successfully");
 
             //update state
             tableActivities = updateActivity(

@@ -3,10 +3,10 @@ import { sortAlphabetically } from "$lib/utils";
 
 
 //get juniors data from supabase 
-export async function load() {
+export async function load({locals}) {
 
     try {
-        const { data: users, error } = await supabase
+        const { data: users, error } = await locals.supabase
             .from('Junior')
             .select('juniorId:junior_id, firstName:first_name, lastName:last_name, currentStripe:current_stripe, active')
             .eq('active', true)
