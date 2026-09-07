@@ -3,15 +3,15 @@ import { fail, redirect } from '@sveltejs/kit';
 export const actions = {
     default: async ({ request, locals }) => {
         const supabase = locals.supabase;
-        
+
         const formData = await request.formData();
         const email = formData.get('email');
         const password = formData.get('password');
 
         if (!email || !password) {
-            return fail(400, { 
-                message: 'Please fill in all fields', 
-                email 
+            return fail(400, {
+                message: 'Please fill in all fields',
+                email
             });
         }
 
@@ -20,10 +20,11 @@ export const actions = {
             password: password.toString()
         });
 
+        //return error message if login is incorrect 
         if (error) {
-            return fail(400, { 
-                message: error.message, 
-                email 
+            return fail(400, {
+                message: 'Email or password is incorrect',
+                email
             });
         }
 
@@ -33,10 +34,10 @@ export const actions = {
             .eq('id', data.user.id)
             .single();
 
-        if (profileError) {
-            return fail(500, { 
-                message: 'Profile not found', 
-                email 
+        if (profileError || !profile) {
+            return fail(500, {
+                message: 'Could not load acccount - try again!',
+                email
             });
         }
 

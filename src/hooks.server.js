@@ -23,26 +23,24 @@ export const handle = async ({ event, resolve }) => {
     );
 
     //check if user is logged in
-    event.locals.getSession = async () => {
-        const { data: { session } } = await event.locals.supabase.auth.getSession();
-        return session;
+    event.locals.getUser = async () => {
+        const {
+            data: { user }
+        } = await event.locals.supabase.auth.getUser();
+
+        return user;
     };
 
-    //protect routes
-    const session = await event.locals.getSession();
-    const path = event.url.pathname;
 
-    if (path.startsWith('/admin')) {
-        if (!session) {
-            throw redirect(303, '/login');
-        }
-    }
+    //protect routes
+    const session = await event.locals.getUser();
+    const path = event.url.pathname;
 
     if (path.startsWith('/booklet') && !session) {
         throw redirect(303, '/');
     }
 
-      if (path.startsWith('/juniors') && !session) {
+    if (path.startsWith('/juniors') && !session) {
         throw redirect(303, '/');
     }
 
