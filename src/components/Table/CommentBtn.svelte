@@ -26,6 +26,7 @@
         border: none;
         font-size: 20px;
         margin: 0.4rem;
+        cursor: pointer;
     }
 
     .comments-btn-view:hover,

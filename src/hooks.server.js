@@ -22,7 +22,7 @@ export const handle = async ({ event, resolve }) => {
         }
     );
 
-    //check if user is logged in
+    //get user 
     event.locals.getUser = async () => {
         const {
             data: { user }
@@ -31,11 +31,28 @@ export const handle = async ({ event, resolve }) => {
         return user;
     };
 
-
-    //protect routes
     const user = await event.locals.getUser();
     const path = event.url.pathname;
 
+    
+    //redirect if not logged in as admin
+    if (pathname.startsWith('/admin/dashboard')) {
+        const adminSession = event.cookies.get('admin_session');
+
+        if (!adminSession) {
+            throw redirect(303, '/admin')
+        }
+    }
+
+    //if not on admin page delete admin session
+    if (!pathname.startsWith('/admin/dashboard')) {
+        event.cookies.delete('admin_session', {
+            path: '/'
+        });
+
+    }
+
+    //redirect if not logged in
     if (path.startsWith('/booklet') && !user) {
         throw redirect(303, '/');
     }
@@ -46,4 +63,4 @@ export const handle = async ({ event, resolve }) => {
 
 
     return resolve(event);
-};
+}

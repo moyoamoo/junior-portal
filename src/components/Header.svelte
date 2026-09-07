@@ -3,7 +3,7 @@
         <form method="POST" action="/logout">
             <button type="submit">Logout</button>
         </form>
-        <a href="">Admin</a>
+        <a href="/admin">Admin</a>
     </nav>
 </header>
 
@@ -25,11 +25,14 @@
         color: var(--secondary);
         outline: none;
         border: none;
+        font-size: 1rem;
+        font-family: "Comfortaa", sans-serif;
     }
 
     nav a {
         text-decoration: none;
         color: var(--secondary);
         padding: 1rem;
+        font-size: 1rem;
     }
 </style>

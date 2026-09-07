@@ -167,17 +167,23 @@ input[type="text"]:hover {
 
 }
 
+.login-error-message {
+    background-color: #ec8492;
+    border-radius: 12px;
+}
+
+.login-error-message p {
+    padding: 1rem;
+    text-align: center;
+    color: var(--secondary);
+    font-weight: bold;
+}
+
 
 
 /* ============================
     Booklet CSS
    ============================ */
-.booklet-main {
-    min-height: 100dvh;
-    background-color: var(--stripe-secondary);
-    overflow: auto;
-
-}
 
 
 
