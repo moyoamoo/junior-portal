@@ -1,9 +1,14 @@
-import {redirect} from '@sveltejs/kit'
+import { redirect } from '@sveltejs/kit'
 
+//reject GET requests
+export const load = async () => {
+    throw redirect(303, '/');
+}
+
+//logout and redirect to /
 export const actions = {
-    default: async ({locals}) =>{
-        const supabase = locals.supabase;
-        await supabase.auth.signOut();
+    default: async ({ locals }) => {
+        await locals.supabase.auth.signOut();
         throw redirect(303, '/');
     }
 }  

@@ -5,6 +5,7 @@
     import CommentBtn from "./CommentBtn.svelte";
     import CommentModal from "./CommentModal.svelte";
     import { updateActivity, headings } from "$lib/utils";
+    import ActivityRow from "./ActivityRow.svelte";
 
     let { activities = $bindable(), juniorId, theme } = $props();
 
@@ -22,6 +23,7 @@
 
     //open modal
     const openCommentModal = (activity) => {
+        console.log("OPENING COMMENT MODAL FOR:", activity);
         selectedActivity = activity;
         commentText = activity.comment ?? "";
         showModal = true;
@@ -82,25 +84,44 @@
 
     //add comment to database from modal
     const addComment = async (commentText) => {
-        const { data, error } = await supabase.from("TaskComments").insert({
-            junior_id: juniorId,
-            activity_id: selectedActivity.activityId,
-            comment: commentText,
-        });
+        const trimmedComment = commentText.trim();
+
+        if (trimmedComment === "") {
+            return;
+        }
+
+        console.log("ADDING COMMENT:");
+        console.log("juniorId:", juniorId);
+        console.log("selectedActivity:", selectedActivity);
+        console.log(
+            "selectedActivity.activityId:",
+            selectedActivity?.activityId,
+        );
+
+        const { data, error } = await supabase
+            .from("TaskComments")
+            .insert({
+                junior_id: juniorId,
+                activity_id: selectedActivity.activityId,
+                comment: trimmedComment,
+            })
+            .select()
+            .single();
+
         //if error revert back
         if (error) {
             console.error("Failed to mark as complete:", error);
             return;
         }
 
-        console.log("Comment added:", data);
+        console.log("COMMENT ACTUALLY SAVED:", data);
 
         //update state
         tableActivities = updateActivity(
             tableActivities,
             selectedActivity.activityId,
             {
-                comment: commentText,
+                comment: trimmedComment,
             },
         );
 
@@ -110,10 +131,54 @@
 
     //edit existing comment in database from modal
     const editComment = async (commentText) => {
+        const trimmedComment = commentText.trim();
+
+        if (trimmedComment === "") {
+            console.log("DELETE IDs:", {
+                junior_id: juniorId,
+                activity_id: selectedActivity?.activityId,
+            });
+
+            const { data, error } = await supabase
+                .from("TaskComments")
+                .delete()
+                .eq("activity_id", selectedActivity.activityId)
+                .eq("junior_id", juniorId)
+                
+            console.log("DELETE IDs:", {
+                junior_id: juniorId,
+            });
+
+            console.log("DELETE data:", data);
+            console.log("DELETE error:", error);
+
+            if (error) {
+                console.error("Failed to delete comment:", error);
+                return;
+            }
+
+            if (!data || data.length === 0) {
+                console.error("DELETE matched 0 rows!");
+                return;
+            }
+
+            console.log("Comment deleted successfully");
+
+            //update state
+            tableActivities = updateActivity(
+                tableActivities,
+                selectedActivity.activityId,
+                { comment: null },
+            );
+
+            closeCommentModal();
+            return;
+        }
+
         const { data, error } = await supabase
             .from("TaskComments")
             .update({
-                comment: commentText,
+                comment: trimmedComment,
             })
             .eq("activity_id", selectedActivity.activityId)
             .eq("junior_id", juniorId)
@@ -133,7 +198,7 @@
             tableActivities,
             selectedActivity.activityId,
             {
-                comment: commentText,
+                comment: trimmedComment,
             },
         );
 
@@ -153,23 +218,12 @@
         </thead>
         <tbody>
             {#each tableActivities as activity (activity.activityId)}
-                <tr>
-                    <th scope="row">{activity.activity}</th>
-
-                    <td>{activity.activityType}</td>
-                    <CommentBtn
-                        comment={activity.comment}
-                        onclick={() => openCommentModal(activity)}
-                    />
-
-                    <Date {activity} />
-
-                    <Checkbox
-                        {activity}
-                        {theme}
-                        onComplete={() => handleComplete(activity.activityId)}
-                    />
-                </tr>
+                <ActivityRow
+                    {theme}
+                    {activity}
+                    onComment={() => openCommentModal(activity)}
+                    {handleComplete}
+                />
             {/each}
         </tbody>
     </table>
@@ -228,14 +282,6 @@
 
     th {
         padding: 0.6em;
-    }
-
-    tbody tr:hover {
-        color: var(--stripe-text-hover);
-    }
-
-    tbody tr:nth-child(even) {
-        background-color: var(--stripe-tertiary);
     }
 
     .modal-textarea {

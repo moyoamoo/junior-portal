@@ -36,19 +36,13 @@ export const handle = async ({ event, resolve }) => {
         if (!session) {
             throw redirect(303, '/login');
         }
-
-        const { data: profile } = await event.locals.supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', session.user.id)
-            .single();
-
-        if (profile && profile.role !== 'admin') {
-            throw redirect(303, '/booklet');
-        }
     }
 
     if (path.startsWith('/booklet') && !session) {
+        throw redirect(303, '/');
+    }
+
+      if (path.startsWith('/juniors') && !session) {
         throw redirect(303, '/');
     }
 

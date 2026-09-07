@@ -26,13 +26,11 @@
         border: none;
         font-size: 20px;
         margin: 0.4rem;
-        
     }
 
     .comments-btn-view:hover,
     .comments-btn-add:hover {
         background-color: var(--stripe-quaternary);
-                box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
-
+        box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
     }
 </style>
