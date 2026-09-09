@@ -64,11 +64,12 @@
         />
     </div>
 </section>
- 
-<Juniors {foundJuniors}/>
+
+<Juniors {foundJuniors} />
+
 <style>
     .logo {
-        width: 50%;
+        width: 60%;
         margin: 1rem auto;
     }
 
@@ -85,51 +86,27 @@
         display: flex;
         justify-content: center;
         flex-direction: column;
-       
     }
 
-    .sort-by-stripe-label {
-        margin-bottom: 0.5rem;
-        font-size: .9rem;
-    }
-    /* Label and Input Container */
-    .junior-search-container {
-        display: flex;
-        flex-direction: column;
-        padding: 1rem;
+    label {
+        margin-bottom: 0.2rem;
     }
 
-    .junior-searchbar {
-        width: 90%;
-        padding: .7rem;
-        background-color: var(--secondary);
-        font-size: 1rem;
-        outline: none;
-        transition: all 0.3s;
-        border: 2px solid var(--primary);
-    }
-
+    .junior-search-container,
     .junior-sort-container {
-        width: 100%;
         display: flex;
-        justify-content: center;
-        align-items: center;
         flex-direction: column;
-        margin: auto 0;
+        padding: 1rem;
     }
 
-
-
+    .junior-searchbar,
     .junior-stripe-select {
-        width: 40%;
-        padding: 1rem;
+        padding: 0.7rem;
         background-color: var(--secondary);
         font-size: 1rem;
         outline: none;
-        border: 2px solid var(--primary);
-        color: var(--primary);
-        cursor: pointer;
         transition: all 0.3s;
+        border: 2px solid var(--primary);
     }
 
     .junior-stripe-select:focus {
@@ -147,15 +124,26 @@
     /* =================================
    768px+
    ================================= */
+    .logo {
+        width: 40%;
+        margin: 1rem auto;
+    }
 
-   /* =================================
+    .junior-search-container,
+    .junior-sort-container {
+        width: 60%;
+        margin: 0 auto;
+    }
+
+    .search-sort-section {
+        width: 40%;
+        padding-bottom: 1rem;
+    }
+    /* =================================
    992px+
    ================================= */
-    
-   
+
     /* =================================
    1200px+
    ================================= */
-
-  
 </style>
