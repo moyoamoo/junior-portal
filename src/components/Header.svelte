@@ -10,7 +10,7 @@
 <style>
     header {
         background-color: var(--code-ninjas-blue-dark);
-        height: 2vh;
+        height: 7vh;
     }
 
     nav {

@@ -136,7 +136,7 @@
     }
 
     .search-sort-section {
-        width: 40%;
+        width: 60%;
         padding-bottom: 1rem;
     }
     /* =================================
@@ -146,4 +146,9 @@
     /* =================================
    1200px+
    ================================= */
+
+    .search-sort-section {
+        max-width: 800px;
+        padding-bottom: 1rem;
+    }
 </style>

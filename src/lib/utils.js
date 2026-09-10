@@ -15,15 +15,15 @@ export function updateActivity(activities, activityId, changes) {
 export const headings = [
     "Activity",
     "Activity Type",
-     "Comments",
-    "Date", 
+    "Comments",
+    "Date",
     "Completed",
- 
+
 ];
 
 
 //sort alphabetically
-export function sortAlphabetically(users) {
+export const sortAlphabetically = (users) => {
     let newUsers = [...users];
     newUsers.sort((a, b) => {
         if (a.firstName > b.firstName) {
@@ -35,4 +35,10 @@ export function sortAlphabetically(users) {
 
     users = newUsers;
     return users;
+}
+
+//capitalise first letter 
+export const capitalise = (string) => {
+    let trimmedString = string.trim();
+    return trimmedString && String(trimmedString[0]).toUpperCase() + String(trimmedString).slice(1);
 }

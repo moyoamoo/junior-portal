@@ -1,7 +1,5 @@
-<h1>This is the dasboard for admin</h1>
+<script>
+    import JuniorContainer from "../../../components/Admin/JuniorContainer.svelte";
 
-<style>
-    h1{
-        color: var(--secondary);
-    }
-</style>
+</script>
+<JuniorContainer/>

@@ -1,6 +1,8 @@
 <script>
     import codey from "$lib/assets/codey_waving.png";
     import logo from "$lib/assets/codeninjas.png";
+    import leftCodey from "$lib/assets/frontpagecodey.png"
+    import rightCodet from "$lib/assets/frontpagecodey2.png"
 
     let { form } = $props();
     let email = $state("");
@@ -52,6 +54,7 @@
 </section>
 
 <style>
+
     .login-error-message{
         background-color: #ec8492;
         border-radius: 12px;

@@ -61,8 +61,28 @@ input[type="text"]:hover {
 }
 
 
+
 /* ============================
     Login CSS
+   ============================ */
+
+
+.login-error-message {
+    background-color: #ec8492;
+    border-radius: 12px;
+}
+
+.login-error-message p {
+    padding: 1rem;
+    text-align: center;
+    color: var(--secondary);
+    font-weight: bold;
+}
+
+
+
+/* ============================
+    Booklet CSS
    ============================ */
 
 .login-top {
@@ -78,13 +98,6 @@ input[type="text"]:hover {
     margin: 0 auto;
     display: block;
     line-height: 0;
-
-}
-
-/*login text h2 */
-.login-heading {
-    text-align: center;
-    color: var(--secondary);
 
 }
 
@@ -166,24 +179,6 @@ input[type="text"]:hover {
     width: 20%;
 
 }
-
-.login-error-message {
-    background-color: #ec8492;
-    border-radius: 12px;
-}
-
-.login-error-message p {
-    padding: 1rem;
-    text-align: center;
-    color: var(--secondary);
-    font-weight: bold;
-}
-
-
-
-/* ============================
-    Booklet CSS
-   ============================ */
 
 
 
