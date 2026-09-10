@@ -1,81 +1,134 @@
 <script>
-    let {foundJuniors} = $props();
+    let { foundJuniors } = $props();
 </script>
 
-
 <section class="junior-container">
-    <div class="junior-containter-list">
-        {#if foundJuniors.length == 0}
-            <p>No Juniors found</p>
-        {:else}
-            {#each foundJuniors as user (user.juniorId)}
-                <span href="/booklet/{user.juniorId}" class="junior-link">
-                    {user.firstName}
-                    {user.lastName}
-                    
-                </span>
-            {/each}
-        {/if}
+    <div class="table-wrapper">
+        <div class="table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">Junior Name</th>
+                        <th scope="col">Current Stripe</th>
+                        <th scope="col">Active</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {#each foundJuniors as user (user.juniorId)}
+                        <tr>
+                            <th scope="row">
+                                <a
+                                    href="/booklet/{user.juniorId}"
+                                    class="junior-link"
+                                >
+                                    {user.firstName}
+                                    {user.lastName}
+                                </a>
+                            </th>
+
+                            <td><button>{user.currentStripe}</button></td>
+
+                            <td>
+                                <button>Active</button>
+                            </td>
+
+                            <td>
+                                <button>Delete</button>
+                            </td>
+                        </tr>
+                    {/each}
+                </tbody>
+            </table>
+        </div>
     </div>
 </section>
 
 <style>
     .junior-container {
         width: 80%;
+        max-width: 800px;
         margin: 0 auto;
     }
-    .junior-containter-list {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        flex-direction: column;
-        height: 50vh;
+
+
+    .table-wrapper {
+        width: 90%;
+        max-height: 50vh;
+        margin: 2.5rem auto 10px;
+
+        border: 2px solid var(--primary);
+        border-radius: 12px;
+        box-shadow: 6px 6px 0 var(--primary);
+
+        overflow: hidden;
+    }
+
+    .table-scroll {
+        max-height: 50vh;
         overflow-y: auto;
         overflow-x: hidden;
-        background-color: var(--secondary);
-        box-shadow: var(--shadow);
-        border-radius: 12px;
-        border: 2px solid var(--primary);
-        flex-shrink: 0;
-        scrollbar-color: var(--code-ninjas-blue-main) transparent;
+
+        scrollbar-color: var(--code-ninjas-blue-main) var(--tertiary);
+        scrollbar-width: auto;
     }
-    .junior-link {
+
+    table {
         box-sizing: border-box;
+        table-layout: fixed;
         width: 100%;
-        padding: 1rem;
-        padding-left: 3rem;
+
+        border-collapse: separate;
+        border-spacing: 0;
+
+        background-color: var(--tertiary);
+        text-align: center;
+    }
+
+    thead {
+        background-color: var(--bold-blue);
+        color: var(--secondary);
+        font-size: 1rem;
+
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+
+    th,
+    td {
+        padding: 10px;
+    }
+
+    .junior-link {
         text-decoration: none;
         color: var(--primary);
     }
-    .junior-link:nth-child(odd) {
-        background-color: var(--tertiary);
-    }
+
     .junior-link:hover {
         color: var(--code-ninjas-blue-dark);
     }
 
-      /* =================================
-   320px+
-   ================================= */
+    tr:nth-child(even) {
+        background-color: #fcf8f3;
+    }
 
-    /* =================================
-   480px+
-   ================================= */
 
-    /* =================================
-   768px+
-   ================================= */
+    .table-scroll::-webkit-scrollbar {
+        width: 10px;
+    }
 
-    /* =================================
-   992px+
-   ================================= */
+    .table-scroll::-webkit-scrollbar-track {
+        background: var(--tertiary);
+    }
 
-    /* =================================
-   1200px+
-   ================================= */
+    .table-scroll::-webkit-scrollbar-thumb {
+        background: var(--code-ninjas-blue-main);
+        border-radius: 10px;
+    }
 
-   .junior-container{
-    max-width: 800px
-   }
-
+    .table-scroll::-webkit-scrollbar-thumb:hover {
+        background: var(--code-ninjas-blue-dark);
+    }
 </style>
