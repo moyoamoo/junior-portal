@@ -1,10 +1,12 @@
-```svelte
 <script>
-    import Modal from "$lib/components/Modal.svelte";
+    import Modal from "./Modal.svelte";
+    import { page } from "$app/state";
+    import { enhance } from "$app/forms";
 
-    let { form } = $props();
+    let { form, adminMode = false } = $props();
 
     let showAdminMode = $state(false);
+    let errorMessage = $state("");
 </script>
 
 <header class="header">
@@ -12,75 +14,91 @@
         <form method="POST" action="/logout">
             <button type="submit">Logout</button>
         </form>
-
-        <button
-            type="button"
-            onclick={() => (showAdminMode = true)}
-        >
-            Admin Mode
-        </button>
-
-        <a href="/admin">Admin</a>
+        {#if adminMode}
+            <form method="POST" action="/admin-mode?/logout">
+                <input
+                    type="hidden"
+                    name="returnTo"
+                    value={page.url.pathname}
+                /> <button type="submit"> Leave Admin Mode </button>
+            </form>
+        {:else}
+            <button
+                type="button"
+                onclick={() => {
+                    errorMessage = "";
+                    showAdminMode = true;
+                }}
+            >
+                Admin Mode
+            </button>
+        {/if} <a href="/admin">Admin</a>
     </nav>
 </header>
-
-
-<Modal bind:showModal={showAdminMode}>
-    <div class="admin-mode">
-        <h2>Admin Mode</h2>
-
-        <p>Enter your credentials to enable Admin Mode.</p>
-
-        <form method="POST" action="/admin-mode?/login">
-            <label for="admin-email">
-                Email
-            </label>
-
-            <input
-                id="admin-email"
-                type="email"
-                name="email"
-                required
-            />
-
-            <label for="admin-password">
-                Password
-            </label>
-
-            <input
-                id="admin-password"
-                type="password"
-                name="password"
-                required
-            />
-
-            {#if form?.message}
-                <p class="error-message">
-                    {form.message}
-                </p>
+{#if !adminMode}
+    <Modal bind:showModal={showAdminMode}>
+        <div class="admin-mode">
+            <h2>Admin Mode</h2>
+            <p>For Sensei eyes only</p>
+            {#if errorMessage}
+                <div class="error-message">
+                    <p>
+                        {errorMessage}
+                    </p>
+                </div>
             {/if}
+            <form
+                method="POST"
+                action="/admin-mode?/login"
+                use:enhance={() =>
+                    async ({ result }) => {
+                        if (result.type === "failure") {
+                            errorMessage =
+                                result.data?.message ?? "Invalid credentials.";
+                            return;
+                        }
 
-            <button type="submit">
-                Enter Admin Mode
-            </button>
-        </form>
-    </div>
-</Modal>
+                        if (result.type === "redirect") {
+                            window.location.href = result.location;
+                        }
+                    }}
+            >
+                <input
+                    type="hidden"
+                    name="returnTo"
+                    value={page.url.pathname}
+                />
 
+                <label for="admin-email"> Email </label>
+
+                <input id="admin-email" type="email" name="email" required />
+
+                <label for="admin-password"> Password </label>
+
+                <input
+                    id="admin-password"
+                    type="password"
+                    name="password"
+                    required
+                />
+
+                <button type="submit"> Enter Admin Mode </button>
+            </form>
+        </div>
+    </Modal>
+{/if}
 
 <style>
     header {
         background-color: var(--code-ninjas-blue-dark);
         height: 7vh;
     }
-
     nav {
         height: 100%;
         display: flex;
         justify-content: right;
         align-items: center;
     }
-
     nav button {
         background-color: var(--code-ninjas-blue-dark);
         color: var(--secondary);
@@ -90,42 +108,35 @@
         font-family: "Comfortaa", sans-serif;
         cursor: pointer;
     }
-
     nav a {
         text-decoration: none;
         color: var(--secondary);
         padding: 1rem;
         font-size: 1rem;
     }
-
     .admin-mode {
         width: 100%;
     }
-
     .admin-mode h2 {
         margin: 0 0 0.5rem;
         text-align: center;
     }
-
     .admin-mode p {
         text-align: center;
         margin-bottom: 1rem;
     }
-
     .admin-mode form {
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
         width: 100%;
     }
-
     .admin-mode input {
         padding: 0.6rem;
         border: 1px solid var(--primary);
         border-radius: 6px;
         font-family: inherit;
     }
-
     .admin-mode form button {
         margin-top: 0.5rem;
         padding: 0.7rem;
@@ -136,11 +147,15 @@
         cursor: pointer;
         font-family: inherit;
     }
-
     .error-message {
-        color: #e74c61;
-        font-size: 0.9rem;
-        margin: 0;
+        background-color: #ec8492;
+        border-radius: 12px;
+    }
+
+    .error-message p {
+        padding: 1rem;
+        text-align: center;
+        color: var(--secondary);
+        font-weight: bold;
     }
 </style>
-```

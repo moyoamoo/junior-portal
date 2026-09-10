@@ -41,7 +41,7 @@ export const handle = async ({ event, resolve }) => {
     );
 
 
-    // Get current user
+    // Get current normal user
     event.locals.getUser = async () => {
 
         const {
@@ -59,7 +59,7 @@ export const handle = async ({ event, resolve }) => {
     // Protect admin dashboard
     if (path.startsWith('/admin/dashboard')) {
 
-        // Adult must be logged in
+        // Normal user must be logged in
         if (!user) {
             throw redirect(303, '/');
         }
@@ -70,22 +70,22 @@ export const handle = async ({ event, resolve }) => {
             event.cookies.get('admin_session');
 
 
-        // Cookie doesn't exist
+        // No admin session
         if (!adminToken) {
             throw redirect(303, '/admin');
         }
 
 
-        // Verify token
+        // Verify admin session
         const adminSession =
             verifyAdminToken(adminToken);
 
 
-        // Token is invalid or expired
+        // Invalid or expired admin session
         if (!adminSession) {
 
             event.cookies.delete('admin_session', {
-                path: '/admin/dashboard'
+                path: '/'
             });
 
             throw redirect(303, '/admin');
@@ -93,16 +93,7 @@ export const handle = async ({ event, resolve }) => {
     }
 
 
-    // Admin session is only valid while accessing the dashboard
-    if (!path.startsWith('/admin/dashboard')) {
-        event.cookies.delete('admin_session', {
-            path: '/admin/dashboard'
-        });
-    }
-
-
-
-    // Protect normal user routes
+    // Normal user routes
     if (path.startsWith('/booklet') && !user) {
         throw redirect(303, '/');
     }

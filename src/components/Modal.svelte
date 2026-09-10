@@ -24,6 +24,7 @@
 	{@render children?.()}
 
 	<button
+	    type="button"
 		onclick={() => dialog.close()}
 		aria-label="Close"
 		class="modal-btn-close"
@@ -33,8 +34,8 @@
 
 <style>
 	dialog {
-		width: 15rem;
-		height: 15rem;
+		width: 25rem;
+		height: 25rem;
 		border-radius: 0.2em;
 		padding: 1rem;
 		border: 2px solid var(--primary);

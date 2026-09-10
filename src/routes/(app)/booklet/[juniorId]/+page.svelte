@@ -1,12 +1,12 @@
 <script>
-    import Welcome from "../../../components/Welcome.svelte";
-    import TableBody from "../../../components/Table/TableBody.svelte";
-    import Header from "../../../components/Header.svelte";
+    import Welcome from "../../../../components/Welcome.svelte";
+    import TableBody from "../../../../components/Table/TableBody.svelte";
+    import Header from "../../../../components/Header.svelte";
 
     let { data } = $props();
 </script>
 
-<Header />
+
 
 <Welcome
     activities={data.activities}

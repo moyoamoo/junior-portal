@@ -1,4 +1,5 @@
-import { fail } from '@sveltejs/kit';
+
+import { fail, redirect } from '@sveltejs/kit';
 import { createClient } from '@supabase/supabase-js';
 
 import {
@@ -10,11 +11,10 @@ import { SUPABASE_SERVICE_ROLE_KEY } from '$env/static/private';
 
 import { ADMIN_MODE_DURATION } from '$lib/server/adminMode';
 
-
 export const actions = {
     login: async ({ request, locals, cookies }) => {
 
-        // Make sure a normal user is currently logged in
+        // Make sure the normal user is logged in
         const normalUser = await locals.getUser();
 
         if (!normalUser) {
@@ -23,23 +23,32 @@ export const actions = {
             });
         }
 
-
-        // Get the credentials submitted by the modal form
         const formData = await request.formData();
 
         const email = formData.get('email');
         const password = formData.get('password');
+        const returnTo = formData.get('returnTo');
 
-
+        // Validate the submitted credentials
         if (!email || !password) {
             return fail(400, {
                 message: 'Please enter an email and password.'
             });
         }
 
+        // Only allow redirects to local routes
+        const safeReturnTo =
+            typeof returnTo === 'string' &&
+                returnTo.startsWith('/') &&
+                !returnTo.startsWith('//')
+                ? returnTo
+                : '/juniors';
 
-        //Create a separate Supabase Auth client.
-        
+        // Create a completely separate client for
+        // authenticating the Admin Mode account.
+        //
+        // This client does not persist the Admin Mode
+        // authentication session.
         const adminAuthClient = createClient(
             PUBLIC_SUPABASE_URL,
             PUBLIC_SUPABASE_PUBLISHABLE_KEY,
@@ -47,13 +56,18 @@ export const actions = {
                 auth: {
                     persistSession: false,
                     autoRefreshToken: false,
-                    detectSessionInUrl: false
+                    detectSessionInUrl: false,
+                    storage: {
+                        getItem: () => null,
+                        setItem: () => {},
+                        removeItem: () => {}
+                    }
                 }
             }
         );
 
-
-        // Authenticate the Admin Mode account
+        // Authenticate the account entered into
+        // the Admin Mode modal
         const {
             data: authData,
             error: authError
@@ -62,16 +76,20 @@ export const actions = {
             password
         });
 
-
         if (authError || !authData.user) {
+            console.error(
+                'Admin Mode auth error:',
+                authError
+            );
+
             return fail(401, {
-                message: 'Invalid Admin Mode credentials.'
+                message:
+                    authError?.message ??
+                    'Invalid Admin Mode credentials.'
             });
         }
 
-
-        //Create a server-side Supabase client using the service-role key.
-       
+        // Create the privileged server-side client
         const adminSupabase = createClient(
             PUBLIC_SUPABASE_URL,
             SUPABASE_SERVICE_ROLE_KEY,
@@ -82,8 +100,8 @@ export const actions = {
             }
         );
 
-
-        // Check the Admin Mode user's profile
+        // Check the role of the account entered
+        // into the Admin Mode modal
         const {
             data: profile,
             error: profileError
@@ -93,27 +111,25 @@ export const actions = {
             .eq('id', authData.user.id)
             .single();
 
-
+        // Only an admin_mode account is allowed
         if (
             profileError ||
             !profile ||
             profile.role !== 'admin_mode'
         ) {
-            await adminAuthClient.auth.signOut();
-
             return fail(403, {
-                message: 'This account does not have Admin Mode access.'
+                message:
+                    'This account does not have Admin Mode access.'
             });
         }
 
-
-        // Calculate the Admin Mode expiry time
+        // Calculate when the temporary Admin Mode
+        // session will expire
         const expiresAt = new Date(
             Date.now() + ADMIN_MODE_DURATION * 1000
         ).toISOString();
 
-
-        //temp admin mode session
+        // Create the temporary Admin Mode session
         const {
             data: adminModeSession,
             error: sessionError
@@ -127,10 +143,7 @@ export const actions = {
             .select('id, expires_at')
             .single();
 
-
         if (sessionError || !adminModeSession) {
-            await adminAuthClient.auth.signOut();
-
             console.error(
                 'Admin Mode session error:',
                 sessionError
@@ -141,26 +154,84 @@ export const actions = {
             });
         }
 
+        // Store the temporary session ID
+        // in a secure cookie
+        cookies.set(
+            'admin_mode_session',
+            adminModeSession.id,
+            {
+                path: '/',
+                httpOnly: true,
+                secure: true,
+                sameSite: 'strict',
+                maxAge: ADMIN_MODE_DURATION
+            }
+        );
 
-        // Store the temporary session ID in the browser.
+        // IMPORTANT:
+        // Do NOT call adminAuthClient.auth.signOut().
+        //
+        // The Admin Mode client is already configured
+        // with persistSession: false, so it does not
+        // persist this authentication session.
+        //
+        // Most importantly, we must never sign out
+        // the normal user's Supabase session.
 
-        cookies.set('admin_mode_session', adminModeSession.id, {
-            path: '/',
-            httpOnly: true,
-            secure: true,
-            sameSite: 'strict',
-            maxAge: ADMIN_MODE_DURATION
+        // Return to the page the user was originally on
+        throw redirect(303, safeReturnTo);
+    },
+
+    logout: async ({ request, locals, cookies }) => {
+
+        // Make sure the normal user is logged in
+        const normalUser = await locals.getUser();
+
+        if (!normalUser) {
+            throw redirect(303, '/');
+        }
+
+        const formData = await request.formData();
+
+        const returnTo = formData.get('returnTo');
+
+        // Only allow redirects to local routes
+        const safeReturnTo =
+            typeof returnTo === 'string' &&
+                returnTo.startsWith('/') &&
+                !returnTo.startsWith('//')
+                ? returnTo
+                : '/juniors';
+
+        const sessionId = cookies.get('admin_mode_session');
+
+        if (sessionId) {
+
+            // Create the privileged server-side client
+            const adminSupabase = createClient(
+                PUBLIC_SUPABASE_URL,
+                SUPABASE_SERVICE_ROLE_KEY,
+                {
+                    auth: {
+                        persistSession: false
+                    }
+                }
+            );
+
+            // Delete only this user's Admin Mode session
+            await adminSupabase
+                .from('admin_mode_sessions')
+                .delete()
+                .eq('id', sessionId)
+                .eq('user_id', normalUser.id);
+        }
+
+        // Remove the Admin Mode cookie
+        cookies.delete('admin_mode_session', {
+            path: '/'
         });
 
-
-        // Sign out of the temporary Auth client.
-        // This does NOT sign out the normal user.
-        await adminAuthClient.auth.signOut();
-
-
-        return {
-            success: true,
-            expiresAt: adminModeSession.expires_at
-        };
+        // Return to the page the user was on
+        throw redirect(303, safeReturnTo);
     }
 };
