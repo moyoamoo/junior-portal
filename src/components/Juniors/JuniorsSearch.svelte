@@ -1,9 +1,10 @@
 <script>
     import logo from "$lib/assets/codeninjas.png";
+    import AddButton from "./AddButton.svelte";
     import JuniorImage from "./JuniorImage.svelte";
     import Juniors from "./Juniors.svelte";
 
-    let { users } = $props();
+    let { users, adminMode } = $props();
     let search = $state("");
     let selectedStripe = $state("");
 
@@ -63,6 +64,10 @@
             bind:value={() => search, (s) => (search = s.toLowerCase())}
         />
     </div>
+
+    {#if adminMode}
+        <AddButton />
+    {/if}
 </section>
 
 <Juniors {foundJuniors} />

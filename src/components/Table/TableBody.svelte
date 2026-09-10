@@ -261,10 +261,11 @@
 
     .modal-textarea {
         height: 70%;
-        width: 10rem;
+        width: 20rem;
         border: 2px solid var(--primary);
         margin-bottom: 1rem;
         padding: 1rem;
+             border-radius: 6px;
     }
 
     .modal-textarea:hover,
@@ -277,18 +278,22 @@
     }
     */
     .modal-btn {
-        width: 10rem;
-        border: 2px solid var(--primary);
-        height: 3rem;
-        background-color: var(--stripe-primary);
+       background-color: var(--stripe-primary);
         color: var(--secondary);
-        font-weight: bold;
+        outline: none;
+         border: 2px solid var(--primary);
+        font-size: 1rem;
         font-family: "Comfortaa", sans-serif;
+        cursor: pointer;
+        width: 80%;
+        height: 40px;
+        border-radius: 6px;
     }
 
     .modal-btn:hover,
     .modal-btn:focus {
         box-shadow: 4px 4px 0px var(--primary);
+        background-color: var(--stripe-hover);
     }
 
     /* =================================

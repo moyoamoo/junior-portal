@@ -1,5 +1,5 @@
 <script>
-    import AddJunior from "./AddJunior.svelte";
+    import AddJunior from "../Juniors/AddJunior.svelte";
     import DeleteJunior from "./DeleteJunior.svelte";
     import EditJunior from "./EditJunior.svelte";
     import RestoreJunior from "./RestoreJunior.svelte";

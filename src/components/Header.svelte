@@ -124,6 +124,7 @@
     .admin-mode p {
         text-align: center;
         margin-bottom: 1rem;
+        color: var(--code-ninjas-blue-dark);
     }
     .admin-mode form {
         display: flex;
@@ -142,10 +143,17 @@
         padding: 0.7rem;
         background-color: var(--primary);
         color: white;
-        border: none;
+                 border: 2px solid var(--primary);
+
         border-radius: 6px;
         cursor: pointer;
         font-family: inherit;
+    }
+
+    .admin-mode form button:hover,
+    .admin-mode form button:focus {
+        box-shadow: 4px 4px 0px var(--primary);
+        background-color: var(--bold-blue);
     }
     .error-message {
         background-color: #ec8492;
