@@ -1,5 +1,5 @@
 <script>
-    import JuniorsSearch from "../../../components/Juniors/JuniorsSearch.svelte";
+    import JuniorsSearch from "../../../components/Juniors/JuniorMain.svelte";
 
     let {data} = $props()
 </script>
