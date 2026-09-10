@@ -38,7 +38,6 @@
       {juniorInfo.currentStripe} Stripe
     </h2>
   </div>
-  <img src={stripe.codey} alt={stripe.alt} class="welcome-img-codey" />
 </section>
 
 <style>
@@ -93,15 +92,6 @@
     color: var(--stripe-text);
   }
 
-  .welcome-img-codey {
-    position: absolute;
-    bottom: 0;
-    right: 7%;
-    width: 24%;
-    height: auto;
-    display: block;
-    z-index: 3;
-  }
 
   /* ---------------------------------
    320px - smaller phones
@@ -188,10 +178,6 @@
       font-size: 1.65rem;
     }
 
-    .welcome-img-codey {
-      width: 21%;
-      right: 7%;
-    }
 
      .welcome-img-stripe {
       width: 5rem;
@@ -258,12 +244,6 @@
 
     .welcome-section-text h2 {
       font-size: 2rem;
-    }
-
-    .welcome-img-codey {
-      width: 19%;
-      max-width: 190px;
-      right: 8%;
     }
 
     .welcome-img-stripe {

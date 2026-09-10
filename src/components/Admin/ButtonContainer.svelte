@@ -4,6 +4,7 @@
     import EditJunior from "./EditJunior.svelte";
     import RestoreJunior from "./RestoreJunior.svelte";
 
+    let { users } = $props();
     let activeTab = $state("Add");
 
     const selectTab = (tab) => {
@@ -55,11 +56,11 @@
     {#if activeTab === "Add"}
         <AddJunior />
     {:else if activeTab === "Edit"}
-        <EditJunior />
+        <EditJunior {users} />
     {:else if activeTab === "Delete"}
-        <DeleteJunior />
+        <DeleteJunior {users} />
     {:else if activeTab === "Delete"}
-        <RestoreJunior />
+        <RestoreJunior {users} />
     {/if}
 </section>
 

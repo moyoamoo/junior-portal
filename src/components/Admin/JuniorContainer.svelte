@@ -1,10 +1,11 @@
 <script>
     import ButtonContainer from "./ButtonContainer.svelte";
+    let {users} = $props();
 </script>
 
 <section class="junior-admin-container">
     <h2>Juniors</h2>
-    <ButtonContainer />
+    <ButtonContainer {users}/>
 </section>
 
 <style>

@@ -3,7 +3,7 @@
     import Checkbox from "./Checkbox.svelte";
     import Date from "./Date.svelte";
     import CommentBtn from "./CommentBtn.svelte";
-    import CommentModal from "./CommentModal.svelte";
+    import Modal from "../Modal.svelte";
     import { updateActivity, headings } from "$lib/utils";
     import ActivityRow from "./ActivityRow.svelte";
 
@@ -204,7 +204,7 @@
     </table>
 </section>
 
-<CommentModal bind:showModal>
+<Modal bind:showModal>
     <textarea
         class="modal-textarea"
         bind:value={commentText}
@@ -226,7 +226,7 @@
             }}>Save</button
         >
     {/if}
-</CommentModal>
+</Modal>
 
 <style>
     .table-container {
@@ -367,8 +367,8 @@
 
     @media (min-width: 1200px) {
         table {
-            width: 80%;
-            max-width: 1400px;
+            width: 70%;
+            max-width: 850px;
             font-size: 1rem;
         }
 

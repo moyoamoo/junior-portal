@@ -4,6 +4,8 @@ import {
     adminSupabase,
     verifyAdminToken
 } from '$lib/server/admin.js';
+import { sortAlphabetically } from "$lib/utils";
+
 
 
 export const load = async ({ locals, cookies, setHeaders }) => {
@@ -36,6 +38,7 @@ export const load = async ({ locals, cookies, setHeaders }) => {
         throw redirect(303, '/admin');
     }
 
+    let sortedUsers = []
 
     // Find admin in database
     const { data: profile, error } =
@@ -54,9 +57,28 @@ export const load = async ({ locals, cookies, setHeaders }) => {
 
         throw redirect(303, '/admin');
     }
+    //get juniors 
+    try {
+        const { data: users, error } = await locals.supabase
+            .from('Junior')
+            .select('juniorId:junior_id, firstName:first_name, lastName:last_name, currentStripe:current_stripe, active, dateCreated:created_at')
+            .eq('active', true)
+
+        if (error) {
+            console.error(error)
+            return { users: [] }
+        }
+
+        sortedUsers = sortAlphabetically(users);
+
+
+    } catch (error) {
+        console.log(error)
+    }
 
 
     return {
-        admin: true
+        admin: true,
+        users: sortedUsers
     };
 };
