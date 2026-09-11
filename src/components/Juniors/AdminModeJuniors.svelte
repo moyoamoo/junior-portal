@@ -1,4 +1,6 @@
 <script>
+    import ChangeStripeButton from "./ChangeStripeButton.svelte";
+
     let { foundJuniors } = $props();
 </script>
 
@@ -28,7 +30,7 @@
                                 </a>
                             </th>
 
-                            <td><button>{user.currentStripe}</button></td>
+                            <td><ChangeStripeButton currentStripe={user.currentStripe}/></td>
 
                             <td>
                                 <button>Active</button>
