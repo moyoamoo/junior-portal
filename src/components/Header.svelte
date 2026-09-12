@@ -90,29 +90,32 @@
 
 <style>
     header {
-        background-color: var(--code-ninjas-blue-dark);
-        height: 7vh;
+        background-color: var(--bold-blue);
+        height: 40px;
     }
     nav {
         height: 100%;
         display: flex;
         justify-content: right;
         align-items: center;
+        
     }
     nav button {
-        background-color: var(--code-ninjas-blue-dark);
+        background-color: transparent;
         color: var(--secondary);
         outline: none;
         border: none;
         font-size: 1rem;
         font-family: "Comfortaa", sans-serif;
         cursor: pointer;
+        font-weight: bold;
     }
     nav a {
         text-decoration: none;
         color: var(--secondary);
         padding: 1rem;
         font-size: 1rem;
+        font-weight: bold;
     }
     .admin-mode {
         width: 100%;
@@ -142,8 +145,8 @@
         margin-top: 0.5rem;
         padding: 0.7rem;
         background-color: var(--primary);
-        color: white;
-                 border: 2px solid var(--primary);
+        color: var(--secondary);
+        border: 2px solid var(--primary);
 
         border-radius: 6px;
         cursor: pointer;

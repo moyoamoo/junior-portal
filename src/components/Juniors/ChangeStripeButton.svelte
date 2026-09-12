@@ -1,8 +1,14 @@
 <script>
-    let { currentStripe, openModel } = $props();
+    let { junior, onclick } = $props();
 </script>
 
-<button type="button" class="change-stripe-btn" onclick={openModel}>{currentStripe}</button>
+<button
+    type="button"
+    class="change-stripe-btn"
+    onclick={() => {
+        onclick(junior);
+    }}>{junior.currentStripe}</button
+>
 
 <style>
     .change-stripe-btn {

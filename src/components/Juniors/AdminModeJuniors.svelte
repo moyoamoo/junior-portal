@@ -1,7 +1,17 @@
 <script>
+    import Modal from "../Modal.svelte";
     import ChangeStripeButton from "./ChangeStripeButton.svelte";
+    import ChangeStripeModal from "./ChangeStripeModal.svelte";
 
     let { foundJuniors } = $props();
+
+    let showChangeStripeModal = $state(false);
+    let selectedJunior = $state(null);
+
+    const openChangeStripeModal = (junior) => {
+        selectedJunior = junior;
+        showChangeStripeModal = true;
+    }
 </script>
 
 <section class="junior-container">
@@ -30,7 +40,12 @@
                                 </a>
                             </th>
 
-                            <td><ChangeStripeButton currentStripe={user.currentStripe}/></td>
+                            <td
+                                ><ChangeStripeButton
+                                    junior={user}
+                                    onclick={openChangeStripeModal}
+                                /></td
+                            >
 
                             <td>
                                 <button>Active</button>
@@ -47,13 +62,19 @@
     </div>
 </section>
 
+{#if selectedJunior}
+    <Modal bind:showModal={showChangeStripeModal}>
+        <ChangeStripeModal junior={selectedJunior} />
+    </Modal>
+{/if}
+
+
 <style>
     .junior-container {
         width: 80%;
         max-width: 800px;
         margin: 0 auto;
     }
-
 
     .table-wrapper {
         width: 90%;
@@ -115,7 +136,6 @@
     tr:nth-child(even) {
         background-color: #fcf8f3;
     }
-
 
     .table-scroll::-webkit-scrollbar {
         width: 10px;

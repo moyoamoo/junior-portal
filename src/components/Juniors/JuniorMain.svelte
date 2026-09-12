@@ -22,7 +22,7 @@
 
             const matchesStripe =
                 !selectedStripe ||
-                junior.currentStripe.toLowerCase() === selectedStripe;
+                junior.currentStripe === selectedStripe;
 
             return matchesName && matchesStripe;
         }),
