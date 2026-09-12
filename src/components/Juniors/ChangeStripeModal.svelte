@@ -50,7 +50,7 @@
         }
 
         message = {
-            message: `${junior.firstName} stripe has been chanegd to ${selectedStripe}!`,
+            message: `${junior.firstName}'s' stripe has been chanegd to ${selectedStripe}!`,
             submit: true,
         };
 
@@ -86,24 +86,4 @@
         width: 70%;
     }
 
-    .error-message {
-        background-color: #ec8492;
-        border-radius: 12px;
-    }
-
-    .success-message {
-        background-color: #88d4a3;
-        border-radius: 12px;
-        color: var(--primary);
-    }
-
-    .error-message p,
-    .success-message p {
-        text-align: center;
-        font-weight: bold;
-    }
-
-    .error-message p {
-        color: var(--secondary);
-    }
 </style>

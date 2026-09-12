@@ -1,17 +1,26 @@
 <script>
     import Modal from "../Modal.svelte";
-    import ChangeStripeButton from "./ChangeStripeButton.svelte";
+    import ChangeStripeBtn from "./ChangeStripeBtn.svelte";
     import ChangeStripeModal from "./ChangeStripeModal.svelte";
+    import DeleteJuniorBtn from "./DeleteJuniorBtn.svelte";
+    import DeleteJuniorModal from "./DeleteJuniorModal.svelte";
 
     let { foundJuniors } = $props();
 
     let showChangeStripeModal = $state(false);
+    let showDeleteModal = $state(false);
     let selectedJunior = $state(null);
 
     const openChangeStripeModal = (junior) => {
         selectedJunior = junior;
         showChangeStripeModal = true;
     }
+
+    const openDeleteModal = (junior) => {
+        selectedJunior = junior;
+        showDeleteModal = true;
+    }
+
 </script>
 
 <section class="junior-container">
@@ -41,7 +50,7 @@
                             </th>
 
                             <td
-                                ><ChangeStripeButton
+                                ><ChangeStripeBtn
                                     junior={user}
                                     onclick={openChangeStripeModal}
                                 /></td
@@ -52,7 +61,7 @@
                             </td>
 
                             <td>
-                                <button>Delete</button>
+                       <DeleteJuniorBtn  junior={user} onclick={openDeleteModal}/>
                             </td>
                         </tr>
                     {/each}
@@ -65,6 +74,10 @@
 {#if selectedJunior}
     <Modal bind:showModal={showChangeStripeModal}>
         <ChangeStripeModal junior={selectedJunior} />
+    </Modal>
+
+      <Modal bind:showModal={showDeleteModal}>
+        <DeleteJuniorModal junior={selectedJunior} />
     </Modal>
 {/if}
 
