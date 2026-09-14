@@ -34,9 +34,8 @@
         selectedActivity = null;
     };
 
-  // toggle completed activity in database
-    const handleComplete = async (activityId, newCompleted) => {
-        console.log(adminMode)
+    //change date in admin mode
+    const handleDateChange = async (activityId, newDateCompleted) => {
         const activity = tableActivities.find(
             (activity) => activity.activityId === activityId,
         );
@@ -45,14 +44,47 @@
             return;
         }
 
-        if (!adminMode && activity.completed) { 
-            return; 
+        const oldDateCompleted = activity.dateCompleted;
+
+        // toggle the UI immediately
+        tableActivities = updateActivity(tableActivities, activityId, {
+            dateCompleted: newDateCompleted,
+        });
+
+        const { error } = await supabase
+            .from("CompletedTasks")
+            .update({ date_completed: newDateCompleted })
+            .eq("junior_id", juniorId)
+            .eq("activity_id", activityId);
+
+        // if error revert back
+        if (error) {
+            console.error("Failed to update date:", error);
+
+            tableActivities = updateActivity(tableActivities, activityId, {
+                dateCompleted: oldDateCompleted,
+            });
+        }
+    };
+
+    // toggle completed activity in database
+    const handleComplete = async (activityId, newCompleted) => {
+        console.log(adminMode);
+        const activity = tableActivities.find(
+            (activity) => activity.activityId === activityId,
+        );
+
+        if (!activity) {
+            return;
+        }
+
+        if (!adminMode && activity.completed) {
+            return;
         }
 
         // save current state in case state has to go back
         const oldCompleted = activity.completed;
         const oldDateCompleted = activity.dateCompleted;
-        
 
         // toggle the UI immediately
         tableActivities = updateActivity(tableActivities, activityId, {
@@ -147,15 +179,13 @@
         const trimmedComment = commentText.trim();
 
         if (trimmedComment === "") {
-
-
             const { data, error } = await supabase
                 .from("TaskComments")
                 .delete()
                 .eq("activity_id", selectedActivity.activityId)
                 .eq("junior_id", juniorId)
-                .select()
-        
+                .select();
+
             if (error) {
                 console.error("Failed to delete comment:", error);
                 return;
@@ -188,7 +218,6 @@
             return;
         }
 
-
         //update state
         tableActivities = updateActivity(
             tableActivities,
@@ -220,6 +249,7 @@
                     {adminMode}
                     onComment={() => openCommentModal(activity)}
                     {handleComplete}
+                    {handleDateChange}
                 />
             {/each}
         </tbody>
@@ -287,7 +317,7 @@
         border: 2px solid var(--primary);
         margin-bottom: 1rem;
         padding: 1rem;
-             border-radius: 6px;
+        border-radius: 6px;
     }
 
     .modal-textarea:hover,
@@ -300,10 +330,10 @@
     }
     */
     .modal-btn {
-       background-color: var(--stripe-primary);
+        background-color: var(--stripe-primary);
         color: var(--secondary);
         outline: none;
-         border: 2px solid var(--primary);
+        border: 2px solid var(--primary);
         font-size: 1rem;
         font-family: "Comfortaa", sans-serif;
         cursor: pointer;

@@ -3,7 +3,7 @@
     import Date from "./Date.svelte";
     import CommentBtn from "./CommentBtn.svelte";
 
-    let { activity, juniorId, theme, onComment, handleComplete, adminMode } = $props();
+    let { activity, juniorId, theme, onComment, handleComplete, adminMode, handleDateChange } = $props();
 </script>
 
 <tr>
@@ -12,7 +12,7 @@
     <td>{activity.activityType}</td>
     <CommentBtn comment={activity.comment} onclick={onComment} />
 
-    <Date {activity} />
+    <Date {activity} {adminMode} onDateChange={handleDateChange}/>
 
     <Checkbox
         {activity}
