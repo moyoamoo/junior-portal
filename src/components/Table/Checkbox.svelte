@@ -1,67 +1,76 @@
 <script>
     import confetti from "canvas-confetti";
-    let { activity, theme, onComplete } = $props();
+    let { activity, theme, onComplete, adminMode } = $props();
 
     let checkboxColour = $derived(theme["--stripe-primary"] || "#C77E0A");
 
-    function handleClick(event) {
-        // Get the position of the checkbox
-        const rect = event.currentTarget
-            .closest(".container")
-            .getBoundingClientRect();
+    const handleClick = (event) => {
+        const newCompleted = !activity.completed;
 
-        // Convert the checkbox position into canvas-confetti coordinates
-        const x = (rect.left + rect.width / 2) / window.innerWidth;
-        const y = (rect.top + rect.height / 2) / window.innerHeight;
+        if (!adminMode && activity.completed) {
+            return;
+        }
 
-        const colors = [
-            "#FF595E",
-            "#FFCA3A",
-            "#8AC926",
-            "#1982C4",
-            "#6A4C93",
-            "#FF70A6",
-            "#00C2A8",
-        ];
+        if (!adminMode) {
+            // Get the position of the checkbox
+            const rect = event.currentTarget
+                .closest(".container")
+                .getBoundingClientRect();
 
-        // First burst
-        confetti({
-            particleCount: 35,
-            spread: 70,
-            startVelocity: 25,
-            gravity: 0.8,
-            ticks: 180,
-            colors,
-            origin: {
-                x,
-                y,
-            },
-        });
+            // Convert the checkbox position into canvas-confetti coordinates
+            const x = (rect.left + rect.width / 2) / window.innerWidth;
+            const y = (rect.top + rect.height / 2) / window.innerHeight;
 
-        // Second, smaller burst
-        setTimeout(() => {
+            const colors = [
+                "#FF595E",
+                "#FFCA3A",
+                "#8AC926",
+                "#1982C4",
+                "#6A4C93",
+                "#FF70A6",
+                "#00C2A8",
+            ];
+
+            // First burst
             confetti({
-                particleCount: 25,
-                spread: 100,
-                startVelocity: 18,
-                gravity: 0.7,
-                ticks: 200,
+                particleCount: 35,
+                spread: 70,
+                startVelocity: 25,
+                gravity: 0.8,
+                ticks: 180,
                 colors,
                 origin: {
                     x,
                     y,
                 },
             });
-        }, 100);
-        onComplete();
-    }
+
+            // Second, smaller burst
+            setTimeout(() => {
+                confetti({
+                    particleCount: 25,
+                    spread: 100,
+                    startVelocity: 18,
+                    gravity: 0.7,
+                    ticks: 200,
+                    colors,
+                    origin: {
+                        x,
+                        y,
+                    },
+                });
+            }, 100);
+        }
+
+        onComplete(newCompleted);
+    };
 </script>
 
 <td class="completed">
     <label class="container" style={`--stripe-checkmark-bg: ${checkboxColour}`}>
         <input
             type="checkbox"
-            disabled={activity.completed}
+            disabled={activity.completed && !adminMode}
             checked={activity.completed}
             onclick={handleClick}
         />
@@ -135,7 +144,7 @@
         height: 0.5em;
         border: solid white;
         border-width: 0 0.15em 0.15em 0;
-       /*box-shadow: 0.1em 0.1em 0em 0 rgba(0, 0, 0, 0.3);*/
+        /*box-shadow: 0.1em 0.1em 0em 0 rgba(0, 0, 0, 0.3);*/
         transform: rotate(45deg);
     }
 </style>

@@ -7,7 +7,7 @@
     import { updateActivity, headings } from "$lib/utils";
     import ActivityRow from "./ActivityRow.svelte";
 
-    let { activities = $bindable(), juniorId, theme } = $props();
+    let { activities = $bindable(), juniorId, theme, adminMode } = $props();
 
     let tableActivities = $state(activities);
     let commentText = $state("");
@@ -34,8 +34,9 @@
         selectedActivity = null;
     };
 
-    //add completed activity to database
-    const handleComplete = async (activityId) => {
+  // toggle completed activity in database
+    const handleComplete = async (activityId, newCompleted) => {
+        console.log(adminMode)
         const activity = tableActivities.find(
             (activity) => activity.activityId === activityId,
         );
@@ -44,27 +45,46 @@
             return;
         }
 
-        //save current state in case state has to go back
+        if (!adminMode && activity.completed) { 
+            return; 
+        }
+
+        // save current state in case state has to go back
         const oldCompleted = activity.completed;
         const oldDateCompleted = activity.dateCompleted;
+        
 
+        // toggle the UI immediately
         tableActivities = updateActivity(tableActivities, activityId, {
-            completed: true,
+            completed: newCompleted,
+            dateCompleted: newCompleted ? activity.dateCompleted : null,
         });
 
-        //add to completed task from table in database
-        const { data, error } = await supabase
-            .from("CompletedTasks")
-            .insert({
-                junior_id: juniorId,
-                activity_id: activity.activityId,
-            })
-            .select("dateCompleted:date_completed")
-            .single();
+        let data;
+        let error;
 
-        //if error revert back
+        if (newCompleted) {
+            // add completed task to database
+            ({ data, error } = await supabase
+                .from("CompletedTasks")
+                .insert({
+                    junior_id: juniorId,
+                    activity_id: activity.activityId,
+                })
+                .select("dateCompleted:date_completed")
+                .single());
+        } else {
+            // delete completed task from database
+            ({ error } = await supabase
+                .from("CompletedTasks")
+                .delete()
+                .eq("junior_id", juniorId)
+                .eq("activity_id", activity.activityId));
+        }
+
+        // if error revert back
         if (error) {
-            console.error("Failed to mark as complete:", error);
+            console.error("Failed to toggle completion:", error);
 
             tableActivities = updateActivity(tableActivities, activityId, {
                 completed: oldCompleted,
@@ -74,11 +94,13 @@
             return;
         }
 
-        //update state
-        tableActivities = updateActivity(tableActivities, activityId, {
-            completed: true,
-            dateCompleted: data.dateCompleted,
-        });
+        // update state with completion date
+        if (newCompleted) {
+            tableActivities = updateActivity(tableActivities, activityId, {
+                completed: true,
+                dateCompleted: data.dateCompleted,
+            });
+        }
     };
 
     //add comment to database from modal
@@ -166,7 +188,6 @@
             return;
         }
 
-        console.log("Comment updated:", data);
 
         //update state
         tableActivities = updateActivity(
@@ -196,6 +217,7 @@
                 <ActivityRow
                     {theme}
                     {activity}
+                    {adminMode}
                     onComment={() => openCommentModal(activity)}
                     {handleComplete}
                 />

@@ -1,5 +1,6 @@
 <script>
     import { supabase } from "$lib/supabaseClient";
+    import Message from "./Message.svelte";
     import StripeSelect from "./StripeSelect.svelte";
     import SubmitBtn from "./SubmitBtn.svelte";
 
@@ -59,11 +60,7 @@
 </script>
 
 <div class="modal-comtainer">
-    {#if message.message}
-        <div class={message.submit ? "success-message" : "error-message"}>
-            <p>{message.message}</p>
-        </div>
-    {/if}
+ <Message {message}/>
 
     <form class="add-junior-form" onsubmit={changeStripe}>
         <p>{junior.firstName}'s current stripe: {junior.currentStripe}</p>

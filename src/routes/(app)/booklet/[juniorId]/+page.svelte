@@ -17,4 +17,5 @@
     activities={data.activities}
     juniorId={data.user.juniorId}
     theme={data.theme}
+    adminMode={data.adminMode}
 />

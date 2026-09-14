@@ -11,12 +11,12 @@
     <style>
 
     .error-message {
-        background-color: #ec8492;
+        background-color: var(--error);
         border-radius: 12px;
     }
 
     .success-message {
-        background-color: #88d4a3;
+        background-color: var(--success);
         border-radius: 12px;
         color: var(--primary);
     }
