@@ -1,5 +1,6 @@
 <script>
     import Modal from "../Modal.svelte";
+    import { supabase } from "$lib/supabaseClient";
     import ChangeStripeBtn from "./ChangeStripeBtn.svelte";
     import ChangeStripeModal from "./ChangeStripeModal.svelte";
     import DeleteJuniorBtn from "./DeleteJuniorBtn.svelte";
@@ -14,13 +15,27 @@
     const openChangeStripeModal = (junior) => {
         selectedJunior = junior;
         showChangeStripeModal = true;
-    }
+    };
 
     const openDeleteModal = (junior) => {
         selectedJunior = junior;
         showDeleteModal = true;
-    }
+    };
+    const changeActiveStatus = async (junior) => {
+        let status = !junior.active;
+        const { data, error } = await supabase
+            .from("Junior")
+            .update({ active: status })
+            .eq("junior_id", junior.juniorId)
+            .select()
+            .single();
 
+        if (error) {
+            console.error("Failed to change active status", error);
+            return;
+        }
+
+    };
 </script>
 
 <section class="junior-container">
@@ -37,31 +52,39 @@
                 </thead>
 
                 <tbody>
-                    {#each foundJuniors as user (user.juniorId)}
+                    {#each foundJuniors as junior (junior.juniorId)}
                         <tr>
                             <th scope="row">
                                 <a
-                                    href="/booklet/{user.juniorId}"
+                                    href="/booklet/{junior.juniorId}"
                                     class="junior-link"
                                 >
-                                    {user.firstName}
-                                    {user.lastName}
+                                    {junior.firstName}
+                                    {junior.lastName}
                                 </a>
                             </th>
 
                             <td
                                 ><ChangeStripeBtn
-                                    junior={user}
+                                    {junior}
                                     onclick={openChangeStripeModal}
                                 /></td
                             >
-
                             <td>
-                                <button>Active</button>
+                                <button
+                                    onclick={() => {
+                                        changeActiveStatus(junior);
+                                    }}
+                                    >{junior.active
+                                        ? "Deactivate"
+                                        : "Activate"}</button
+                                >
                             </td>
-
                             <td>
-                       <DeleteJuniorBtn  junior={user} onclick={openDeleteModal}/>
+                                <DeleteJuniorBtn
+                                    {junior}
+                                    onclick={openDeleteModal}
+                                />
                             </td>
                         </tr>
                     {/each}
@@ -76,11 +99,10 @@
         <ChangeStripeModal junior={selectedJunior} />
     </Modal>
 
-      <Modal bind:showModal={showDeleteModal}>
+    <Modal bind:showModal={showDeleteModal}>
         <DeleteJuniorModal junior={selectedJunior} />
     </Modal>
 {/if}
-
 
 <style>
     .junior-container {

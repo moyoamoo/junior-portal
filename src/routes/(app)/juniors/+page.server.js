@@ -9,8 +9,7 @@ export async function load({locals}) {
         const { data: users, error } = await locals.supabase
             .from('Junior')
             .select('juniorId:junior_id, firstName:first_name, lastName:last_name, currentStripe:current_stripe, active')
-            .eq('active', true)
-
+                
         if (error) {
             console.error(error)
             return { users: [] }
