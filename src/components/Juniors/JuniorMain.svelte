@@ -9,11 +9,12 @@
 
     let search = $state("");
     let selectedStripe = $state("");
+    let selectedActive = $state("");
     let showModal = $state(false);
 
     let foundJuniors = $derived(
         users.filter((junior) => {
-            console.log(junior)
+            console.log(junior);
             const name = `${junior.firstName} ${junior.lastName}`
                 .toLowerCase()
                 .replaceAll(" ", "");
@@ -26,7 +27,11 @@
                 !selectedStripe || junior.currentStripe === selectedStripe;
 
             // Can only see active juniors in admin mode
-            const matchesActive = adminMode || junior.active;
+            const matchesActive =
+                !adminMode ||
+                !selectedActive ||
+                (selectedActive === "active" && junior.active) ||
+                (selectedActive === "inactive" && !junior.active);
 
             return matchesName && matchesStripe && matchesActive;
         }),
@@ -39,6 +44,7 @@
     <JuniorSearch
         bind:search
         bind:selectedStripe
+        bind:selectedActive
         {adminMode}
         onAdd={() => (showModal = true)}
     />

@@ -1,10 +1,12 @@
 <script>
     import AddButton from "./AddButton.svelte";
     import StripeSelect from "./StripeSelect.svelte";
+    import ActiveSelect from "./ActiveSelect.svelte";
 
     let {
         search = $bindable(""),
         selectedStripe = $bindable(""),
+        selectedActive = $bindable(""),
         adminMode,
         onAdd,
     } = $props();
@@ -29,6 +31,11 @@
 </div>
 
 {#if adminMode}
+    <div class="junior-sort-container">
+        <label for="sort-by-active">Sort by Status</label>
+
+        <ActiveSelect bind:value={selectedActive} />
+    </div>
     <AddButton onclick={onAdd} />
 {/if}
 
@@ -56,7 +63,7 @@
         border-radius: 12px;
     }
 
-    .junior-searchbar:focus, 
+    .junior-searchbar:focus,
     .junior-searchbar:hover {
         box-shadow: 4px 4px 0px var(--primary);
     }
