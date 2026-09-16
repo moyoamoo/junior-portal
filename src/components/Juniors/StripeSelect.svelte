@@ -1,5 +1,4 @@
 <script>
-    import { capitalise } from "$lib/utils";
 
     let { value = $bindable("") } = $props();
 
@@ -18,7 +17,7 @@
 
     {#each stripes as stripe}
         <option value={stripe}>
-            {capitalise(stripe)}
+            {stripe}
         </option>
     {/each}
 </select>

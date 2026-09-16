@@ -4,6 +4,7 @@
     import AddJuniorModal from "./AddJuniorModal.svelte";
     import Juniors from "./Juniors.svelte";
     import AdminModeJuniors from "./AdminModeJuniors.svelte";
+    import DeleteJuniorBtn from "./DeleteJuniorBtn.svelte";
     let { users, adminMode } = $props();
 
     let search = $state("");
@@ -12,6 +13,7 @@
 
     let foundJuniors = $derived(
         users.filter((junior) => {
+            console.log(junior)
             const name = `${junior.firstName} ${junior.lastName}`
                 .toLowerCase()
                 .replaceAll(" ", "");
@@ -21,10 +23,12 @@
             const matchesName = name.includes(searchTerm);
 
             const matchesStripe =
-                !selectedStripe ||
-                junior.currentStripe === selectedStripe;
+                !selectedStripe || junior.currentStripe === selectedStripe;
 
-            return matchesName && matchesStripe;
+            // Can only see active juniors in admin mode
+            const matchesActive = adminMode || junior.active;
+
+            return matchesName && matchesStripe && matchesActive;
         }),
     );
 </script>
@@ -42,7 +46,7 @@
 {#if !adminMode}
     <Juniors {foundJuniors} />
 {:else}
-    <AdminModeJuniors {foundJuniors}/>
+    <AdminModeJuniors {foundJuniors} />
 {/if}
 
 {#if adminMode}
