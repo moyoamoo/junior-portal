@@ -34,6 +34,6 @@
     }}
 />
 
-{#if allComplete && !data.adminMode}
-    <UpgradeStripeBtn />
+{#if allComplete && !data.adminMode && data.user.currentStripe != "Zebra"}
+    <UpgradeStripeBtn juniorId={data.user.juniorId} />
 {/if}

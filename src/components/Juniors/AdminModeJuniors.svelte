@@ -14,6 +14,11 @@
     let selectedJunior = $state(null);
     let tableJuniors = $state(foundJuniors);
 
+    // Keep local state in sync with search and sorting
+    $effect(() => {
+        tableJuniors = foundJuniors;
+    });
+
     const openChangeStripeModal = (junior) => {
         selectedJunior = junior;
         showChangeStripeModal = true;
