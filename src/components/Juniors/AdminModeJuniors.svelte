@@ -5,12 +5,14 @@
     import ChangeStripeModal from "./ChangeStripeModal.svelte";
     import DeleteJuniorBtn from "./DeleteJuniorBtn.svelte";
     import DeleteJuniorModal from "./DeleteJuniorModal.svelte";
+    import { updateJunior } from "$lib/utils";
 
     let { foundJuniors } = $props();
 
     let showChangeStripeModal = $state(false);
     let showDeleteModal = $state(false);
     let selectedJunior = $state(null);
+    let tableJuniors = $state(foundJuniors);
 
     const openChangeStripeModal = (junior) => {
         selectedJunior = junior;
@@ -21,20 +23,33 @@
         selectedJunior = junior;
         showDeleteModal = true;
     };
-    const changeActiveStatus = async (junior) => {
-        let status = !junior.active;
-        const { data, error } = await supabase
-            .from("Junior")
-            .update({ active: status })
-            .eq("junior_id", junior.juniorId)
-            .select()
-            .single();
 
+    //toggle active status of juniors 
+    const changeActiveStatus = async (junior) => {
+        const newStatus = !junior.active;
+
+        // Save the old state in case of an error
+        const oldStatus = junior.active;
+
+        // Update the UI immediately
+        tableJuniors = updateJunior(tableJuniors, junior.juniorId, {
+            active: newStatus,
+        });
+
+        // Change status in subabase
+        const { error } = await supabase
+            .from("Junior")
+            .update({ active: newStatus })
+            .eq("junior_id", junior.juniorId);
+
+        // Revert if database update fails
         if (error) {
             console.error("Failed to change active status", error);
-            return;
-        }
 
+            tableJuniors = updateJunior(tableJuniors, junior.juniorId, {
+                active: oldStatus,
+            });
+        }
     };
 </script>
 
@@ -52,7 +67,7 @@
                 </thead>
 
                 <tbody>
-                    {#each foundJuniors as junior (junior.juniorId)}
+                    {#each tableJuniors as junior (junior.juniorId)}
                         <tr>
                             <th scope="row">
                                 <a

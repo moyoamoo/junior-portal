@@ -1,5 +1,4 @@
 <script>
-
     let { value = $bindable("") } = $props();
 
     const stripes = [
@@ -12,7 +11,7 @@
     ];
 </script>
 
-<select bind:value class="junior-stripe-select ">
+<select bind:value class="junior-stripe-select">
     <option value="">Choose a Stripe</option>
 
     {#each stripes as stripe}
@@ -33,7 +32,8 @@
         border-radius: 12px;
     }
 
-    .junior-stripe-select:focus {
+    .junior-stripe-select:focus,
+    .junior-stripe-select:hover {
         box-shadow: 4px 4px 0px var(--primary);
     }
 </style>

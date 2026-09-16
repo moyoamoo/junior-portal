@@ -2,12 +2,21 @@ export function formatDate(date) {
     return new Date(date).toLocaleDateString("en-GB");
 }
 
-//update the actitivies in the table
+//update the actitivies in the table - local state 
 export function updateActivity(activities, activityId, changes) {
     return activities.map((activity) =>
         activity.activityId === activityId
             ? { ...activity, ...changes }
             : activity
+    );
+}
+
+// Update a junior in admin mode - local state
+export function updateJunior(juniors, juniorId, changes) {
+    return juniors.map((junior) =>
+        junior.juniorId === juniorId
+            ? { ...junior, ...changes }
+            : junior,
     );
 }
 
@@ -20,7 +29,6 @@ export const headings = [
     "Completed",
 
 ];
-
 
 //sort alphabetically
 export const sortAlphabetically = (users) => {
