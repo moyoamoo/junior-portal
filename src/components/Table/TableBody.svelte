@@ -9,7 +9,13 @@
         editCommentSupabase,
     } from "$lib/database/comments";
 
-    let { activities = $bindable(), juniorId, theme, adminMode } = $props();
+    let {
+        activities = $bindable(),
+        juniorId,
+        theme,
+        adminMode,
+        onActivitiesChange,
+    } = $props();
 
     let tableActivities = $state(activities);
     let commentText = $state("");
@@ -23,11 +29,19 @@
         tableActivities = activities;
     });
 
+    //update local state and notify parent
+    const updateTableActivities = (updatedActivities) => {
+        tableActivities = updatedActivities;
+        onActivitiesChange?.(updatedActivities);
+    };
+
     const updateSelectedActivity = (changes) => {
-        tableActivities = updateActivity(
-            tableActivities,
-            selectedActivity.activityId,
-            changes,
+        updateTableActivities(
+            updateActivity(
+                tableActivities,
+                selectedActivity.activityId,
+                changes,
+            ),
         );
     };
 
@@ -57,9 +71,11 @@
         const oldDateCompleted = activity.dateCompleted;
 
         // toggle the UI immediately
-        tableActivities = updateActivity(tableActivities, activityId, {
-            dateCompleted: newDateCompleted,
-        });
+        updateTableActivities(
+            updateActivity(tableActivities, activityId, {
+                dateCompleted: newDateCompleted,
+            }),
+        );
 
         const { error } = await supabase
             .from("CompletedTasks")
@@ -71,15 +87,16 @@
         if (error) {
             console.error("Failed to update date:", error);
 
-            tableActivities = updateActivity(tableActivities, activityId, {
-                dateCompleted: oldDateCompleted,
-            });
+            updateTableActivities(
+                updateActivity(tableActivities, activityId, {
+                    dateCompleted: oldDateCompleted,
+                }),
+            );
         }
     };
 
     // toggle completed activity in database
     const handleComplete = async (activityId, newCompleted) => {
-        console.log(adminMode);
         const activity = tableActivities.find(
             (activity) => activity.activityId === activityId,
         );
@@ -97,10 +114,14 @@
         const oldDateCompleted = activity.dateCompleted;
 
         // toggle the UI immediately
-        tableActivities = updateActivity(tableActivities, activityId, {
-            completed: newCompleted,
-            dateCompleted: newCompleted ? activity.dateCompleted : null,
-        });
+        updateTableActivities(
+            updateActivity(tableActivities, activityId, {
+                completed: newCompleted,
+                dateCompleted: newCompleted
+                    ? activity.dateCompleted
+                    : null,
+            }),
+        );
 
         let data;
         let error;
@@ -128,20 +149,24 @@
         if (error) {
             console.error("Failed to toggle completion:", error);
 
-            tableActivities = updateActivity(tableActivities, activityId, {
-                completed: oldCompleted,
-                dateCompleted: oldDateCompleted,
-            });
+            updateTableActivities(
+                updateActivity(tableActivities, activityId, {
+                    completed: oldCompleted,
+                    dateCompleted: oldDateCompleted,
+                }),
+            );
 
             return;
         }
 
         // update state with completion date
         if (newCompleted) {
-            tableActivities = updateActivity(tableActivities, activityId, {
-                completed: true,
-                dateCompleted: data.dateCompleted,
-            });
+            updateTableActivities(
+                updateActivity(tableActivities, activityId, {
+                    completed: true,
+                    dateCompleted: data.dateCompleted,
+                }),
+            );
         }
     };
 
