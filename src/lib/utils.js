@@ -1,9 +1,10 @@
-export function formatDate(date) {
+export const formatDate = (date) => {
     return new Date(date).toLocaleDateString("en-GB");
 }
 
+
 //update the actitivies in the table - local state 
-export function updateActivity(activities, activityId, changes) {
+export const updateActivity = (activities, activityId, changes) => {
     return activities.map((activity) =>
         activity.activityId === activityId
             ? { ...activity, ...changes }
@@ -12,7 +13,7 @@ export function updateActivity(activities, activityId, changes) {
 }
 
 // Update a junior in admin mode - local state
-export function updateJunior(juniors, juniorId, changes) {
+export const updateJunior = (juniors, juniorId, changes) => {
     return juniors.map((junior) =>
         junior.juniorId === juniorId
             ? { ...junior, ...changes }
