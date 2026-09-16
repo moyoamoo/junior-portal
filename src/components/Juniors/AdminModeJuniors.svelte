@@ -24,7 +24,29 @@
         showDeleteModal = true;
     };
 
-    //toggle active status of juniors 
+    const closeDeleteModal = () => {
+        showDeleteModal = false;
+        selectedJunior = null;
+    };
+
+    // Update UI when stripe has been changed
+    const handleStripeChange = (juniorId, newStripe) => {
+        tableJuniors = updateJunior(tableJuniors, juniorId, {
+            currentStripe: newStripe,
+        });
+    };
+
+    // Update UI when junior has been deleted
+    const handleJuniorDelete = (juniorId) => {
+        tableJuniors = tableJuniors.filter(
+            (junior) => junior.juniorId !== juniorId,
+        );
+
+        showDeleteModal = false;
+        selectedJunior = null;
+    };
+
+    // Toggle active status of juniors
     const changeActiveStatus = async (junior) => {
         const newStatus = !junior.active;
 
@@ -111,11 +133,17 @@
 
 {#if selectedJunior}
     <Modal bind:showModal={showChangeStripeModal}>
-        <ChangeStripeModal junior={selectedJunior} />
+        <ChangeStripeModal
+            junior={selectedJunior}
+            onSuccess={handleStripeChange}
+        />
     </Modal>
-
     <Modal bind:showModal={showDeleteModal}>
-        <DeleteJuniorModal junior={selectedJunior} />
+        <DeleteJuniorModal
+            junior={selectedJunior}
+            onSuccess={handleJuniorDelete}
+            onClose={closeDeleteModal}
+        />
     </Modal>
 {/if}
 

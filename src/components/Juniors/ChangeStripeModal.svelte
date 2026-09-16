@@ -4,7 +4,7 @@
     import StripeSelect from "./StripeSelect.svelte";
     import SubmitBtn from "./SubmitBtn.svelte";
 
-    let { junior } = $props();
+    let { junior, onSuccess } = $props();
     let selectedStripe = $state("");
     let message = $state({
         message: "",
@@ -50,6 +50,9 @@
             return;
         }
 
+        // Update parent state
+        onSuccess(junior.juniorId, selectedStripe); 
+
         message = {
             message: `${junior.firstName}'s' stripe has been chanegd to ${selectedStripe}!`,
             submit: true,
@@ -60,7 +63,7 @@
 </script>
 
 <div class="modal-comtainer">
- <Message {message}/>
+    <Message {message} />
 
     <form class="add-junior-form" onsubmit={changeStripe}>
         <p>{junior.firstName}'s current stripe: {junior.currentStripe}</p>
@@ -82,5 +85,4 @@
         flex-direction: column;
         width: 70%;
     }
-
 </style>

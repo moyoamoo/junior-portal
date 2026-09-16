@@ -4,7 +4,7 @@
     import StripeSelect from "./StripeSelect.svelte";
     import SubmitBtn from "./SubmitBtn.svelte";
 
-    let { junior } = $props();
+    let { junior, onSuccess, onClose } = $props();
     let message = $state({
         message: "",
         submit: false,
@@ -20,6 +20,7 @@
     const deleteJunior = async (event) => {
         event.preventDefault();
 
+        // Delete junior from supabase
         const { error } = await supabase
             .from("Junior")
             .delete()
@@ -29,6 +30,7 @@
         if (error) {
             console.error("Failed to delete junior", error);
 
+            // Show failure message
             message = {
                 message: "Failed to delete junior",
                 submit: false,
@@ -37,10 +39,8 @@
             return;
         }
 
-        message = {
-            message: `${junior.firstName}'s' has been deleted!`,
-            submit: true,
-        };
+        // Remove junior from parent state
+        onSuccess(junior.juniorId);
     };
 </script>
 
@@ -50,8 +50,9 @@
     <p>
         Deactiviating a junior instead allows their information to be restored
     </p>
+
+    <button class="secondary-btn" onclick={onClose} type="button">No</button>
     <form action="" onsubmit={deleteJunior}>
-        <button class="secondary-btn">No</button>
         <button type="submit" class="submit-btn"
             >I'm sure, delete {junior.firstName}</button
         >
@@ -63,7 +64,7 @@
     .secondary-btn {
         margin-top: 0.5rem;
         padding: 0.7rem;
-        width:40%;
+        width: 40%;
         color: var(--secondary);
         border: 2px solid var(--primary);
         font-size: 1rem;
