@@ -2,13 +2,17 @@
     import Modal from "./Modal.svelte";
     import { enhance } from "$app/forms";
     import { page } from "$app/state";
-    
-    let { juniorId } = $props();
+
+    let { juniorId, theme } = $props();
     let showModal = $state(false);
     let errorMessage = $state("");
 </script>
 
-<button onclick={() => (showModal = true)}> Move to Next Stripe </button>
+<div class="move-stripe-btn-container">
+    <button class="move-stripe-btn" onclick={() => (showModal = true)}>
+        Move to Next Stripe
+    </button>
+</div>
 
 <Modal bind:showModal>
     <div class="admin-mode">
@@ -60,6 +64,50 @@
 </Modal>
 
 <style>
+    .move-stripe-btn-container {
+        display: flex;
+        justify-content: center;
+    }
+    .move-stripe-btn {
+        color: var(--secondary);
+        font-family: "Comfortaa", sans-serif;
+        font-weight: bold;
+        font-size: 1rem;
+        text-align: center;
+
+        background-color: var(--stripe-primary);
+        padding: 1rem 1.5rem;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+
+        border: 2px solid var(--primary);
+        border-radius: 12px;
+        cursor: pointer;
+
+        position: relative;
+
+        /* Tactile 3D effect */
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.35),
+            6px 6px 0 var(--primary);
+
+        transition:
+            transform 0.1s ease,
+            box-shadow 0.1s ease;
+    }
+
+    .move-stripe-btn:hover {
+        filter: brightness(1.05);
+    }
+
+    .move-stripe-btn:active {
+        transform: translate(6px, 6px);
+
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.25),
+            0 0 0 var(--primary);
+    }
+
     .admin-mode {
         width: 100%;
     }

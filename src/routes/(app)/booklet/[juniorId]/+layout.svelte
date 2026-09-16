@@ -13,12 +13,12 @@
     );
 </script>
 
-<main class="booklet-main" style={themeStyle}>
+<main style={themeStyle}>
     {@render children()}
 </main>
 
 <style>
-    .booklet-main {
+    main {
         min-height: 100dvh;
         background-color: var(--stripe-secondary);
         overflow: auto;

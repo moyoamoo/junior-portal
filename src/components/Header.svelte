@@ -11,6 +11,7 @@
 
 <header class="header">
     <nav>
+        <a href="/juniors">Home</a>
         <form method="POST" action="/logout">
             <button type="submit">Logout</button>
         </form>
@@ -98,7 +99,6 @@
         display: flex;
         justify-content: right;
         align-items: center;
-        
     }
     nav button {
         background-color: transparent;

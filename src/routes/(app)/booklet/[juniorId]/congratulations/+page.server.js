@@ -1,5 +1,67 @@
 import { fail, redirect } from "@sveltejs/kit";
 
+
+//get junior current info and the next stripe 
+import { fail, redirect } from "@sveltejs/kit";
+
+// get junior current info and the next stripe
+export const load = async ({ locals, params }) => {
+    const supabase = locals.supabase;
+
+    // Get the junior
+    const { data: junior, error: juniorError } = await supabase
+        .from("Junior")
+        .select(
+            "firstName:first_name, lastName:last_name, currentStripe:current_stripe",
+        )
+        .eq("junior_id", params.juniorId)
+        .single();
+
+    if (juniorError || !junior) {
+        return {
+            junior: null,
+            nextStripe: null,
+        };
+    }
+
+    // Get the current stripe order
+    const { data: currentStripe, error: currentStripeError } =
+        await supabase
+            .from("stripes")
+            .select("stripe_order")
+            .ilike("stripe_name", junior.currentStripe)
+            .single();
+
+    if (currentStripeError || !currentStripe) {
+        return {
+            junior,
+            nextStripe: null,
+        };
+    }
+
+    // Get the next stripe
+    const { data: nextStripe, error: nextStripeError } =
+        await supabase
+            .from("stripes")
+            .select("stripeName: stripe_name")
+            .gt("stripe_order", currentStripe.stripe_order)
+            .order("stripe_order", { ascending: true })
+            .limit(1)
+            .single();
+
+    if (nextStripeError || !nextStripe) {
+        return {
+            junior,
+            nextStripe: null,
+        };
+    }
+
+    return {
+        junior,
+        nextStripe,
+    };
+};
+
 export const actions = {
     default: async ({ locals, params, cookies }) => {
         try {

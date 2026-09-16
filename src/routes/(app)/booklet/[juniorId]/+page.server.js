@@ -17,8 +17,6 @@ export async function load({ params, locals}) {
         return { user: null, activities: [], theme: null }
     }
 
-    //get theme based on the junior's current stripe
-    const theme = getTheme(user.currentStripe);
 
     //get activities based on users current stripe
     const { data: activities, error: activitiesError } = await locals.supabase
@@ -81,5 +79,5 @@ export async function load({ params, locals}) {
 
     console.log(updatedActivities)
 
-    return { user, activities: updatedActivities, theme }
+    return { user, activities: updatedActivities}
 }

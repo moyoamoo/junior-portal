@@ -35,5 +35,5 @@
 />
 
 {#if allComplete && !data.adminMode && data.user.currentStripe != "Zebra"}
-    <UpgradeStripeBtn juniorId={data.user.juniorId} />
+    <UpgradeStripeBtn juniorId={data.user.juniorId} theme={data.theme} junior={data.user}/>
 {/if}
