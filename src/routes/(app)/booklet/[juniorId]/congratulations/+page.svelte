@@ -42,6 +42,8 @@
     <form method="POST" use:enhance class="move-stripe-btn-container">
         <button type="submit" class="move-stripe-btn">Start Next Stripe</button>
     </form>
+
+
 </section>
 
 {#if errorMessage}
