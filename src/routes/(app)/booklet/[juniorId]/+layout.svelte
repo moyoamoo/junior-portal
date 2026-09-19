@@ -22,5 +22,6 @@
         min-height: 100dvh;
         background-color: var(--stripe-secondary);
         overflow: auto;
+        transition: background-color 0.3s ease;
     }
 </style>

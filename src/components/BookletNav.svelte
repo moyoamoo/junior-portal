@@ -6,34 +6,53 @@
     import skunk from "$lib/assets/skunk.png";
     import zebra from "$lib/assets/zebra.png";
 
-    let { currentStripe } = $props();
+    let { stripes, currentStripe, viewingStripe } = $props();
 
-    const stripes = {
-        Bumblebee: { alt: "bumblebee", image: bee },
-        Wildcat: { alt: "wildcat", image: wildcat },
-        Chipmunk: { alt: "chipmunk", image: chipmunk },
-        Skunk: { alt: "skunk", image: skunk },
-        Clownfish: { alt: "clownfish", image: clownfish },
-        Zebra: { alt: "zebra", image: zebra },
-    };
+    const images = { bumblebee: bee, chipmunk, wildcat, clownfish, skunk, zebra };
 
-    const stripeList = Object.entries(stripes);
+   
+    const currentOrder = $derived(
+        stripes.find(
+            (stripe) =>
+                stripe.stripeName.toLowerCase() === currentStripe?.toLowerCase(),
+        )?.stripeOrder ?? 0,
+    );
 
-    const currentIndex = $derived(
-        stripeList.findIndex(([name]) => name === currentStripe),
+
+    const items = $derived(
+        stripes.map((stripe) => {
+            const key = stripe.stripeName.toLowerCase();
+
+            return {
+                name: stripe.stripeName,
+                image: images[key],
+        
+                locked: stripe.stripeOrder > currentOrder,
+          
+                viewing: key === viewingStripe?.toLowerCase(),
+            };
+        }),
     );
 </script>
 
-<section class="booklet-nav">
-    {#each stripeList as [name, stripe], i (name)}
-        <img
-            src={stripe.image}
-            alt={stripe.alt}
-            class="img-stripe"
-            class:greyed={currentIndex !== -1 && i > currentIndex}
-        />
+<nav class="booklet-nav" aria-label="Booklets">
+    {#each items as item (item.name)}
+        {#if item.locked}
+            <span class="stripe greyed" aria-disabled="true" title="Not unlocked yet">
+                <img src={item.image} alt={item.name} class="img-stripe" />
+            </span>
+        {:else}
+            <a
+                class="stripe"
+                class:viewing={item.viewing}
+                href="?stripe={item.name}"
+                aria-current={item.viewing ? "page" : undefined}
+            >
+                <img src={item.image} alt={item.name} class="img-stripe" />
+            </a>
+        {/if}
     {/each}
-</section>
+</nav>
 
 <style>
     .booklet-nav {
@@ -44,21 +63,40 @@
         gap: 2rem;
     }
 
-    .img-stripe {
+    .stripe {
+        display: block;
         width: 10%;
+    }
+
+    .img-stripe {
+        display: block;
+        width: 100%;
         border-radius: 12px;
         border: 2px solid var(--primary);
         transition:
             filter 0.2s ease,
-            opacity 0.2s ease;
+            opacity 0.2s ease,
+            box-shadow 0.2s ease;
     }
 
-    .img-stripe:hover,
-    .img-stripe:focus {
+    .stripe:hover .img-stripe,
+    .stripe:focus-visible .img-stripe {
         box-shadow: var(--shadow);
     }
 
-    .img-stripe.greyed {
+    /* The booklet currently on screen */
+    .stripe.viewing .img-stripe {
+        box-shadow: var(--shadow);
+        outline: 1px solid var(--primary);
+
+    }
+
+    /* Locked stripes: greyed out and not clickable */
+    .stripe.greyed {
+        pointer-events: none;
+    }
+
+    .stripe.greyed .img-stripe {
         filter: grayscale(100%);
         opacity: 0.5;
     }

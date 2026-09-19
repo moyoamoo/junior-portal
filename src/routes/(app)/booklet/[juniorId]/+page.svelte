@@ -3,7 +3,7 @@
     import TableBody from "../../../../components/Table/TableBody.svelte";
     import Header from "../../../../components/Header.svelte";
     import BookletNav from "../../../../components/BookletNav.svelte";
-    import StripeUpgradeBtn from "../../../../components/UpgradeStripeBtn.svelte"
+    import StripeUpgradeBtn from "../../../../components/UpgradeStripeBtn.svelte";
     import UpgradeStripeBtn from "../../../../components/UpgradeStripeBtn.svelte";
 
     let { data } = $props();
@@ -20,10 +20,14 @@
     activities={data.activities}
     juniorInfo={data.user}
     theme={data.theme}
+    viewingStripe={data.viewingStripe}
 />
 
-<BookletNav currentStripe={data.user.currentStripe} />
-
+<BookletNav
+    stripes={data.stripes}
+    currentStripe={data.currentStripe}
+    viewingStripe={data.viewingStripe}
+/>
 <TableBody
     activities={data.activities}
     juniorId={data.user.juniorId}
@@ -34,6 +38,10 @@
     }}
 />
 
-{#if allComplete && !data.adminMode && data.user.currentStripe != "Zebra"}
-    <UpgradeStripeBtn juniorId={data.user.juniorId} theme={data.theme} junior={data.user}/>
+{#if allComplete && !data.adminMode && data.user.currentStripe != "Zebra" && data.currentStripe == data.viewingStripe}
+    <UpgradeStripeBtn
+        juniorId={data.user.juniorId}
+        theme={data.theme}
+        junior={data.user}
+    />
 {/if}

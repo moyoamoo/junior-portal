@@ -1,83 +1,160 @@
 import { supabase } from "$lib/supabaseClient";
 import { getTheme } from '$lib/themes'
+import { normaliseStripeName } from "$lib/utils.js";
 
-//get booklet contents
-export async function load({ params, locals}) {
 
-    //get junior from junior id
-    const { data: user, error: userError } = await locals.supabase
+export const load = async ({ params, locals, url }) => {
+
+    // Get junior from ID in utl 
+    const { data: junior, error: juniorError } = await locals.supabase
         .from('Junior')
         .select('juniorId:junior_id, firstName:first_name, lastName:last_name, currentStripe:current_stripe')
         .eq('junior_id', params.juniorId)
-        .single()
+        .single();
 
-    //return empty object if error
-    if (userError) {
-        console.error(userError)
-        return { user: null, activities: [], theme: null }
+    // Return empty if junior cannot be found 
+    if (juniorError) {
+        console.error(juniorError);
+        return { user: null, activities: [], stripes: [] };
+    }
+
+    // Get all stripes from database
+    const { data: allStripes, error: allStripesError } = await locals.supabase
+        .from('stripes')
+        .select('stripeName:stripe_name, stripeOrder:stripe_order')
+        .order('stripe_order');
+
+    // If stripes cannot be found return empty 
+    if (allStripesError) {
+        console.error(allStripesError);
+        return { user: junior, activities: [], stripes: [] };
+    }
+
+    // If stripes cannot be found return empty 
+    if (!allStripes || allStripes.length === 0) {
+        console.error('No stripes found in the stripes table');
+        return { user: junior, activities: [], stripes: [] };
+    }
+
+    // Match the text in Junior.current_stripe to a row in the stripes table
+    let currentStripe = allStripes.find((stripe) => {
+        return normaliseStripeName(stripe.stripeName) === normaliseStripeName(junior.currentStripe);
+    });
+
+    // If the junior's current_stripe doesn't match any stripe, fall back to the first one
+    if (!currentStripe) {
+        currentStripe = allStripes[0];
     }
 
 
-    //get activities based on users current stripe
-    const { data: activities, error: activitiesError } = await locals.supabase
+    // Read the ?stripe= value from the URL (null if it isn't there)
+    const requestedStripeName = url.searchParams.get('stripe');
+
+    // Look the requested name up in the stripes table 
+    const requestedStripe = allStripes.find((stripe) => {
+        return normaliseStripeName(stripe.stripeName) === normaliseStripeName(requestedStripeName);
+    });
+
+    // Default to the current stripe
+    let stripeBeingViewed = currentStripe;
+
+    if (requestedStripe && requestedStripe.stripeOrder <= currentStripe.stripeOrder) {
+        stripeBeingViewed = requestedStripe;
+    }
+
+
+    // Get activities based on stripe 
+    const { data: activitiesData, error: activitiesError } = await locals.supabase
         .from('Activities')
         .select('activityId:activity_id, stripe, activity, activityType:activity_type, link')
-        .eq('stripe', user.currentStripe)
+        .ilike('stripe', stripeBeingViewed.stripeName);
 
-    //return empty object if error
     if (activitiesError) {
-        console.error(activitiesError)
-        return { user, activities: [], theme }
+        console.error(activitiesError);
     }
 
-    //get junior completed tasks
-    const { data: completedTasks, error: completedError } = await locals.supabase
+    // If activities are not found, empty 
+    const stripeActivities = activitiesData || [];
+
+    const stripeActivityIds = stripeActivities.map((activity) => {
+        return activity.activityId;
+    });
+
+
+    // Get juniors completed tasks from databse 
+    const { data: completedTasksData, error: completedTasksError } = await locals.supabase
         .from('CompletedTasks')
         .select('activityId:activity_id, dateCompleted:date_completed')
         .eq('junior_id', params.juniorId)
+        .in('activity_id', stripeActivityIds);
 
-    if (completedError) {
-        console.error(completedError)
+    if (completedTasksError) {
+        console.error(completedTasksError);
     }
 
-    //get junior comments for these activities
-    const activityIds = (activities || []).map(activity => activity.activityId);
+    const completedTasks = completedTasksData || [];
 
-    const { data: comments, error: commentsError } = await locals.supabase
+
+    // Get juniors comments 
+    const { data: commentsData, error: commentsError } = await locals.supabase
         .from('TaskComments')
         .select('activityId:activity_id, comment')
         .eq('junior_id', params.juniorId)
-        .in('activity_id', activityIds)
-
-    console.log('comments:', comments)
-    console.log('commentsError:', commentsError)
+        .in('activity_id', stripeActivityIds);
 
     if (commentsError) {
-        console.error(commentsError)
+        console.error(commentsError);
     }
 
-    //lookup map: activityId -> dateCompleted
-    const completedMap = new Map(
-        (completedTasks || []).map(task => [task.activityId, task.dateCompleted])
-    );
+    const taskComments = commentsData || [];
 
-    //lookup map: activityId -> comment
-    const commentsMap = new Map(
-        (comments || []).map(c => [c.activityId, c.comment])
-    );
 
-    //change actitivies to have completed tasks, date, and comment
-    const updatedActivities = (activities || []).map(activity => {
-        const isCompleted = completedMap.has(activity.activityId);
+    //look up map 
+    const completedDateByActivityId = new Map();
+    for (const task of completedTasks) {
+        completedDateByActivityId.set(task.activityId, task.dateCompleted);
+    }
+
+    // Map of activityId -> the junior's comment on that activity
+    const commentByActivityId = new Map();
+    for (const taskComment of taskComments) {
+        commentByActivityId.set(taskComment.activityId, taskComment.comment);
+    }
+
+
+
+    const activitiesWithProgress = stripeActivities.map((activity) => {
+
+        const isCompleted = completedDateByActivityId.has(activity.activityId);
+
+
+        let dateCompleted = '';
+        if (isCompleted) {
+            dateCompleted = completedDateByActivityId.get(activity.activityId);
+        }
+
+
+        let comment = null;
+        if (commentByActivityId.has(activity.activityId)) {
+            comment = commentByActivityId.get(activity.activityId);
+        }
+
         return {
             ...activity,
             completed: isCompleted,
-            dateCompleted: isCompleted ? completedMap.get(activity.activityId) : "",
-            comment: commentsMap.has(activity.activityId) ? commentsMap.get(activity.activityId) : null
+            dateCompleted: dateCompleted,
+            comment: comment
         };
     });
 
-    console.log(updatedActivities)
 
-    return { user, activities: updatedActivities}
+    return {
+        user: junior,
+        activities: activitiesWithProgress,
+        stripes: allStripes,
+        currentStripe: currentStripe.stripeName,
+        viewingStripe: stripeBeingViewed.stripeName,
+        isCurrentStripe: stripeBeingViewed.stripeName === currentStripe.stripeName,
+        theme: getTheme(stripeBeingViewed.stripeName)
+    };
 }

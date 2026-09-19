@@ -51,3 +51,14 @@ export const capitalise = (string) => {
     let trimmedString = string.trim();
     return trimmedString && String(trimmedString[0]).toUpperCase() + String(trimmedString).slice(1);
 }
+
+
+
+export const normaliseStripeName = (stripeName) => {
+  if (!stripeName) {
+    return '';
+  }
+
+  return stripeName.toLowerCase();
+}
+

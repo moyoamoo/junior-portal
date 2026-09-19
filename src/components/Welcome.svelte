@@ -14,7 +14,7 @@
   import codeyGaming from "$lib/assets/codey_gaming.png";
   import codeyCogs from "$lib/assets/codey_cogs.png";
 
-  let { juniorInfo, activities, theme } = $props();
+  let { juniorInfo, activities, theme, viewingStripe } = $props();
 
   //stripe images
   const stripes = {
@@ -27,7 +27,8 @@
     Zebra: { alt: "zebra", image: zebra, codey: codeyGaming },
   };
 
-  let stripe = $derived(stripes[juniorInfo.currentStripe] ?? null);
+  let stripeName = $derived(viewingStripe ?? juniorInfo.currentStripe);
+  let stripe = $derived(stripes[stripeName] ?? null);
 </script>
 
 <section class="welcome-section">
@@ -35,7 +36,7 @@
   <div class="welcome-section-text">
     <h1>Welcome, {juniorInfo.firstName}</h1>
     <h2 class="stripe">
-      {juniorInfo.currentStripe} Stripe
+      {stripeName} Stripe
     </h2>
   </div>
 </section>
@@ -91,7 +92,6 @@
   .stripe {
     color: var(--stripe-text);
   }
-
 
   /* ---------------------------------
    320px - smaller phones
@@ -178,10 +178,8 @@
       font-size: 1.65rem;
     }
 
-
-     .welcome-img-stripe {
+    .welcome-img-stripe {
       width: 5rem;
-      
     }
 
     .welcome-img-stripe {
