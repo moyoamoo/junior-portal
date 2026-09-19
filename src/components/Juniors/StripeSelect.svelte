@@ -26,14 +26,15 @@
         padding: 0.7rem;
         background-color: var(--secondary);
         font-size: 1rem;
+        font-size: 1rem;
         outline: none;
         transition: all 0.3s;
-        border: 1px solid var(--primary);
-        border-radius: 12px;
+        border: 2px solid var(--primary);
     }
 
     .junior-stripe-select:focus,
     .junior-stripe-select:hover {
         box-shadow: 4px 4px 0px var(--primary);
+        transform: translate(-2px, -2px);
     }
 </style>

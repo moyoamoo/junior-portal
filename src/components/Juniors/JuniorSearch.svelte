@@ -41,7 +41,10 @@
 
 <style>
     label {
-        margin-bottom: 0.2rem;
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+        color: var(--primary);
     }
 
     .junior-search-container,
@@ -59,12 +62,12 @@
         font-size: 1rem;
         outline: none;
         transition: all 0.3s;
-        border: 1px solid var(--primary);
-        border-radius: 12px;
+        border: 2px solid var(--primary);
     }
 
     .junior-searchbar:focus,
     .junior-searchbar:hover {
         box-shadow: 4px 4px 0px var(--primary);
+        transform: translate(-2px, -2px);
     }
 </style>

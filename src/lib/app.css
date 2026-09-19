@@ -15,10 +15,9 @@
 
     --page-bg: var(--code-ninjas-blue-main);
 
-    --purple-dark: #1b1464;
-    --purple-dark-2: #302467;
-    --purple-secondary: #ccc3d9;
-
+    --junior-primary: #302467;
+    --junior-secondary: #a03497;
+    
 
 
     --stripe-primary: #C77E0A;
@@ -71,27 +70,11 @@ input[type="text"]:hover {
 
 
 
+
+
+
 /* ============================
     Login CSS
-   ============================ */
-
-
-.login-error-message {
-    background-color: #ec8492;
-    border-radius: 12px;
-}
-
-.login-error-message p {
-    padding: 1rem;
-    text-align: center;
-    color: var(--secondary);
-    font-weight: bold;
-}
-
-
-
-/* ============================
-    Booklet CSS
    ============================ */
 
 .login-top {
@@ -103,22 +86,18 @@ input[type="text"]:hover {
 
 
 .login-top-img {
-    width: 100%;
+    width: 80%;
     margin: 0 auto;
     display: block;
     line-height: 0;
 
 }
 
-.main-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding: 20px;
-}
 
 .login-container {
+
+    position: relative;
+    z-index: 1;
     width: 100%;
     max-width: 400px;
     border: 1px solid var(--primary);
@@ -165,10 +144,17 @@ input[type="text"]:hover {
 
 }
 
+
+.login-input:hover,
+.login-input:focus {
+    box-shadow: 4px 4px 0px var(--primary);
+    transform: translate(-2px, -2px);
+}
+
 .login-button {
     width: 100%;
     padding: 1rem;
-    background-color: var(--bold-blue);
+    background-color: var(--junior-primary);
     color: var(--secondary);
     font-size: 1rem;
     font-weight: bold;
@@ -180,15 +166,18 @@ input[type="text"]:hover {
 }
 
 .login-button:hover {
-    background-color: var(--code-ninjas-blue-accent);
+    background-color: var(--junior-secondary);
+    box-shadow: 4px 4px 0px var(--primary);
+    transform: translate(-2px, -2px);
 }
 
 
 .form-img-bottom {
+    position: relative;
+    z-index: 1;
     width: 20%;
 
 }
-
 
 
 /* ============================

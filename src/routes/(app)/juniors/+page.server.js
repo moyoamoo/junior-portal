@@ -1,4 +1,3 @@
-import { supabase } from "$lib/supabaseClient";
 import { sortAlphabetically } from "$lib/utils";
 
 
@@ -15,6 +14,7 @@ export async function load({locals}) {
             return { users: [] }
         }
 
+        //sort juniors A-Z
         let sortedUsers = sortAlphabetically(users);
 
         return { users: sortedUsers}

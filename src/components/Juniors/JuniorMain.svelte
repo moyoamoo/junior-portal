@@ -67,7 +67,7 @@
 
     .search-sort-section {
         border: 2px solid var(--primary);
-        background-color: var(--tertiary);
+      
         box-shadow: var(--shadow);
         border-radius: 12px;
         width: 60%;
