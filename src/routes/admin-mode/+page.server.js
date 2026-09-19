@@ -168,16 +168,6 @@ export const actions = {
             }
         );
 
-        // IMPORTANT:
-        // Do NOT call adminAuthClient.auth.signOut().
-        //
-        // The Admin Mode client is already configured
-        // with persistSession: false, so it does not
-        // persist this authentication session.
-        //
-        // Most importantly, we must never sign out
-        // the normal user's Supabase session.
-
         // Return to the page the user was originally on
         throw redirect(303, safeReturnTo);
     },
@@ -235,3 +225,4 @@ export const actions = {
         throw redirect(303, safeReturnTo);
     }
 };
+

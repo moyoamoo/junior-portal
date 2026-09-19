@@ -1,7 +1,7 @@
 <script>
     import Modal from "./Modal.svelte";
     import { enhance } from "$app/forms";
-    import { page } from "$app/state";
+    import { goto } from "$app/navigation";
 
     let { juniorId, theme } = $props();
     let showModal = $state(false);
@@ -30,14 +30,24 @@
             action="/admin-mode?/login"
             use:enhance={() =>
                 async ({ result }) => {
+                    console.log("Admin login result:", result);
+
                     if (result.type === "failure") {
                         errorMessage =
                             result.data?.message ?? "Invalid credentials.";
                         return;
                     }
 
+                    if (result.type === "error") {
+                        console.error("Admin login error:", result.error);
+                        errorMessage =
+                            "Something went wrong. Please try again.";
+                        return;
+                    }
+
                     if (result.type === "redirect") {
-                        window.location.href = result.location;
+                        showModal = false;
+                        await goto(`/booklet/${juniorId}/congratulations`);
                     }
                 }}
         >

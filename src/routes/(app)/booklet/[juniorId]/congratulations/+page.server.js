@@ -1,15 +1,19 @@
 import { fail, redirect } from "@sveltejs/kit";
-
+import { getValidAdminModeSession } from "$lib/server/adminMode";
 
 //get junior current info and the next stripe 
-import { fail, redirect } from "@sveltejs/kit";
+export const load = async ({ locals, params, cookies }) => {
+    // Require a valid, non-expired Admin Mode session to view this page
+    const adminSession = await getValidAdminModeSession({ locals, cookies });
 
-// get junior current info and the next stripe
-export const load = async ({ locals, params }) => {
-    const supabase = locals.supabase;
+    if (!adminSession) {
+        throw redirect(303, `/booklet/${params.juniorId}`);
+    }
+
+
 
     // Get the junior
-    const { data: junior, error: juniorError } = await supabase
+    const { data: junior, error: juniorError } = await locals.supabase
         .from("Junior")
         .select(
             "firstName:first_name, lastName:last_name, currentStripe:current_stripe",
@@ -64,12 +68,21 @@ export const load = async ({ locals, params }) => {
 
 export const actions = {
     default: async ({ locals, params, cookies }) => {
+        // Require a valid, non-expired Admin Mode session to perform the upgrade
+        const adminSession = await getValidAdminModeSession({ locals, cookies });
+
+        if (!adminSession) {
+            return fail(401, {
+                message: "Admin Mode session expired or missing.",
+            });
+        }
+
         try {
-            const supabase = locals.supabase;
+     
             const juniorId = params.juniorId;
 
             // Get the current junior
-            const { data: junior, error: juniorError } = await supabase
+            const { data: junior, error: juniorError } = await locals.supabase
                 .from("Junior")
                 .select("current_stripe")
                 .eq("junior_id", juniorId)
@@ -120,20 +133,11 @@ export const actions = {
                 });
             }
 
-            // Get the logged-in user
-            const user = await locals.getUser();
-
-            if (!user) {
-                return fail(401, {
-                    message: "You must be logged in.",
-                });
-            }
-
-            // Remove Admin Mode session
+            // Remove Admin Mode session (only the specific one used for this upgrade)
             const { error: sessionError } = await supabase
                 .from("admin_mode_sessions")
                 .delete()
-                .eq("user_id", user.id);
+                .eq("id", adminSession.id);
 
             if (sessionError) {
                 return fail(500, {

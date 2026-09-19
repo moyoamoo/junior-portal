@@ -2,8 +2,7 @@ import { fail, redirect } from '@sveltejs/kit';
 
 export const actions = {
     default: async ({ request, locals }) => {
-        const supabase = locals.supabase;
-
+        
         const formData = await request.formData();
         const email = formData.get('email');
         const password = formData.get('password');
@@ -28,7 +27,7 @@ export const actions = {
             });
         }
 
-        const { data: profile, error: profileError } = await supabase
+        const { data: profile, error: profileError } = await locals.supabase
             .from('profiles')
             .select('*')
             .eq('id', data.user.id)
