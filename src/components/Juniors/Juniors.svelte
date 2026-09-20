@@ -35,7 +35,7 @@
         border-radius: 12px;
         border: 2px solid var(--primary);
         flex-shrink: 0;
-        scrollbar-color: var(--code-ninjas-blue-main) transparent;
+        scrollbar-color: var(--junior-primary) transparent;
     }
     .junior-link {
         box-sizing: border-box;
@@ -46,8 +46,9 @@
         color: var(--primary);
     }
     .junior-link:nth-child(odd) {
-        background-color: var(--tertiary);
+        background-color: #F7EEFA;
     }
+
     .junior-link:hover {
         color: var(--code-ninjas-blue-dark);
     }

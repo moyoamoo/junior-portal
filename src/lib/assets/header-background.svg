@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1401" height="28" viewBox="0 0 1401 28">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_425" data-name="Rectangle 425" width="1401" height="28" transform="translate(0 0.409)" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" y1="0.881" x2="1" y2="0.403" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#31e2b8"/>
+      <stop offset="1" stop-color="#0db88f" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" y1="0.881" x2="1" y2="0.403" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#46b2ff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#4cacef"/>
+    </linearGradient>
+  </defs>
+  <g id="Mask_Group_29" data-name="Mask Group 29" transform="translate(0 -0.409)" clip-path="url(#clip-path)">
+    <g id="Group_347" data-name="Group 347" transform="translate(1400.668 38.683) rotate(180)">
+      <g id="Group_346" data-name="Group 346">
+        <path id="Green_Swirl" data-name="Green Swirl" d="M1111.841,10.93H982.429C808.376,8.621,482.229,0,403.827,0,53.942,0,0,10.827,0,10.827V41H1399.543V0S1288.5,8.4,1111.841,10.93Z" transform="translate(0.396 21.369)" fill="url(#linear-gradient)" style="mix-blend-mode: soft-light;isolation: isolate"/>
+        <path id="Blue_Swirl" data-name="Blue Swirl" d="M1111.957,12.38l-129.4.652C808.535,11.6,482.478,4.62,404.083,5.015,54.228,6.778.214,17.878.214,17.878v.1L0,48.059l1399.421-7.05.209-29.561L1399.711,0S1288.614,8.961,1111.957,12.38Z" transform="matrix(1, 0.017, -0.017, 1, 0.839, 0)" fill="url(#linear-gradient-2)"/>
+        <g id="Group_344" data-name="Group 344" transform="translate(0.397 37.557)">
+          <rect id="Rectangle_424" data-name="Rectangle 424" width="1399.542" height="38.889" fill="#f6f7f8"/>
+        </g>
+        <g id="Group_345" data-name="Group 345" transform="translate(0.397 26.627)">
+          <path id="Path_492" data-name="Path 492" d="M0,11.449H1399.542V0s-131.221,9.927-335.294,11.449C945.768,12.332,497.6,0,403.826,0,53.941,0,0,10.827,0,10.827Z" fill="#fff"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

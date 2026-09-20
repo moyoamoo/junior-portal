@@ -2,6 +2,8 @@
     import Modal from "./Modal.svelte";
     import { page } from "$app/state";
     import { enhance } from "$app/forms";
+    import headerBackground from "$lib/assets/header-background.svg";
+    import logo from "$lib/assets/logo.svg";
 
     let { form, adminMode = false } = $props();
 
@@ -10,6 +12,10 @@
 </script>
 
 <header class="header">
+    <a href="/juniors">
+        <img class="logo" src={logo} alt="" aria-hidden="true" /></a
+    >
+
     <nav>
         <a href="/juniors">Home</a>
         <form method="POST" action="/logout">
@@ -91,8 +97,12 @@
 
 <style>
     header {
-        background-color: var(--bold-blue);
+        background-color: var(--secondary);
         height: 40px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0.5rem;
     }
     nav {
         height: 100%;
@@ -100,9 +110,10 @@
         justify-content: right;
         align-items: center;
     }
+
     nav button {
         background-color: transparent;
-        color: var(--secondary);
+        color: var(--primary);
         outline: none;
         border: none;
         font-size: 1rem;
@@ -112,7 +123,7 @@
     }
     nav a {
         text-decoration: none;
-        color: var(--secondary);
+        color: var(--primary);
         padding: 1rem;
         font-size: 1rem;
         font-weight: bold;
@@ -127,7 +138,7 @@
     .admin-mode p {
         text-align: center;
         margin-bottom: 1rem;
-        color: var(--code-ninjas-blue-dark);
+        color: var(--primary);
     }
     .admin-mode form {
         display: flex;

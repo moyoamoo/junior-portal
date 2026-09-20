@@ -1,5 +1,5 @@
 <script>
-    import logo from "$lib/assets/codeninjas.png";
+    import jrLogo from "$lib/assets/jr_logo.png";
     import JuniorSearch from "./JuniorSearch.svelte";
     import AddJuniorModal from "./AddJuniorModal.svelte";
     import Juniors from "./Juniors.svelte";
@@ -12,6 +12,7 @@
     let selectedActive = $state("");
     let showModal = $state(false);
 
+    // Filter junior using values from searchbar and selects
     let foundJuniors = $derived(
         users.filter((junior) => {
             console.log(junior);
@@ -39,7 +40,7 @@
 </script>
 
 <section class="search-sort-section">
-    <img src={logo} alt="Code Ninjas Edinburgh logo" class="logo" />
+    <img src={jrLogo} alt="Code Ninjas Edinburgh logo" class="logo" />
 
     <JuniorSearch
         bind:search
@@ -61,13 +62,13 @@
 
 <style>
     .logo {
-        width: 40%;
+
         margin: 1rem auto;
     }
 
     .search-sort-section {
         border: 2px solid var(--primary);
-      
+        background-color: var(--secondary);
         box-shadow: var(--shadow);
         border-radius: 12px;
         width: 60%;

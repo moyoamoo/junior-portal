@@ -17,7 +17,8 @@
 
     --junior-primary: #302467;
     --junior-secondary: #a03497;
-    
+    --junior-tertiary: #cabbe3;
+
 
 
     --stripe-primary: #C77E0A;
@@ -38,7 +39,7 @@ body {
     margin: 0;
     padding: 0;
     width: 100%;
-    min-height: 100%;
+    min-height: 100dvh;
 }
 
 html {
@@ -47,8 +48,8 @@ html {
 
 
 body {
-    background-color: var(--code-ninjas-blue-main);
-    margin: 0;
+    background: linear-gradient(180deg, #a03497, #302467);
+
 
 
 }
