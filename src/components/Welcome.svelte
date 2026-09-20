@@ -52,7 +52,7 @@
     box-sizing: border-box;
     width: 90%;
     height: 120px;
-    margin: 2.5rem auto 10px;
+    margin: 2.5rem auto 0;
     display: flex;
     align-items: center;
     justify-content: center;

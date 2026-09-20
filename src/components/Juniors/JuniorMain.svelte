@@ -1,5 +1,5 @@
 <script>
-    import jrLogo from "$lib/assets/jr_logo.png";
+
     import JuniorSearch from "./JuniorSearch.svelte";
     import AddJuniorModal from "./AddJuniorModal.svelte";
     import Juniors from "./Juniors.svelte";
@@ -39,17 +39,13 @@
     );
 </script>
 
-<section class="search-sort-section">
-    <img src={jrLogo} alt="Code Ninjas Edinburgh logo" class="logo" />
-
-    <JuniorSearch
+  <JuniorSearch
         bind:search
         bind:selectedStripe
         bind:selectedActive
         {adminMode}
         onAdd={() => (showModal = true)}
     />
-</section>
 {#if !adminMode}
     <Juniors {foundJuniors} />
 {:else}
@@ -59,27 +55,3 @@
 {#if adminMode}
     <AddJuniorModal bind:showModal />
 {/if}
-
-<style>
-    .logo {
-
-        margin: 1rem auto;
-    }
-
-    .search-sort-section {
-        border: 2px solid var(--primary);
-        background-color: var(--secondary);
-        box-shadow: var(--shadow);
-        border-radius: 12px;
-        width: 60%;
-        max-width: 800px;
-        min-height: 10vh;
-        margin: 2.5rem auto;
-        padding-bottom: 1rem;
-        overflow: hidden;
-
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-    }
-</style>

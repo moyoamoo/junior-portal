@@ -35,8 +35,8 @@
     />
     <Fireworks />
     <p>
-        You're ready to start your next stripe,
-        {data.nextStripe.stripeName}
+        You are ready to start 
+        {data.nextStripe.stripeName} stripe
     </p>
 
     <form method="POST" use:enhance class="move-stripe-btn-container">

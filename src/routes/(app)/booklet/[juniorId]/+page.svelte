@@ -16,6 +16,12 @@
     );
 </script>
 
+<BookletNav
+    stripes={data.stripes}
+    currentStripe={data.currentStripe}
+    viewingStripe={data.viewingStripe}
+/>
+
 <Welcome
     activities={data.activities}
     juniorInfo={data.user}
@@ -23,11 +29,7 @@
     viewingStripe={data.viewingStripe}
 />
 
-<BookletNav
-    stripes={data.stripes}
-    currentStripe={data.currentStripe}
-    viewingStripe={data.viewingStripe}
-/>
+
 <TableBody
     activities={data.activities}
     juniorId={data.user.juniorId}

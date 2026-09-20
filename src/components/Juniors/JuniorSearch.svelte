@@ -2,6 +2,7 @@
     import AddButton from "./AddButton.svelte";
     import StripeSelect from "./StripeSelect.svelte";
     import ActiveSelect from "./ActiveSelect.svelte";
+    import jrLogo from "$lib/assets/jr_logo.png";
 
     let {
         search = $bindable(""),
@@ -12,23 +13,26 @@
     } = $props();
 </script>
 
-<div class="junior-sort-container">
-    <label for="sort-by-stripe"> Sort by Stripe </label>
+<section class="search-sort-section">
+    <img src={jrLogo} alt="Code Ninjas Edinburgh logo" class="logo" />
+    <div class="junior-sort-container">
+        <label for="sort-by-stripe"> Sort by Stripe </label>
 
-    <StripeSelect bind:value={selectedStripe} />
-</div>
+        <StripeSelect bind:value={selectedStripe} />
+    </div>
 
-<div class="junior-search-container">
-    <label for="searchbar"> Search Juniors </label>
+    <div class="junior-search-container">
+        <label for="searchbar"> Search Juniors </label>
 
-    <input
-        id="searchbar"
-        type="text"
-        placeholder="Search Juniors"
-        bind:value={search}
-        class="junior-searchbar"
-    />
-</div>
+        <input
+            id="searchbar"
+            type="text"
+            placeholder="Search Juniors"
+            bind:value={search}
+            class="junior-searchbar"
+        />
+    </div>
+</section>
 
 {#if adminMode}
     <div class="junior-sort-container">
@@ -40,6 +44,26 @@
 {/if}
 
 <style>
+    .logo {
+        margin: 1rem auto;
+    }
+
+    .search-sort-section {
+        border: 2px solid var(--primary);
+        background-color: var(--secondary);
+        box-shadow: var(--shadow);
+        border-radius: 12px;
+        width: 60%;
+        max-width: 800px;
+        min-height: 10vh;
+        margin: 2.5rem auto;
+        padding-bottom: 1rem;
+        overflow: hidden;
+
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
     label {
         display: block;
         margin-bottom: 0.5rem;
