@@ -293,7 +293,7 @@
         box-sizing: border-box;
         table-layout: fixed;
         width: 90%;
-        margin: 2.5rem auto 10px;
+        margin: 5rem auto 10px;
         border-collapse: separate;
         border-spacing: 0;
         overflow: hidden;

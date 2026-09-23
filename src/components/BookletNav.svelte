@@ -8,16 +8,22 @@
 
     let { stripes, currentStripe, viewingStripe } = $props();
 
-    const images = { bumblebee: bee, chipmunk, wildcat, clownfish, skunk, zebra };
+    const images = {
+        bumblebee: bee,
+        chipmunk,
+        wildcat,
+        clownfish,
+        skunk,
+        zebra,
+    };
 
-   
     const currentOrder = $derived(
         stripes.find(
             (stripe) =>
-                stripe.stripeName.toLowerCase() === currentStripe?.toLowerCase(),
+                stripe.stripeName.toLowerCase() ===
+                currentStripe?.toLowerCase(),
         )?.stripeOrder ?? 0,
     );
-
 
     const items = $derived(
         stripes.map((stripe) => {
@@ -26,9 +32,9 @@
             return {
                 name: stripe.stripeName,
                 image: images[key],
-        
+
                 locked: stripe.stripeOrder > currentOrder,
-          
+
                 viewing: key === viewingStripe?.toLowerCase(),
             };
         }),
@@ -38,7 +44,11 @@
 <nav class="booklet-nav" aria-label="Booklets">
     {#each items as item (item.name)}
         {#if item.locked}
-            <span class="stripe greyed" aria-disabled="true" title="Not unlocked yet">
+            <span
+                class="stripe greyed"
+                aria-disabled="true"
+                title="Not unlocked yet"
+            >
                 <img src={item.image} alt={item.name} class="img-stripe" />
             </span>
         {:else}
@@ -46,7 +56,7 @@
                 class="stripe"
                 class:viewing={item.viewing}
                 href="?stripe={item.name}"
-                aria-current={item.viewing ? "page" : undefined}
+                aria-current={item.viewing ? "page" : null}
             >
                 <img src={item.image} alt={item.name} class="img-stripe" />
             </a>
@@ -56,16 +66,17 @@
 
 <style>
     .booklet-nav {
-        height: 8dvh;
+        height: 5dvh;
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 2rem;
+        margin-top: 5rem;
     }
 
     .stripe {
         display: block;
-        width: 10%;
+        max-width: 6%;
     }
 
     .img-stripe {
@@ -88,7 +99,6 @@
     .stripe.viewing .img-stripe {
         box-shadow: var(--shadow);
         outline: 1px solid var(--primary);
-
     }
 
     /* Locked stripes: greyed out and not clickable */
@@ -100,4 +110,30 @@
         filter: grayscale(100%);
         opacity: 0.5;
     }
+
+    /* =================================
+   320px+
+   ================================= */
+
+    @media (min-width: 320px) {
+          .stripe {
+            display: block;
+            width: 10%;
+        }
+        
+    }
+
+
+    /* =================================
+   768px+
+   ================================= */
+
+    @media (min-width: 768px) {
+        .stripe {
+            display: block;
+            width: 10%;
+        }
+    }
+
+   
 </style>
