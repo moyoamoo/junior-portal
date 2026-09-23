@@ -59,7 +59,7 @@
 
 <style>
     .main-section {
-        background: linear-gradient(180deg, #a03497, #302467);
+        background: linear-gradient(180deg, var(--junior-secondary), var(--junior-primary));
         min-height: 100dvh;
 
         position: relative;

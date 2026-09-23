@@ -9,8 +9,13 @@
         {:else}
             {#each foundJuniors as user (user.juniorId)}
                 <a href="/booklet/{user.juniorId}" class="junior-link">
-                    {user.firstName}
-                    {user.lastName}
+                    <span class="junior-link-name">
+                        {user.firstName}
+                        {user.lastName.substring(0, 1)}</span
+                    >
+                    <span class="junior-link-current-stripe"
+                        >{user.currentStripe}</span
+                    >
                 </a>
             {/each}
         {/if}
@@ -44,37 +49,28 @@
         padding-left: 3rem;
         text-decoration: none;
         color: var(--primary);
+        display: flex;
+        justify-content: space-between;
     }
+
     .junior-link:nth-child(odd) {
-        background-color: #F7EEFA;
+        background-color: #f7eefa;
     }
 
     .junior-link:hover {
         color: var(--code-ninjas-blue-dark);
     }
 
-      /* =================================
-   320px+
-   ================================= */
+    .junior-link-current-stripe {
+        text-align: left;
+        flex: 0 0 12rem;
+    }
 
-    /* =================================
-   480px+
-   ================================= */
+    .junior-link-name{
+        font-weight: bold;
+    }
 
-    /* =================================
-   768px+
-   ================================= */
-
-    /* =================================
-   992px+
-   ================================= */
-
-    /* =================================
-   1200px+
-   ================================= */
-
-   .junior-container{
-    max-width: 800px
-   }
-
+    .junior-container {
+        max-width: 800px;
+    }
 </style>
