@@ -3,7 +3,7 @@
 </script>
 
 <div class="add-btn-container">
-    <label for="add-junior">Add Junior</label>
+    <label class="add-junior-lbl" for="add-junior">Add Junior</label>
 
     <button
         name="add-junior"
@@ -16,15 +16,21 @@
 </div>
 
 <style>
+    .add-junior-lbl {
+        font-weight: bold;
+    }
     .add-btn-container {
         display: flex;
         flex-direction: column;
         margin: 0 auto;
         justify-content: center;
         align-items: center;
+        background-color: var(--junior-light);
+        padding: 15px;
+        border-radius: 12px;
     }
     .add-junior-btn {
-        background-color: var(--bold-blue);
+        background-color: var(--junior-primary);
         border-radius: 50%;
         height: 2.3em;
         width: 2.3em;
@@ -38,7 +44,7 @@
 
     .add-junior-btn:focus,
     .add-junior-btn:hover {
-        background-color: var(--code-ninjas-blue-accent);
+        background-color: var(--junior-hover);
         box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
     }
 </style>

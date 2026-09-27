@@ -32,16 +32,16 @@
             class="junior-searchbar"
         />
     </div>
+
+    {#if adminMode}
+        <div class="junior-sort-container">
+            <label for="sort-by-active">Sort by Status</label>
+
+            <ActiveSelect bind:value={selectedActive} />
+        </div>
+        <AddButton onclick={onAdd} />
+    {/if}
 </section>
-
-{#if adminMode}
-    <div class="junior-sort-container">
-        <label for="sort-by-active">Sort by Status</label>
-
-        <ActiveSelect bind:value={selectedActive} />
-    </div>
-    <AddButton onclick={onAdd} />
-{/if}
 
 <style>
     .logo {

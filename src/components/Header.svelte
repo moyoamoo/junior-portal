@@ -42,11 +42,15 @@
         {/if} <a href="/admin">Admin</a>
     </nav>
 </header>
+
 {#if !adminMode}
     <Modal bind:showModal={showAdminMode}>
         <div class="admin-mode">
-            <h2>Admin Mode</h2>
-            <p>For Sensei eyes only</p>
+            <div class="login-top">
+                <h2>Admin Mode</h2>
+                <p>For Sensei eyes only</p>
+            </div>
+
             {#if errorMessage}
                 <div class="error-message">
                     <p>
@@ -76,20 +80,31 @@
                     value={page.url.pathname}
                 />
 
-                <label for="admin-email"> Email </label>
-
-                <input id="admin-email" type="email" name="email" required />
-
-                <label for="admin-password"> Password </label>
+                <label class="login-label" for="admin-email"> Email </label>
 
                 <input
+                    class="login-input admin-mode-input"
+                    id="admin-email"
+                    type="email"
+                    name="email"
+                    required
+                />
+
+                <label class="login-label" for="admin-password">
+                    Password
+                </label>
+
+                <input
+                    class="login-input admin-mode-input"
                     id="admin-password"
                     type="password"
                     name="password"
                     required
                 />
 
-                <button type="submit"> Enter Admin Mode </button>
+                <button type="submit" class="login-button">
+                    Enter Admin Mode
+                </button>
             </form>
         </div>
     </Modal>
@@ -130,44 +145,13 @@
     }
     .admin-mode {
         width: 100%;
-    }
-    .admin-mode h2 {
-        margin: 0 0 0.5rem;
-        text-align: center;
-    }
-    .admin-mode p {
-        text-align: center;
-        margin-bottom: 1rem;
-        color: var(--primary);
-    }
-    .admin-mode form {
         display: flex;
+        justify-content: center;
         flex-direction: column;
-        gap: 0.5rem;
-        width: 100%;
-    }
-    .admin-mode input {
-        padding: 0.6rem;
-        border: 1px solid var(--primary);
-        border-radius: 6px;
-        font-family: inherit;
-    }
-    .admin-mode form button {
-        margin-top: 0.5rem;
-        padding: 0.7rem;
-        background-color: var(--primary);
-        color: var(--secondary);
-        border: 2px solid var(--primary);
-
-        border-radius: 6px;
-        cursor: pointer;
-        font-family: inherit;
     }
 
-    .admin-mode form button:hover,
-    .admin-mode form button:focus {
-        box-shadow: 4px 4px 0px var(--primary);
-        background-color: var(--bold-blue);
+    .admin-mode-input{
+        margin-bottom: 1rem;
     }
     .error-message {
         background-color: #ec8492;

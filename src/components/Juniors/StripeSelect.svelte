@@ -30,6 +30,8 @@
         outline: none;
         transition: all 0.3s;
         border: 2px solid var(--primary);
+        width: 100%;
+        margin-bottom: 1rem;
     }
 
     .junior-stripe-select:focus,

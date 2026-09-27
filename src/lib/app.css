@@ -13,13 +13,13 @@
     --error: #ec8492;
     --success: #88d4a3;
 
-    --page-bg: var(--code-ninjas-blue-main);
-
+    
     --junior-primary: #302467;
     --junior-secondary: #a03497;
     --junior-tertiary: #cabbe3;
+    --junior-light: #f3eefa;
 
-
+    --junior-hover: #51458a;
 
     --stripe-primary: #C77E0A;
     --stripe-secondary: #f7ede2;
@@ -179,7 +179,6 @@ input[type="text"]:hover {
     width: 20%;
 
 }
-
 
 /* ============================
         Confetti Burst CSS

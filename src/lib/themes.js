@@ -45,10 +45,10 @@ export const stripeThemes = {
     },
 
     skunk: {
-        '--stripe-primary': '#ffcdce',
+        '--stripe-primary': '#ff9fa3',
         '--stripe-secondary': '#fff5f5',
         '--stripe-tertiary': '#fffafa',
-        '--stripe-quaternary': '#ff9fa3',
+        '--stripe-quaternary': '#ffcdce',
         '--stripe-text': '#cc0000',
         '--stripe-hover': '#ffdfe0',
         '--stripe-text-hover': '#990000',

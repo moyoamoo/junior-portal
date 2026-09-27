@@ -54,7 +54,7 @@
         onSuccess(junior.juniorId, selectedStripe); 
 
         message = {
-            message: `${junior.firstName}'s' stripe has been chanegd to ${selectedStripe}!`,
+            message: `${junior.firstName}'s stripe has been changed to ${selectedStripe}!`,
             submit: true,
         };
 
@@ -62,9 +62,8 @@
     };
 </script>
 
-<div class="modal-comtainer">
+<div class="modal-container">
     <Message {message} />
-
     <form class="add-junior-form" onsubmit={changeStripe}>
         <p>{junior.firstName}'s current stripe: {junior.currentStripe}</p>
         <StripeSelect bind:value={selectedStripe} oninput={clearMessage} />
@@ -73,16 +72,16 @@
 </div>
 
 <style>
-    .modal-comtainer {
+    .modal-container {
         width: 100%;
+        height: 100%;
         display: flex;
+        flex-direction: column;
         justify-content: center;
-        flex-direction: column;
-        align-items: center;
     }
-    form {
-        display: flex;
-        flex-direction: column;
-        width: 70%;
+
+    p{
+        text-align: center;
     }
+    
 </style>

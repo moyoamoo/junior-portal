@@ -73,8 +73,10 @@
     width: 65%;
     position: relative;
     z-index: 2;
+    color: var(--stripe-header-text);
   }
 
+  
   .welcome-section-text h1,
   .welcome-section-text h2 {
     margin: 0;
@@ -89,9 +91,7 @@
     font-size: 1.35rem;
   }
 
-  .stripe {
-    color: var(--stripe-text);
-  }
+  
 
   /* ---------------------------------
    320px - smaller phones

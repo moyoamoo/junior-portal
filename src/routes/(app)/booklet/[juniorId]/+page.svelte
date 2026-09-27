@@ -40,7 +40,7 @@
     }}
 />
 
-{#if allComplete && !data.adminMode && data.user.currentStripe != "Zebra" && data.currentStripe == data.viewingStripe}
+{#if allComplete && !data.adminMode && data.currentStripe == data.viewingStripe}
     <UpgradeStripeBtn
         juniorId={data.user.juniorId}
         theme={data.theme}

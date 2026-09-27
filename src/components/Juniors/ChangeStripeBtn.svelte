@@ -12,7 +12,7 @@
 
 <style>
     .change-stripe-btn {
-        background-color: var(--bold-blue);
+        background-color: var(--junior-primary);
         border-radius: 12px;
         padding: 0.5rem;
         border: none;
@@ -25,7 +25,7 @@
 
     .change-stripe-btn:focus,
     .change-stripe-btn:hover {
-        background-color: var(--code-ninjas-blue-accent);
+        background-color: var(--junior-hover);
         box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
     }
 </style>

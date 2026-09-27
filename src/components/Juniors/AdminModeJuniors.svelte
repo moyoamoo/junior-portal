@@ -89,8 +89,7 @@
                         <th scope="col">Junior Name</th>
                         <th scope="col">Current Stripe</th>
                         <th scope="col">Active</th>
-                        <th scope="col">Delete</th>
-                    </tr>
+                     </tr>  
                 </thead>
 
                 <tbody>
@@ -114,6 +113,7 @@
                             >
                             <td>
                                 <button
+                                class={junior.active ? "deactivate" : "activate" }
                                     onclick={() => {
                                         changeActiveStatus(junior);
                                     }}
@@ -122,12 +122,7 @@
                                         : "Activate"}</button
                                 >
                             </td>
-                            <td>
-                                <DeleteJuniorBtn
-                                    {junior}
-                                    onclick={openDeleteModal}
-                                />
-                            </td>
+                            
                         </tr>
                     {/each}
                 </tbody>
@@ -143,13 +138,7 @@
             onSuccess={handleStripeChange}
         />
     </Modal>
-    <Modal bind:showModal={showDeleteModal}>
-        <DeleteJuniorModal
-            junior={selectedJunior}
-            onSuccess={handleJuniorDelete}
-            onClose={closeDeleteModal}
-        />
-    </Modal>
+   
 {/if}
 
 <style>
@@ -188,12 +177,12 @@
         border-collapse: separate;
         border-spacing: 0;
 
-        background-color: var(--tertiary);
+        background-color: var(--junior-light);
         text-align: center;
     }
 
     thead {
-        background-color: var(--bold-blue);
+        background-color: var( --junior-primary);
         color: var(--secondary);
         font-size: 1rem;
 
@@ -217,7 +206,7 @@
     }
 
     tr:nth-child(even) {
-        background-color: #fcf8f3;
+        background-color: var(--secondary)
     }
 
     .table-scroll::-webkit-scrollbar {
@@ -235,5 +224,24 @@
 
     .table-scroll::-webkit-scrollbar-thumb:hover {
         background: var(--code-ninjas-blue-dark);
+    }
+
+    .activate, .deactivate{
+        border-radius: 12px;
+        padding: 0.5rem;
+        border: none;
+
+        margin: 0.4rem;
+        cursor: pointer;
+        color: var(--secondary);
+        font-family: "Comfortaa", sans-serif;
+    }
+
+    .activate{
+        background-color: var(--success);
+    }
+
+    .deactivate{
+        background-color: var(--error);
     }
 </style>
