@@ -1,84 +1,80 @@
 import { redirect } from '@sveltejs/kit';
+import { adminSupabase, verifyAdminToken } from '$lib/server/admin.js';
+import { sortAlphabetically } from '$lib/utils';
 
-import {
-    adminSupabase,
-    verifyAdminToken
-} from '$lib/server/admin.js';
-import { sortAlphabetically } from "$lib/utils";
-
-
+// The role stored in the profiles table for admin dashboard accounts
+const ADMIN_DASHBOARD_ROLE = 'admin_dashboard';
 
 export const load = async ({ locals, cookies, setHeaders }) => {
+  // Never cache this page, it contains admin-only data
+  setHeaders({
+    'Cache-Control': 'no-store'
+  });
 
+  // Must have the normal shared user session
+  const user = await locals.getUser();
 
-    setHeaders({
-        'Cache-Control': 'no-store'
+  if (!user) {
+    throw redirect(303, '/');
+  }
+
+  // Read and verify our own admin session cookie
+  const token = cookies.get('admin_session');
+  const adminSession = verifyAdminToken(token);
+
+  // Missing, invalid or expired admin session
+  if (!adminSession) {
+    cookies.delete('admin_session', {
+      path: '/'
     });
 
-    // Must have normal user session
-    const user = await locals.getUser();
+    throw redirect(303, '/admin');
+  }
 
-    if (!user) {
-        throw redirect(303, '/');
-    }
+  // Look up the admin's role with the service client (bypasses RLS)
+  const { data: profile, error: profileError } = await adminSupabase
+    .from('profiles')
+    .select('role')
+    .eq('id', adminSession.userId)
+    .single();
 
+  // No profile, or the account doesn't have the admin dashboard role
+  if (profileError || profile?.role !== ADMIN_DASHBOARD_ROLE) {
+    cookies.delete('admin_session', {
+      path: '/'
+    });
 
-    // Get admin session
-    const token = cookies.get('admin_session');
+    throw redirect(303, '/admin');
+  }
 
-    const adminSession = verifyAdminToken(token);
+  // Get the active juniors, using the normal session so RLS still applies
+  let sortedUsers = [];
 
+  try {
+    const { data: users, error: juniorsError } = await locals.supabase
+      .from('Junior')
+      .select(
+        'juniorId:junior_id, firstName:first_name, lastName:last_name, currentStripe:current_stripe, active, dateCreated:created_at'
+      )
+      .eq('active', true);
 
-    if (!adminSession) {
+    // Query failed, so show an empty list rather than crashing the page
+    if (juniorsError) {
+      console.error(juniorsError);
 
-        cookies.delete('admin_session', {
-            path: '/admin/dashboard'
-        });
-
-        throw redirect(303, '/admin');
-    }
-
-    let sortedUsers = []
-
-    // Find admin in database
-    const { data: profile, error } =
-        await adminSupabase
-            .from('profiles')
-            .select('role')
-            .eq('id', adminSession.userId)
-            .single();
-
-
-    if (error || profile?.role !== 'admin') {
-
-        cookies.delete('admin_session', {
-            path: '/admin/dashboard'
-        });
-
-        throw redirect(303, '/admin');
-    }
-    //get juniors 
-    try {
-        const { data: users, error } = await locals.supabase
-            .from('Junior')
-            .select('juniorId:junior_id, firstName:first_name, lastName:last_name, currentStripe:current_stripe, active, dateCreated:created_at')
-            .eq('active', true)
-
-        if (error) {
-            console.error(error)
-            return { users: [] }
-        }
-
-        sortedUsers = sortAlphabetically(users);
-
-
-    } catch (error) {
-        console.log(error)
-    }
-
-
-    return {
+      return {
         admin: true,
-        users: sortedUsers
-    };
+        users: []
+      };
+    }
+
+    sortedUsers = sortAlphabetically(users);
+  } catch (err) {
+    console.error(err);
+  }
+
+  return {
+    admin: true,
+    users: sortedUsers
+  };
 };

@@ -55,7 +55,7 @@ export const handle = async ({ event, resolve }) => {
     const user = await event.locals.getUser();
     const path = event.url.pathname;
 
-
+/*
     // Protect admin dashboard
     if (path.startsWith('/admin/dashboard')) {
 
@@ -102,6 +102,42 @@ export const handle = async ({ event, resolve }) => {
         throw redirect(303, '/');
     }
 
+*/
 
+if (path.startsWith('/admin/dashboard')) {
+  // Temporary debug logging, remove once login works
+  console.log('dashboard hit:', {
+    hasUser: !!user,
+    hasAdminCookie: !!event.cookies.get('admin_session')
+  });
+
+  // Normal user must be logged in
+  if (!user) {
+    console.log('redirect: no main session');
+    throw redirect(303, '/');
+  }
+
+  // Get admin session cookie
+  const adminToken = event.cookies.get('admin_session');
+
+  // No admin session
+  if (!adminToken) {
+    console.log('redirect: no admin cookie');
+    throw redirect(303, '/admin');
+  }
+
+  // Verify admin session
+  const adminSession = verifyAdminToken(adminToken);
+
+  // Invalid or expired admin session
+  if (!adminSession) {
+    console.log('redirect: invalid or expired token');
+
+    event.cookies.delete('admin_session', {
+      path: '/'
+    });
+
+    throw redirect(303, '/admin');
+}}
     return resolve(event);
 };

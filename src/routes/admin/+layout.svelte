@@ -9,10 +9,12 @@
 </main>
 
 <style>
-    .admin-login-main {
+    main {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        align-items: center;
+
         background-color: var(--code-ninjas-blue-dark);
         min-height: 100dvh;
     }
