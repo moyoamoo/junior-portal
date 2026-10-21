@@ -52,9 +52,10 @@
                     <tbody>
                         {#each tableJuniors as junior (junior.juniorId)}
                             <tr>
+                            
                                 <th scope="row">
                                     <a
-                                        href="/booklet/{junior.juniorId}"
+                                       href="/admin/juniors/{junior.junior_id}"
                                         class="junior-link"
                                     >
                                         {junior.firstName}
