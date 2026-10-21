@@ -63,7 +63,7 @@ export const load = async ({ locals, cookies, setHeaders }) => {
       console.error(juniorsError);
 
       return {
-        admin: true,
+        adminDashboard: true,
         users: []
       };
     }
@@ -74,7 +74,7 @@ export const load = async ({ locals, cookies, setHeaders }) => {
   }
 
   return {
-    admin: true,
+    adminDashboard: true,
     users: sortedUsers
   };
 };

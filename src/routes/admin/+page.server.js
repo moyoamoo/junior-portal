@@ -3,9 +3,6 @@ import { dev } from '$app/environment';
 import { createClient } from '@supabase/supabase-js';
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_PUBLISHABLE_KEY } from '$env/static/public';
 import { adminSupabase, createAdminToken } from '$lib/server/admin.js';
-
-import { fail, redirect } from '@sveltejs/kit';
-import { dev } from '$app/environment';
 import {
     adminSupabase,
     createAuthClient,
@@ -72,23 +69,21 @@ export const actions = {
                 });
             }
 
-            // You can't be in admin mode and the admin dashboard at the same time,
-            // so remove the admin mode cookie (use the path admin mode sets it with)
+            // Delete admin mode cookie 
             cookies.delete('admin_mode_session', { path: '/' });
 
-            // Create our own signed token, separate from the Supabase session
+            // Create new signed token, separate from the Supabase session
             const adminToken = createAdminToken(data.user.id);
 
             // Store it in an httpOnly cookie, only sent to the dashboard routes
             cookies.set('admin_session', adminToken, {
-                path: '/admin/dashboard',
+                path: '/admin',
                 httpOnly: true,
                 secure: !dev,
                 sameSite: 'lax',
                 maxAge: 60 * 30
             });
         } catch (err) {
-            // Something crashed, e.g. a network failure or a missing env variable
             console.error('admin login crashed:', err);
 
             return fail(500, {
@@ -97,7 +92,7 @@ export const actions = {
             });
         }
 
-        // Success: send the admin to the dashboard (outside the try on purpose)
-        throw redirect(303, '/admin/dashboard');
+        // Send the admin to the dashboard 
+        throw redirect(303, '/admin/juniors');
     }
 };

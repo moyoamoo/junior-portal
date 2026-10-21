@@ -1,17 +1,18 @@
 <script>
-
     import JuniorSearch from "./JuniorSearch.svelte";
     import AddJuniorModal from "./AddJuniorModal.svelte";
     import Juniors from "./Juniors.svelte";
     import AdminModeJuniors from "./AdminModeJuniors.svelte";
-    import DeleteJuniorBtn from "./DeleteJuniorBtn.svelte";
-    let { users, adminMode } = $props();
+    import DeleteJuniorBtn from "../Dashboard/Juniors/DeleteJuniorBtn.svelte";
+    import JuniorsContainer from "../Dashboard/Juniors/JuniorsContainer.svelte";
+    let { users, adminMode, adminDashboard } = $props();
 
     let search = $state("");
     let selectedStripe = $state("");
     let selectedActive = $state("");
     let showModal = $state(false);
 
+    
     // Filter junior using values from searchbar and selects
     let foundJuniors = $derived(
         users.filter((junior) => {
@@ -39,17 +40,22 @@
     );
 </script>
 
-  <JuniorSearch
-        bind:search
-        bind:selectedStripe
-        bind:selectedActive
-        {adminMode}
-        onAdd={() => (showModal = true)}
-    />
-{#if !adminMode}
+<JuniorSearch
+    bind:search
+    bind:selectedStripe
+    bind:selectedActive
+    {adminMode}
+    onAdd={() => (showModal = true)}
+/>
+
+
+
+{#if !adminMode && !adminDashboard}
     <Juniors {foundJuniors} />
-{:else}
+{:else if adminMode}
     <AdminModeJuniors {foundJuniors} />
+{:else}
+ <JuniorsContainer {foundJuniors} />
 {/if}
 
 {#if adminMode}

@@ -3,8 +3,8 @@
     import { supabase } from "$lib/supabaseClient";
     import ChangeStripeBtn from "./ChangeStripeBtn.svelte";
     import ChangeStripeModal from "./ChangeStripeModal.svelte";
-    import DeleteJuniorBtn from "./DeleteJuniorBtn.svelte";
-    import DeleteJuniorModal from "./DeleteJuniorModal.svelte";
+    import DeleteJuniorBtn from "../Dashboard/Juniors/DeleteJuniorBtn.svelte";
+    import DeleteJuniorModal from "../Dashboard/Juniors/DeleteJuniorModal.svelte";
     import { updateJunior } from "$lib/utils";
 
     let { foundJuniors } = $props();

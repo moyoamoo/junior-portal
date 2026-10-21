@@ -15,7 +15,7 @@
         justify-content: center;
         align-items: center;
 
-        background-color: var(--code-ninjas-blue-dark);
+        background: linear-gradient(180deg, var(--code-ninjas-blue-main), var(--code-ninjas-blue-dark));
         min-height: 100dvh;
     }
 </style>

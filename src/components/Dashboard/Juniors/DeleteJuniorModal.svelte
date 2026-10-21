@@ -1,8 +1,8 @@
 <script>
     import { supabase } from "$lib/supabaseClient";
-    import Message from "./Message.svelte";
-    import StripeSelect from "./StripeSelect.svelte";
-    import SubmitBtn from "./SubmitBtn.svelte";
+    import Message from "../../Juniors/Message.svelte";
+    import StripeSelect from "../../Juniors/StripeSelect.svelte";
+    import SubmitBtn from "../../Juniors/SubmitBtn.svelte";
 
     let { junior, onSuccess, onClose } = $props();
     let message = $state({
