@@ -5,5 +5,4 @@
     let { data } = $props();
 </script>
 
-<Header/>
-<JuniorMain users={data.users} adminDashboard={data.adminDashboard}/>
+<JuniorMain users={data.users} adminDashboard={data.adminDashboard} stripes={data.stripes}/>

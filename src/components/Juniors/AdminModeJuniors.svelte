@@ -6,6 +6,7 @@
     import DeleteJuniorBtn from "../Dashboard/Juniors/DeleteJuniorBtn.svelte";
     import DeleteJuniorModal from "../Dashboard/Juniors/DeleteJuniorModal.svelte";
     import { updateJunior } from "$lib/utils";
+    import ToggleActiveJuniorBtn from "./ToggleActiveJuniorBtn.svelte";
 
     let { foundJuniors } = $props();
 
@@ -112,15 +113,7 @@
                                 /></td
                             >
                             <td>
-                                <button
-                                class={junior.active ? "deactivate" : "activate" }
-                                    onclick={() => {
-                                        changeActiveStatus(junior);
-                                    }}
-                                    >{junior.active
-                                        ? "Deactivate"
-                                        : "Activate"}</button
-                                >
+                                <ToggleActiveJuniorBtn onclick={changeActiveStatus} {junior}/>
                             </td>
                             
                         </tr>
@@ -226,22 +219,5 @@
         background: var(--code-ninjas-blue-dark);
     }
 
-    .activate, .deactivate{
-        border-radius: 12px;
-        padding: 0.5rem;
-        border: none;
 
-        margin: 0.4rem;
-        cursor: pointer;
-        color: var(--secondary);
-        font-family: "Comfortaa", sans-serif;
-    }
-
-    .activate{
-        background-color: var(--success);
-    }
-
-    .deactivate{
-        background-color: var(--error);
-    }
 </style>

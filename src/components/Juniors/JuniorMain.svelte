@@ -5,7 +5,7 @@
     import AdminModeJuniors from "./AdminModeJuniors.svelte";
     import DeleteJuniorBtn from "../Dashboard/Juniors/DeleteJuniorBtn.svelte";
     import JuniorsContainer from "../Dashboard/Juniors/JuniorsContainer.svelte";
-    let { users, adminMode, adminDashboard } = $props();
+    let { users, adminMode, adminDashboard, stripes } = $props();
 
     let search = $state("");
     let selectedStripe = $state("");
@@ -55,7 +55,7 @@
 {:else if adminMode}
     <AdminModeJuniors {foundJuniors} />
 {:else}
- <JuniorsContainer {foundJuniors} />
+ <JuniorsContainer {foundJuniors} {stripes}/>
 {/if}
 
 {#if adminMode}

@@ -56,7 +56,7 @@ export const load = async ({ locals, cookies, setHeaders }) => {
       .select(
         'juniorId:junior_id, firstName:first_name, lastName:last_name, currentStripe:current_stripe, active, dateCreated:created_at'
       )
-      .eq('active', true);
+
 
     // Query failed, so show an empty list rather than crashing the page
     if (juniorsError) {
@@ -73,8 +73,32 @@ export const load = async ({ locals, cookies, setHeaders }) => {
     console.error(err);
   }
 
+  let stripes = [];
+  try {
+    const stripesRes = await adminSupabase
+      .from("stripes")
+      .select(`
+        stripeName:stripe_name,
+        stripeOrder:stripe_order
+    `)
+      .order("stripe_order", { ascending: true });
+
+    if (stripesRes.error) {
+      return {
+        adminDashboard: true,
+        users: [],
+        stripes: []
+      }
+    }
+    stripes = stripesRes.data;
+  } catch (err) {
+    console.error(err);
+  }
+
+
   return {
     adminDashboard: true,
-    users: sortedUsers
+    users: sortedUsers,
+    stripes
   };
 };

@@ -26,7 +26,6 @@
         flex-direction: row;
         justify-content: space-between;
         padding: 0.5rem;
-        width: 100%;
     }
     nav {
         height: 100%;

@@ -65,12 +65,12 @@
         position: relative;
         overflow: hidden;
         isolation: isolate;
-
-        box-sizing: border-box;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        flex-direction: column;
+        
+        box-sizing: border-box;
         padding: 20px;
     }
 
