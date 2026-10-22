@@ -49,7 +49,6 @@
 />
 
 
-
 {#if !adminMode && !adminDashboard}
     <Juniors {foundJuniors} />
 {:else if adminMode}

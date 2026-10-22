@@ -1,4 +1,4 @@
-import { redirect } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import { adminSupabase, verifyAdminToken } from '$lib/server/admin.js';
 import { sortAlphabetically } from '$lib/utils';
 
@@ -79,11 +79,13 @@ export const load = async ({ locals, cookies, setHeaders }) => {
       .from("stripes")
       .select(`
         stripeName:stripe_name,
-        stripeOrder:stripe_order
+        stripeOrder:stripe_order,
+        stripeColourPrimary:stripe_colour_primary
     `)
       .order("stripe_order", { ascending: true });
 
     if (stripesRes.error) {
+      console.log(stripesRes.error)
       return {
         adminDashboard: true,
         users: [],

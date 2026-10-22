@@ -5,6 +5,7 @@
     import { updateJunior } from "$lib/utils";
     import Modal from "../../Modal.svelte";
     import { supabase } from "$lib/supabaseClient";
+    import JuniorsStats from "./JuniorsStats.svelte";
 
     let { foundJuniors, stripes = [] } = $props();
 
@@ -106,6 +107,7 @@
         }
     };
 </script>
+
 
 <section class="junior-container">
     {#if tableJuniors.length === 0}
