@@ -1,41 +1,38 @@
-import { error, redirect } from '@sveltejs/kit';
-import { supabaseAdmin } from '$lib/server/supabaseAdmin';
-
-// Same window as the junior_stats view: gaps outside this range
-// are treated as separate visits or batch ticking, not "time on task"
+import { error, redirect} from '@sveltejs/kit';
+import { adminSupabase } from '$lib/server/admin.js';
 const MIN_GAP_MINUTES = 1;
 const MAX_GAP_MINUTES = 120;
 
 export const load = async ({ locals, params }) => {
-  // Admin check must run before anything uses the service role client
-  if (!locals.isAdmin) {
-    throw redirect(303, '/admin/login');
+
+   if (!locals.adminSession) {
+    throw redirect(303, '/admin');
   }
 
   const juniorId = params.juniorId;
 
-  // Fire all the queries at once instead of one after another
+  
   const [statsRes, juniorRes, completedRes, activitiesRes, stripesRes, commentsRes, sessionsRes] =
     await Promise.all([
       // Summary numbers from the view
-      supabaseAdmin.from('junior_stats').select('*').eq('junior_id', juniorId).single(),
+      adminSupabase.from('junior_stats').select('*').eq('junior_id', juniorId).single(),
       // Needed for the junior's current stripe_id
-      supabaseAdmin.from('Junior').select('junior_id, stripe_id').eq('junior_id', juniorId).single(),
+      adminSupabase.from('Junior').select('junior_id, stripe_id').eq('junior_id', juniorId).single(),
       // Every completion for this junior
-      supabaseAdmin
+      adminSupabase
         .from('CompletedTasks')
         .select('id, activity_id, date_completed')
         .eq('junior_id', juniorId)
         .order('date_completed', { ascending: true }),
       // Small table, so fetch all and join in JS (no FK embedding needed)
-      supabaseAdmin.from('Activities').select('activity_id, activity, activity_type, link, stripe_id'),
-      supabaseAdmin.from('stripes').select('stripe_id, stripe_name, stripe_order'),
-      supabaseAdmin
+      adminSupabase.from('Activities').select('activity_id, activity, activity_type, link, stripe_id'),
+      adminSupabase.from('stripes').select('stripe_id, stripe_name, stripe_order'),
+      adminSupabase
         .from('taskComments')
         .select('activity_id, comment')
         .eq('junior_id', juniorId),
       // Last 10 logins
-      supabaseAdmin
+      adminSupabase
         .from('junior_sessions')
         .select('started_at')
         .eq('junior_id', juniorId)
@@ -99,6 +96,8 @@ export const load = async ({ locals, params }) => {
     activities.filter((a) => a.stripe_id === currentStripeId).map((a) => a.activity_id)
   );
   const stripeCompleted = completed.filter((t) => stripeTaskIds.has(t.activity_id)).length;
+
+
 
   return {
     stats: statsRes.data,

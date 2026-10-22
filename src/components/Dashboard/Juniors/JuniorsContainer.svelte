@@ -55,9 +55,9 @@
                             
                                 <th scope="row">
                                     <a
-                                       href="/admin/juniors/{junior.junior_id}"
-                                        class="junior-link"
-                                    >
+                                       href="/admin/juniors/{junior.juniorId}" class="junior-link">
+                                  
+                                    
                                         {junior.firstName}
                                         {junior.lastName}
                                     </a>
