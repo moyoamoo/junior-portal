@@ -1,7 +1,9 @@
 import { fail, redirect } from '@sveltejs/kit';
+import { login } from '$lib/server/login.js';
 
+/** @type {import('./$types').Actions} */
 export const actions = {
-    default: async ({ supabase, request, locals }) => {
+    default: async ({ request, locals }) => {
 
         // Get information from +page.svelte form
         const formData = await request.formData();
@@ -9,7 +11,7 @@ export const actions = {
         const password = formData.get('password');
 
 
-        //if no email/password send message
+        // Check if email and password are provided
         if (!email || !password) {
             return fail(400, {
                 message: 'Please enter a username and password',
@@ -17,35 +19,16 @@ export const actions = {
             });
         }
 
-        // Sign in with supabase auth 
-        const { data, error } = await locals.supabase.auth.signInWithPassword({
-            email: email.toString(),
-            password: password.toString()
-        });
-
-        // Return error message if login is incorrect 
-        if (error) {
+        // Attempt to get user profile from supabase
+        const result = await login(locals.supabase, email.toString(), password.toString());
+        
+        if (!result.success) {
             return fail(400, {
-                message: 'Email or password is incorrect',
+                message: result.message,
                 email
             });
         }
-
-        // Get user profile from profiles table
-        const { data: profile, error: profileError } = await locals.supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', data.user.id)
-            .single();
-
-        // If no profile or error, send message 
-        if (profileError || !profile) {
-            return fail(500, {
-                message: 'Could not load acccount - try again!',
-                email
-            });
-        }
-
+        
         //direct to juniors page
         throw redirect(303, '/juniors');
 
