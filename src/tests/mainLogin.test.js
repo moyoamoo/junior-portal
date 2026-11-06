@@ -102,7 +102,7 @@ describe('Login', () => {
         );
 
         expect(result.success).toBe(false);
-        expect(result.message).toBe('Could not load account - try again!');
+        expect(result.message).toBe('Could not access account - try again!');
 
         // Check profile lookup was attempted
         expect(supabase.from).toHaveBeenCalledWith('profiles');
