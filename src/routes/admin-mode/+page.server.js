@@ -11,6 +11,7 @@ import { SUPABASE_SERVICE_ROLE_KEY } from '$env/static/private';
 
 import { ADMIN_MODE_DURATION } from '$lib/server/adminMode';
 
+/** @type {import('@sveltejs/kit').Actions} */
 export const actions = {
     login: async ({ request, locals, cookies }) => {
 
@@ -30,7 +31,8 @@ export const actions = {
         const returnTo = formData.get('returnTo');
 
         // Validate the submitted credentials
-        if (!email || !password) {
+        if (!email || !password || typeof email !== 'string' ||
+            typeof password !== 'string') {
             return fail(400, {
                 message: 'Please enter an email and password.'
             });
@@ -59,8 +61,8 @@ export const actions = {
                     detectSessionInUrl: false,
                     storage: {
                         getItem: () => null,
-                        setItem: () => {},
-                        removeItem: () => {}
+                        setItem: () => { },
+                        removeItem: () => { }
                     }
                 }
             }
