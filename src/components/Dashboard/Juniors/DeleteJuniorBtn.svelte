@@ -14,7 +14,7 @@
 
 <style>
     button {
-        background-color: var(--bold-blue);
+        background-color: var(--code-ninjas-blue-dark);
         border-radius: 50%;
         height: 2.3em;
         width: 2.3em;

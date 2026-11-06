@@ -2,8 +2,19 @@ export const formatDate = (date) => {
     return new Date(date).toLocaleDateString("en-GB");
 }
 
+// Show "Never" for missing dates
+export const formatDateDashboard = (value) => {
+    if (!value) {
+        return 'Never';
+    }
 
-//update the actitivies in the table - local state 
+    return new Date(value).toLocaleString('en-GB', {
+        dateStyle: 'medium',
+        timeStyle: 'short'
+    });
+};
+
+// Update the actitivies in the table - local state 
 export const updateActivity = (activities, activityId, changes) => {
     return activities.map((activity) =>
         activity.activityId === activityId
@@ -55,10 +66,10 @@ export const capitalise = (string) => {
 
 
 export const normaliseStripeName = (stripeName) => {
-  if (!stripeName) {
-    return '';
-  }
+    if (!stripeName) {
+        return '';
+    }
 
-  return stripeName.toLowerCase();
+    return stripeName.toLowerCase();
 }
 
